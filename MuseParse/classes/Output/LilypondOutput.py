@@ -1,4 +1,5 @@
-import os, subprocess
+import os, subprocess, sys
+from MuseParse.classes import Exceptions
 
 class LilypondRenderer(object):
 
@@ -13,6 +14,37 @@ class LilypondRenderer(object):
         self.pdf = self.file.split(".")[0] + ".pdf"
         self.folder = "/".join(self.file.split("/")[:-1])
         self.lily_script = lyscript
+
+    def setup(self):
+        defaults = ["/Applications/Lilypond.app/Contents/Resources/bin/lilypond", "C:/Program Files (x86)/LilyPond/usr/bin"]
+        if sys.platform == "darwin":
+            if self.lily_script is None:
+                mac_path = defaults[0]
+            else:
+                mac_path = self.lily_script
+            if os.path.exists(mac_path):
+                fob = open(os.path.join("lilypond_mac.sh"), 'r')
+                lines = fob.readlines()
+                new_lines = [lines[0], "LILYPOND="+mac_path+"\n", lines[1]]
+                fob.close()
+                fob = open(os.path.join("lilypond"), 'w')
+                fob.writelines(new_lines)
+                fob.close()
+                os.system("chmod u+x "+os.path.join("lilypond"))
+                line = "export PATH=$PATH:"+os.getcwd()
+                os.system(line)
+            else:
+                raise Exceptions.LilypondNotInstalledException('ERROR! Mac edition of Lilypond not in expected folder')
+
+        if sys.platform == "win32":
+            fob = open(self.lily_script, "r")
+            lines = fob.readlines()
+            new_lines = ["SET FOLD="+defaults[1], lines[0], lines[1]]
+            fob.close()
+            fob = open("lilypond", "w")
+            fob.writelines(new_lines)
+            fob.close()
+            os.system("icacls lilypond /grant Everyone:F")
 
     def run(self, wrappers=["", ""]):
         '''

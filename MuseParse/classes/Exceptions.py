@@ -22,3 +22,5 @@ class DrumNotImplementedException(BaseException):
 
     """ERROR: this application doesn't cater for drum tab staff"""
 
+class LilypondNotInstalledException(BaseException):
+    '''ERROR! LILYPOND NOT FOUND'''
