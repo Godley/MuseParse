@@ -16,7 +16,7 @@ python3 setup.py install
 ## Parsing music
 You can parse music from an xml file using the following code:
 ```
-from MuseParse.classes import MxmlParser
+from MuseParse.classes.Input import MxmlParser
 parser = MxmlParser.MxmlParser()
 object_hierarchy = parser.parse(filename)
 ```
@@ -25,15 +25,15 @@ This will return a hierarchy of objects - please view the wiki for more informat
 ## Outputting to PDF
 To send it to lilypond:
 ```
-from MuseParse.classes import LilypondRenderer
-render_obj = LilypondRenderer.LilypondRenderer(object_hierarchy, filename)
+from MuseParse.classes.Output import LilypondOutput
+render_obj = LilypondOutput.LilypondRenderer(object_hierarchy, filename)
 render_obj.run()
 ```
 To provide the lilypond runner class with your own lilypond script (see http://lilypond.org installation page for more information on this):
 ```
-from MuseParse.classes import LilypondRenderer
-render_obj = LilypondRenderer.LilypondRenderer(object_hierarchy, filename, lyscript="path/to/script")
+from MuseParse.classes.Output import LilypondOutput
+render_obj = LilypondOutput.LilypondRenderer(object_hierarchy, filename, lyscript="path/to/script")
 render_obj.run()
 ```
-Demo scripts are located in:
+Demo scripts are located in MuseParse/demo
 
