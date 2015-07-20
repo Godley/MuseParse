@@ -7,43 +7,18 @@ class LilypondRenderer(object):
             self,
             piece_obj,
             fname,
-            lyscript="/Users/charlottegodley/bin/lilypond"):
+            lyscript=""):
         self.piece_obj = piece_obj
         self.file = fname
         self.lyfile = self.file.split(".")[0] + ".ly"
         self.pdf = self.file.split(".")[0] + ".pdf"
         self.folder = "/".join(self.file.split("/")[:-1])
-        self.lily_script = lyscript
 
-    def setup(self):
-        defaults = ["/Applications/Lilypond.app/Contents/Resources/bin/lilypond", "C:/Program Files (x86)/LilyPond/usr/bin"]
-        if sys.platform == "darwin":
-            if self.lily_script is None:
-                mac_path = defaults[0]
-            else:
-                mac_path = self.lily_script
-            if os.path.exists(mac_path):
-                fob = open(os.path.join("lilypond_mac.sh"), 'r')
-                lines = fob.readlines()
-                new_lines = [lines[0], "LILYPOND="+mac_path+"\n", lines[1]]
-                fob.close()
-                fob = open(os.path.join("lilypond"), 'w')
-                fob.writelines(new_lines)
-                fob.close()
-                os.system("chmod u+x "+os.path.join("lilypond"))
-                line = "export PATH=$PATH:"+os.getcwd()
-                os.system(line)
-            else:
-                raise Exceptions.LilypondNotInstalledException('ERROR! Mac edition of Lilypond not in expected folder')
-
-        if sys.platform == "win32":
-            fob = open(self.lily_script, "r")
-            lines = fob.readlines()
-            new_lines = ["SET PATH="+defaults[1]+";%PATH%;", lines[0]]
-            fob.close()
-            fob = open("lilypond", "w")
-            fob.writelines(new_lines)
-            fob.close()
+        self.defaults = {"darwin":"/Users/charlottegodley/bin/lilypond", "win32":"lilypond"}
+        if lyscript != "":
+           self.lily_script = lyscript
+        else:
+            self.lily_script = self.defaults[sys.platform]
 
     def run(self, wrappers=["", ""]):
         '''
