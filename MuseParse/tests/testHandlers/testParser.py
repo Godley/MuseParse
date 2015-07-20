@@ -5,7 +5,7 @@ try:
     from MuseParse.classes.ObjectHierarchy.ItemClasses import Measure, Exceptions, Part
     from MuseParse.classes.Input import MxmlParser
 except:
-    from MuseParse.classes import MxmlParser, Part, Measure
+    from MuseParse.classes import MxmlParser, Part, Measure, Exceptions
 
 
 class testSaxParser(unittest.TestCase):

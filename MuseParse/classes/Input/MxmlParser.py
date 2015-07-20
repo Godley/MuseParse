@@ -3,7 +3,8 @@ from xml.sax import make_parser, handler
 import copy
 
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Directions, Key, Measure, Clef, Meter, \
-    Exceptions, Meta, Harmony, Note, Mark, Ornaments, Part
+    Meta, Harmony, Note, Mark, Ornaments, Part
+from MuseParse.classes import Exceptions
 from MuseParse import helpers
 from MuseParse.classes.ObjectHierarchy.TreeClasses import PieceTree
 

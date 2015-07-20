@@ -15,9 +15,10 @@ class NoMeasureIDException(BaseException):
 
 class TabNotImplementedException(BaseException):
 
-    """ERROR: this application doesn't care for tab staff"""
+    """ERROR: this application doesn't cater for tab staff"""
 
 
 class DrumNotImplementedException(BaseException):
 
-    """ERROR: this application doesn't care for drum tab staff"""
+    """ERROR: this application doesn't cater for drum tab staff"""
+
