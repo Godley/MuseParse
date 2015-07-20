@@ -5,7 +5,7 @@ Repository for a python music parser. This works with MusicXML as the input form
 
 Written for python 3 only, python 2.7 support may come later but I'm not intending on doing that unless everything else is done.
 
-Stupidly I have yet to test this on windows and linux systems so expect multiple revisions to both this and the pypi listing.
+Tested against Mac OSX Yosemite and Windows 8.1.
 
 Originally written as part of my Final Year Project (or dissertation project) at university. I earned 93% on this along with an application of this section so you'd hope it was good.
 
@@ -68,4 +68,6 @@ To provide the lilypond runner class with your own lilypond script (see http://l
 
    render_obj.run()
 
-Demo scripts are located in MuseParse/demo
+2 example scripts, 1 for OSX and 1 for Windows 8.1, are provided in MuseParse/demo/lilypond_scripts. If no script is provided it will assume to use the default for that platform.
+
+Demo python scripts of things you could do with this are located in MuseParse/demo
