@@ -39,12 +39,11 @@ class LilypondRenderer(object):
         if sys.platform == "win32":
             fob = open(self.lily_script, "r")
             lines = fob.readlines()
-            new_lines = ["SET FOLD="+defaults[1], lines[0], lines[1]]
+            new_lines = ["SET PATH="+defaults[1]+";%PATH%;", lines[0]]
             fob.close()
             fob = open("lilypond", "w")
             fob.writelines(new_lines)
             fob.close()
-            os.system("icacls lilypond /grant Everyone:F")
 
     def run(self, wrappers=["", ""]):
         '''
