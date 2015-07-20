@@ -18,7 +18,10 @@ class LilypondRenderer(object):
         if lyscript != "":
            self.lily_script = lyscript
         else:
-            self.lily_script = self.defaults[sys.platform]
+            if sys.platform.startswith("linux"):
+                self.lily_script = "lilypond"
+            else:
+                self.lily_script = self.defaults[sys.platform]
 
     def run(self, wrappers=["", ""]):
         '''
