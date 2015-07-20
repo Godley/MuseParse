@@ -5,6 +5,8 @@ Repository for a python music parser. This works with MusicXML as the input form
 
 Written for python 3 only, python 2.7 support may come later but I'm not intending on doing that unless everything else is done.
 
+Stupidly I have yet to test this on windows and linux systems so expect multiple revisions to both this and the pypi listing.
+
 Originally written as part of my Final Year Project (or dissertation project) at university. I earned 93% on this along with an application of this section so you'd hope it was good.
 
 ============
