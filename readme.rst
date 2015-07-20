@@ -12,7 +12,14 @@ Originally written as part of my Final Year Project (or dissertation project) at
 ============
 Installation
 ============
-I'm hoping to put this on pypi, but at the minute all you need to do until then is run the usual setup commands:
+The current version is on pypi, so to get it you can just run:
+
+.. code-block:: bash
+
+   pip3 install MuseParse
+   
+   
+Otherwise clone this repo and run these commands from inside the main folder:
 
 .. code-block:: bash
 
