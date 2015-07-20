@@ -69,4 +69,5 @@ To provide the lilypond runner class with your own lilypond script (see http://l
    render_obj.run()
 
 2 example scripts, 1 for OSX and 1 for Windows 8.1, are provided in MuseParse/demo/lilypond_scripts. If no script is provided it will assume to use the default for that platform.
-Demo scripts are located in MuseParse/demo
+
+Demo python scripts of things you could do with this are located in MuseParse/demo
