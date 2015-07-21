@@ -4,11 +4,12 @@ from MuseParse.tests.testUsingXML.setup import xmlSet, parsePiece
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.BaseTree import Search
+from MuseParse.SampleMusicXML import testcases
 
 
 partname = "beams.xml"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
-piece = parsePiece(os.path.join(folder, partname))
+directory = testcases.__path__._path[0]
+piece = parsePiece(os.path.join(directory, partname))
 
 class testArpeg(xmlSet):
     def setUp(self):

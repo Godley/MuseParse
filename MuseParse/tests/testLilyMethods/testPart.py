@@ -1,5 +1,5 @@
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Note
-from MuseParse.classes.ObjectHierarchy.TreeClasses import PartNode
+from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
 from MuseParse.tests.testLilyMethods.setup import Lily
 
 class testPartMeasureWithNote(Lily):

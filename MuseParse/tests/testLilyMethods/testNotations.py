@@ -1,5 +1,5 @@
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Note
-from MuseParse.classes.ObjectHierarchy.TreeClasses import MeasureNode
+from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.tests.testLilyMethods.setup import Lily
 
 class testTie(Lily):

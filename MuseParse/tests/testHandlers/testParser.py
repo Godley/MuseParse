@@ -1,11 +1,8 @@
 import unittest
 from unittest import mock
-try:
-    from MuseParse.classes.ObjectHierarchy.ItemClasses import Part, Exceptions, Measure
-    from MuseParse.classes.ObjectHierarchy.ItemClasses import Measure, Exceptions, Part
-    from MuseParse.classes.Input import MxmlParser
-except:
-    from MuseParse.classes import MxmlParser, Part, Measure, Exceptions
+from MuseParse.classes import Exceptions
+from MuseParse.classes.ObjectHierarchy.ItemClasses import Part
+from MuseParse.classes.Input import MxmlParser
 
 
 class testSaxParser(unittest.TestCase):

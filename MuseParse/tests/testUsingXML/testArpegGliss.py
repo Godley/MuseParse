@@ -6,11 +6,12 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.BaseTree import Search, FindB
 from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Note
+from MuseParse.SampleMusicXML import testcases
 
 
 partname = "arpeggiosAndGlissandos.xml"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
-piece = parsePiece(os.path.join(folder, partname))
+directory = testcases.__path__._path[0]
+piece = parsePiece(os.path.join(directory, partname))
 
 class testArpeg(xmlSet):
     def setUp(self):

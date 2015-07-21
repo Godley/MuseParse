@@ -5,11 +5,12 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.BaseTree import Search
+from MuseParse.SampleMusicXML import testcases
 
 
 partname = "accidentals.xml"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
-piece = parsePiece(os.path.join(folder, partname))
+directory = testcases.__path__._path[0]
+piece = parsePiece(os.path.join(directory, partname))
 
 class testAccidentals(xmlSet):
     def setUp(self):

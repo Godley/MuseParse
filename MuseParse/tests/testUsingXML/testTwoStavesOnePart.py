@@ -6,8 +6,9 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.StaffNode import StaffNode
 
 
 partname = "two_staves_one_part.xml"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
-piece = parsePiece(os.path.join(folder, partname))
+from MuseParse.SampleMusicXML import testcases
+directory = testcases.__path__._path[0]
+piece = parsePiece(os.path.join(directory, partname))
 
 class testTwoStavesInOnePart(unittest.TestCase):
 

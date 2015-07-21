@@ -1,6 +1,6 @@
 import unittest
 
-from tests.testLilyMethods.setup import Lily
+from MuseParse.tests.testLilyMethods.setup import Lily
 
 from MuseParse.tests.testLilyMethods.testMeasure import MeasureTests
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Measure, Note

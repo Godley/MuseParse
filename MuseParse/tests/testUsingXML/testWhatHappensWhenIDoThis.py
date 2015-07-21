@@ -7,7 +7,9 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNod
 
 
 partname = "WhatHappensWhenIDoThis.xml"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
+from MuseParse.SampleMusicXML import testcases
+directory = testcases.__path__._path[0]
+piece = parsePiece(os.path.join(directory, partname))
 
 
 class testFile(xmlSet):
@@ -16,15 +18,14 @@ class testFile(xmlSet):
         self.m_num = 32
         self.p_id = "P1"
         self.p_name = "Piccolo"
-        self.piece = parsePiece(os.path.join(folder, partname))
 
     def testParts(self):
         global piece
-        self.assertIsInstance(self.piece.getPart(self.p_id), PartNode)
-        self.assertEqual(self.p_name, self.piece.getPart(self.p_id).GetItem().name)
+        self.assertIsInstance(piece.getPart(self.p_id), PartNode)
+        self.assertEqual(self.p_name, piece.getPart(self.p_id).GetItem().name)
 
     def testMeasures(self):
-        self.assertIsInstance(self.piece.getPart(self.p_id).getMeasure(self.m_num, 1), MeasureNode)
+        self.assertIsInstance(piece.getPart(self.p_id).getMeasure(self.m_num, 1), MeasureNode)
 
 class testMeasure1(xmlSet):
     def setUp(self):
@@ -35,8 +36,7 @@ class testMeasure1(xmlSet):
         self.right_type = "discontinue"
         self.right_repeat = "backward-barline"
         self.right_style = "light-heavy"
-        self.piece = parsePiece(os.path.join(folder, partname))
-        self.measure = self.piece.getPart("P1").getMeasure(measure=self.measure_id,staff=1)
+        self.measure = piece.getPart("P1").getMeasure(measure=self.measure_id,staff=1)
 
 
     def testHasBarlines(self):

@@ -7,9 +7,11 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.BaseTree import Search
 
 
+
 partname = "duration_and_stem_direction.xml"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
-piece = parsePiece(os.path.join(folder, partname))
+from MuseParse.SampleMusicXML import testcases
+directory = testcases.__path__._path[0]
+piece = parsePiece(os.path.join(directory, partname))
 
 class testFile(xmlSet):
     def setUp(self):

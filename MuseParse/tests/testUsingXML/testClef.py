@@ -4,11 +4,12 @@ from MuseParse.tests.testUsingXML.setup import xmlSet, parsePiece
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Clef
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
+from MuseParse.SampleMusicXML import testcases
 
 
 partname = "clefs.xml"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
-piece = parsePiece(os.path.join(folder, partname))
+directory = testcases.__path__._path[0]
+piece = parsePiece(os.path.join(directory, partname))
 
 class testClef(xmlSet):
     def setUp(self):
