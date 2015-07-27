@@ -29,10 +29,16 @@ class NoteNode(Node):
             self.item = Note.Note()
 
     def Find(self, node_type, item_type):
-        # method for finding specific types of notation from nodes.
-        # will currently return the first one it encounters because this method's only really intended
-        # for some types of notation for which the exact value doesn't really
-        # matter.
+        '''
+        method for finding specific types of notation from nodes.
+        will currently return the first one it encounters because this method's only really intended
+        for some types of notation for which the exact value doesn't really
+        matter.
+        :param node_type: the type of node to look under
+        :param item_type: the type of item (notation) being searched for
+        :return:
+        '''
+
         if node_type == OtherNodes.DirectionNode:
             child = self.GetChild(len(self.children) - 1)
             while child is not None and not isinstance(
@@ -60,6 +66,12 @@ class NoteNode(Node):
             result.last = True
 
     def UpdateArpeggiates(self, type="start"):
+        '''
+        method which searches for all arpeggiates and updates the top one of each chord to be a start,
+        and the bottom one to be a stop ready for lilypond output
+        :param type:
+        :return:
+        '''
         result = self.item.Search(Arpeggiate)
         if result is not None:
             if type == "start":

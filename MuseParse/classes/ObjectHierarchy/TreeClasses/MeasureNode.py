@@ -12,6 +12,19 @@ from MuseParse.classes.ObjectHierarchy.ItemClasses.Directions import OctaveShift
 
 class MeasureNode(IndexedNode):
 
+    """
+    Class representing the tree node for a measure.
+
+    Optional inputs:
+        partial: bool. Represents whether the bar is partial i.e a pickup or something
+
+    Optional attributes:
+        newSystem: boolean indicating to create a new system for this bar
+        newPage: boolean indicating to create a anew page for this bar
+        key: Key class entry representing key sig
+        meter: meter class entry representing meter/time sig
+    """
+
     def __init__(self, **kwargs):
         IndexedNode.__init__(self, rules=[VoiceNode])
         self.index = 0
@@ -106,11 +119,6 @@ class MeasureNode(IndexedNode):
 
         return lstring
 
-    def toLily(self):
-        start = self.HandleAttributes()
-        end = self.HandleClosingAttributes()
-        return [start, end]
-
     def getWrapper(self, index):
         if index < len(self.items):
             return self.items[index]
@@ -188,6 +196,13 @@ class MeasureNode(IndexedNode):
                     return self.clef
 
     def addClef(self, item, voice=1):
+        '''
+        method to use when adding a clef. will either add it to the node itself or add it onto the first voice's children
+        list
+        :param item:
+        :param voice:
+        :return:
+        '''
         if not hasattr(self, "clef"):
             self.clef = item
         else:
@@ -211,6 +226,11 @@ class MeasureNode(IndexedNode):
                     item.divisions = divisions
 
     def Forward(self, duration=0):
+        '''
+        method to use when forward tag is encountered in musicXML. jumps forward in the bar by <duration>
+        :param duration: number of beats to move forward
+        :return:
+        '''
         for voice in self.GetChildrenIndexes():
             voice_obj = self.getVoice(voice)
             if voice_obj.GetChild(self.index) is None:
@@ -218,6 +238,11 @@ class MeasureNode(IndexedNode):
         self.index += 1
 
     def Backup(self, duration=0):
+        '''
+        method to use when a backup tag is encountered in musicXML. Moves back in the bar by <duration>
+        :param duration:
+        :return:
+        '''
         total = 0
         duration_total = duration * 4
         children = self.GetChildrenIndexes()

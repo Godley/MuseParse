@@ -10,23 +10,16 @@ class CannotFindInTreeException(BaseException):
     '''error! can't find element'''
 
 
-def toLily(node, lilystring):
-    wrapper = node.toLily()
-    lstring = ""
-    if node.GetItem() is not None:
-        lstring = node.GetItem().toLily()
-    if wrapper is not None and wrapper != "":
-        lilystring += wrapper[0]
-    lilystring += lstring
-    if wrapper is not None and len(wrapper) > 1:
-        lilystring += wrapper[1]
-    children = node.GetChildrenIndexes()
-    for child in children:
-        lilystring += toLily(node.GetChild(child), "")
-    return lilystring
-
-
 def BackwardSearch(cls_type, node, index, depth=0, start_index=0):
+    '''
+    Helper method which backwards-recursively searches for objects
+    :param cls_type: class type of the object we are in search of
+    :param node: object instance to start at
+    :param index: number of the object to look for e.g <cls_type> num 1
+    :param depth: current depth in the tree
+    :param start_index: index to start with in children
+    :return: object <index> of <cls_type>
+    '''
     counter = depth
     if isinstance(node, cls_type):
         counter += 1
@@ -60,8 +53,16 @@ def BackwardSearch(cls_type, node, index, depth=0, start_index=0):
 
 
 def Search(cls_type, node, index, depth=0, start_index=0):
-    # recursive method that goes through finding the "index"th object of cls_type. outside of piecetree
-    # so that it can be used by any node
+    '''
+    recursive method that goes through finding the "index"th object of cls_type. outside of piecetree
+    so that it can be used by any node
+    :param cls_type: class type of the object we are in search of
+    :param node: object instance to start at
+    :param index: number of the object to look for e.g <cls_type> num 1
+    :param depth: current depth in the tree
+    :param start_index: index to start with in children
+    :return: object <index> of <cls_type>
+    '''
     counter = depth
     if isinstance(node, cls_type):
         counter += 1
@@ -94,6 +95,14 @@ def Search(cls_type, node, index, depth=0, start_index=0):
 
 
 def FindByIndex(node, index):
+    '''
+    Method which finds child according to index. Applies only to nodes whose children are sorted into a dict,
+    so if the current node's children are in a list it will recursively search - similarly if the index is not found
+    in the current node's dictionary indexes.
+    :param node: current node to search for
+    :param index: index of child.
+    :return:
+    '''
     result = None
     if isinstance(node.children, dict):
         result = node.GetChild(index)
@@ -117,6 +126,14 @@ def FindByIndex(node, index):
 
 
 def FindPosition(node, addition, index=0):
+    '''
+    Method to search for children according to their position in list. Similar functionality to above method,
+    except this is for adding items to the tree according to the nodes limits on children or types of children they can have
+    :param node: current node being searched
+    :param addition: the thing being added
+    :param index: index to search
+    :return:
+    '''
     if node is None:
         return None
     if type(addition) in node.rules:
@@ -165,7 +182,13 @@ class Node(object):
     """This class is very generic, and has 3 attributes:
         - children: as with any tree it needs to have children
         - limit: the maximum amount of children before castcading to the next level
-        - rules: the class instances allowed to be children of this object """
+        - rules: the class instances allowed to be children of this object
+
+        Optional inputs:
+          limit: the maximum num of children the node can have. 0 for no limit.
+          rules: list of class types this node can have as child objects.
+
+        """
 
     def __init__(self, **kwargs):
         self.children = []
@@ -180,6 +203,10 @@ class Node(object):
             self.rules = []
 
     def PopAllChildren(self):
+        '''
+        Method to remove and return all children of current node
+        :return: list of children
+        '''
         indexes = self.GetChildrenIndexes()
         children = []
         for c in indexes:
@@ -188,6 +215,10 @@ class Node(object):
         return children
 
     def GetChildrenIndexes(self):
+        '''
+        Method to get a list of indexes at which children reside at
+        :return: list of indexes
+        '''
         indexes = list(range(len(self.children)))
         return indexes
 
@@ -195,6 +226,12 @@ class Node(object):
         self.item = new_item
 
     def ReplaceChild(self, key, item):
+        '''
+        Method to remove child at <key> and replace it with <item>, then put the child back onto the end of the list
+        :param key: index to position <item>
+        :param item: child object to add
+        :return:
+        '''
         if key in self.GetChildrenIndexes():
             node = self.GetChild(key)
             children = node.GetChildrenIndexes()
