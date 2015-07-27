@@ -20,6 +20,7 @@ class VoiceNode(Node):
 
     def GetAllNoteTypes(self):
         """ method to collect all note values from each node
+
         :return: list of note values
         """
         return self.note_types
@@ -109,6 +110,7 @@ class VoiceNode(Node):
     def toLily(self):
         '''
         Method which converts the object instance, its attributes and children to a string of lilypond code
+
         :return: str of lilypond code
         '''
 

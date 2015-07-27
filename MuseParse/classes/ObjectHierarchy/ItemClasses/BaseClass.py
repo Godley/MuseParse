@@ -12,6 +12,7 @@ class Base(object):
         '''
         Method which in any sub classes produces a string, which is a line of lilypond scripting representing the class
         and its variables.
+
         :return: None, but would normally return str.
         '''
         raise(NotImplementedError)

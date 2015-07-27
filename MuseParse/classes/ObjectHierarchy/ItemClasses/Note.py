@@ -191,14 +191,6 @@ class Note(BaseClass.Base):
         duration: length of note. Where musicXML is concerned, divisions should also be known, indicating how many divisions there are in
             a quarter note.
 
-    attributes: these classes are mostly because lilypond needs specific ordering of notation
-        prenotation: any notation classes which come before the note is displayed
-        wrap_notation: any notation classes which have something to come before and something after the note is displayed
-        postnotation/closing_notation: notation to be shown after the note, can't really remember why there's 2
-        has_tremolo: bool telling you whether this note has a tremolo on it.
-        timeMod: this can be added after the class is created and represents a time modifier applied where tuplets are concerned
-        print: bool indicator of whether or not to display the current note.
-
 
     """
 
@@ -225,9 +217,17 @@ class Note(BaseClass.Base):
         if "divisions" in kwargs and kwargs["divisions"] is not None:
             self.divisions = float(kwargs["divisions"])
         self.prenotation = []
+        '''any notation classes which come before the note is displayed - list'''
+
         self.wrap_notation = []
+        '''any notation classes which have something to come before and something after the note is displayed - list'''
+
         self.postnotation = []
+        '''notation to be shown after the note - list'''
+
         self.closing_notation = []
+        '''notation to be shown after post notation - list'''
+
         self.has_tremolo = False
 
     def AddSlur(self, item):
@@ -783,8 +783,9 @@ class Beam(Stem):
     """
     Class representing beam information. Normally this is automatic, but it comes in from MusicXML anyway
     so may be useful at some stage.
-    1 optional input:
-        type - indicates whether this is a starting, continuing or ending beam.
+
+    # Optional input
+        - type - indicates whether this is a starting, continuing or ending beam.
     """
 
     def toLily(self):

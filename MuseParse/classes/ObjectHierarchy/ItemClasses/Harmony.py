@@ -6,11 +6,16 @@ class Harmony(BaseClass.Base):
     """
     Class representing a harmonic chord for pianists/jazz musicians. Not currently implemented 100% correct in lilypond notation
 
-    Optional inputs:
-        root: the root note of the chord
-        kind: see MusicXML docs TODO write this up
-        bass: the bass note of the chord
-        degrees: any degrees to be included in the chord
+
+    # Optional inputs
+
+        - root: the root note of the chord
+
+        - kind: see MusicXML docs TODO write this up
+
+        - bass: the bass note of the chord
+
+        - degrees: any degrees to be included in the chord
     """
 
     def __init__(self, **kwargs):
@@ -65,10 +70,14 @@ class Frame(BaseClass.Base):
     """
     Class representing a harmony frame chart for guitarists
 
-    Optional inputs:
-        strings: the number of strings to show on the chart
-        frets: the number of frets to show on the chart
-        notes: a dictionary of notes in the frame
+
+    # Optional inputs
+
+        - strings: the number of strings to show on the chart
+
+        - frets: the number of frets to show on the chart
+
+        - notes: a dictionary of notes in the frame
     """
     def __init__(self, **kwargs):
         if "strings" in kwargs:
@@ -122,9 +131,12 @@ class FrameNote(BaseClass.Base):
     """
     A note to be included in the Frame notes list.
 
-    Optional inputs:
-        string: the string this note is positioned on
-        fret: the fret this note is positioned on
+
+    # Optional inputs
+
+        - string: the string this note is positioned on
+
+        - fret: the fret this note is positioned on
     """
 
     def __init__(self, **kwargs):

@@ -5,9 +5,14 @@ class Meta(BaseClass.Base):
 
     """
     Class which holds information about the piece.
-    Optional inputs:
+
+
+    # Optional inputs
+
     - title: name of the piece
+
     - composer
+
     - copyright: company or tag line who owns the copyright
     """
 

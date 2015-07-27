@@ -180,31 +180,42 @@ def FindPosition(node, addition, index=0):
 class Node(object):
 
     """This class is very generic, and has 3 attributes:
+
         - children: as with any tree it needs to have children
+
         - limit: the maximum amount of children before castcading to the next level
+
         - rules: the class instances allowed to be children of this object
 
+
         Optional inputs:
+
           limit: the maximum num of children the node can have. 0 for no limit.
+
           rules: list of class types this node can have as child objects.
 
         """
 
     def __init__(self, **kwargs):
         self.children = []
+        '''list of child nodes belonging to this node'''
+
         if "limit" in kwargs:
             self.limit = kwargs["limit"]
+            '''max number of children in list'''
         else:
             self.limit = 0
         self.item = None
         if "rules" in kwargs:
             self.rules = kwargs["rules"]
+            '''list of types of nodes which are accepted as child nodes'''
         else:
             self.rules = []
 
     def PopAllChildren(self):
         '''
         Method to remove and return all children of current node
+
         :return: list of children
         '''
         indexes = self.GetChildrenIndexes()
@@ -217,6 +228,7 @@ class Node(object):
     def GetChildrenIndexes(self):
         '''
         Method to get a list of indexes at which children reside at
+
         :return: list of indexes
         '''
         indexes = list(range(len(self.children)))
@@ -228,8 +240,11 @@ class Node(object):
     def ReplaceChild(self, key, item):
         '''
         Method to remove child at <key> and replace it with <item>, then put the child back onto the end of the list
+
         :param key: index to position <item>
+
         :param item: child object to add
+
         :return:
         '''
         if key in self.GetChildrenIndexes():
@@ -287,15 +302,10 @@ class IndexedNode(Node):
     children which have indexes applied to them in xml"""
 
     def __init__(self, **kwargs):
-        limit = 0
-        rules = []
-        if "limit" in kwargs:
-            limit = kwargs["limit"]
-        if "rules" in kwargs:
-            rules = kwargs["rules"]
         Node.__init__(self, **kwargs)
         self.__delattr__("children")
         self.children = {}
+        '''dictionary of children attached to this node'''
 
     def PopChild(self, key):
         if key in self.children:
@@ -320,6 +330,7 @@ class Tree(object):
 
     def __init__(self):
         self.root = None
+        '''The root node of the tree'''
 
     def AddNode(self, node, index=-1):
         if self.root is None:

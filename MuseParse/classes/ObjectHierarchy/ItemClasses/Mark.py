@@ -7,7 +7,7 @@ class Notation(object):
     """
     Notation parent class. Not generally instantiated anywhere
 
-    Optional inputs:
+    # Optional inputs
         placement: above/below I think. Not used.
         symbol: symbol to display.
     """

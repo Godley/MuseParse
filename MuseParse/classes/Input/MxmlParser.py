@@ -23,12 +23,15 @@ class MxmlParser(object):
     This class encases a standard XML SAX parser in order to parse MusicXML into a tree of objects. Only one is needed for any parse job
     and it can be reused for multiple files.
 
-    Optional input: excluded - a list of tags which the parser should ignore. functionality of this is not currently implemented.
+    ## Optional input
+
+    - excluded - a list of tags which the parser should ignore. functionality of this is not currently implemented.
 
 
     """
 
     data = {}
+    '''A dictionary holding data which needs to be tracked by the parser, but is specific to each piece'''
 
     def clear(self):
         '''
@@ -36,21 +39,28 @@ class MxmlParser(object):
         :return: Nothing
         '''
 
-        # the current list of tags which have been opened in the XML file
+
         self.tags = []
-        # the chars held by each tag, indexed by their tag name
+        '''the current list of tags which have been opened in the XML file'''
+
+
         self.chars = {}
-        # the attributes of each tag, indexed by their tag name
+        '''the chars held by each tag, indexed by their tag name'''
+
+
         self.attribs = {}
-        # the method which will handle the current tag, and the data currently
-        # in the class
+        '''the attributes of each tag, indexed by their tag name'''
+
+
         self.handler = None
-        # the class tree top
+        ''' the method which will handle the current tag, and the data currently in the class '''
+
         self.piece = PieceTree.PieceTree()
-        # I don't remember what this does. TODO: rename.
-        self.d = False
-        # a bunch of variables we need to keep track of over time, as different
-        # tags affect each one.
+        '''the class tree top'''
+
+        self.isDynamic = False
+        '''Indicator of whether the current thing being processed is a dynamic'''
+
         self.data["note"] = None
         self.data["direction"] = None
         self.data["expression"] = None
@@ -65,12 +75,11 @@ class MxmlParser(object):
         # attribs refers to attributes of each tag, and handler is a method we
         # call to work with each tag
 
-        # this will be put in later, but parser can take in tags we want to
-        # ignore, e.g clefs, measures etc.
-        self.excluded = excluded
 
-        # add any handlers, along with the tagname associated with it, to this
-        # dictionary
+        self.excluded = excluded
+        '''this will be put in later, but parser can take in tags we want to ignore, e.g clefs, measures etc.'''
+
+
         self.structure = {
             "movement-title": SetupPiece,
             "credit": SetupPiece,
@@ -91,17 +100,20 @@ class MxmlParser(object):
             "technical": handleOtherNotations,
             "backup": HandleMovementBetweenDurations,
             "forward": HandleMovementBetweenDurations}
+        '''Dictionary indicating which tags link to which handler methods'''
 
-        # not sure this is needed anymore, but tags which we shouldn't clear
-        # the previous data for should be added here
+
         self.multiple_attribs = ["beats", "sign"]
+        '''not sure this is needed anymore, but tags which we shouldn't clear the previous data for should be added here'''
 
-        # any tags which close instantly in here
+
         self.closed_tags = ["tie", "chord", "note", "measure", "part",
                             "score-part", "sound", "print", "rest", "slur",
                             "accent", "strong-accent", "staccato",
                             "staccatissimo", "up-bow", "down-bow",
                             "cue", "key", "clef", "part-group", "metronome"]
+        '''any tags which close instantly in here'''
+
         self.end_tag = ["tremolo"]
 
     def StartTag(self, name, attrs):
@@ -118,8 +130,8 @@ class MxmlParser(object):
             self.tags.append(name)
             if attrs is not None:
                 self.attribs[name] = attrs
-            self.d = CheckDynamics(name)
-            if self.d and "dynamics" in self.tags:
+            self.isDynamic = CheckDynamics(name)
+            if self.isDynamic and "dynamics" in self.tags:
                 self.handler(
                     self.tags, self.attribs, self.chars, self.piece, self.data)
             if name in self.closed_tags and self.handler is not None:
@@ -200,7 +212,9 @@ class MxmlParser(object):
         '''
         Method which assigns handler to the tag encountered before the current, or else
         sets it to None
+
         :param name: name of the latest tag
+
         :return:
         '''
         if name in self.tags:
@@ -219,10 +233,12 @@ class MxmlParser(object):
     def EndTag(self, name):
         '''
         Method called by the SAX parser when a tag is ended
+
         :param name: the name of the tag
+
         :return: None, side effects
         '''
-        if self.handler is not None and not self.d and name not in self.closed_tags:
+        if self.handler is not None and not self.isDynamic and name not in self.closed_tags:
             self.handler(
                 self.tags, self.attribs, self.chars, self.piece, self.data)
 

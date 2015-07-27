@@ -11,10 +11,19 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.OtherNodes import ExpressionN
 
 class NoteNode(Node):
 
-    """in order to maintain lilypond's output flow, Notes have a specific child order:
-    - left: Expression (dynamic or other expressive thing that has to be attached to a note)
-    - middle: Any other notes, if this note is part of a chord
-    - right: direction (anything that's not a note or expression)"""
+    """Node which encapsulates the Note class.
+
+
+    Optional inputs are minimal on this one as info about the note itself is stored in the Note class.
+
+
+    In order to maintain lilypond's output flow, Notes have a specific child order:
+
+        - left: Expression (dynamic or other expressive thing that has to be attached to a note)
+
+        - middle: Any other notes, if this note is part of a chord
+
+        - right: direction (anything that's not a note or expression)"""
 
     def __init__(self, **kwargs):
         if "duration" in kwargs:
@@ -35,9 +44,13 @@ class NoteNode(Node):
         will currently return the first one it encounters because this method's only really intended
         for some types of notation for which the exact value doesn't really
         matter.
+
+
         :param node_type: the type of node to look under
+
         :param item_type: the type of item (notation) being searched for
-        :return:
+
+        :return: first item_type object encountered
         '''
 
         if node_type == OtherNodes.DirectionNode:
@@ -213,6 +226,7 @@ class NoteNode(Node):
     def toLily(self):
         '''
         Method which converts the object instance, its attributes and children to a string of lilypond code
+
         :return: str of lilypond code
         '''
         lilystring = ""
@@ -262,6 +276,7 @@ class Placeholder(NoteNode):
     def toLily(self):
         '''
         Method which converts the object instance, its attributes and children to a string of lilypond code
+
         :return: str of lilypond code
         '''
         lilystring = ""

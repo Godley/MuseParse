@@ -1,5 +1,4 @@
-# dictionaries which hold the mapping between sharps or flats and their
-# key signature name
+
 majors = {-
           7: "Cflat", -
           6: "Gflat", -
@@ -8,8 +7,10 @@ majors = {-
           3: "Eflat", -
           2: "Bflat", -
           1: "F", 0: "C", 1: "G", 2: "D", 3: "A", 4: "E", 5: "B", 6: "Fsharp", 7: "Csharp"}
+'''dictionary of all key signature names in the major mode, indexed by their number of fifths'''
 minors = {-7: "Aflat", -6: "Eflat", -5: "Bflat", -4: "F", -3: "C", -2: "G", -1: "D",
           0: "A", 1: "E", 2: "B", 3: "Fsharp", 4: "Csharp", 5: "Gsharp", 6: "Dsharp", 7: "Asharp"}
+'''dictionary of all key signature names in the minor mode, indexed by their number of fifths'''
 
 
 class Key(object):
@@ -17,9 +18,12 @@ class Key(object):
     """
     key signature class
 
-    Optional inputs:
-            fifths: the number of fifths in the key sig. int
-            mode: major/minor
+
+    # Optional inputs
+
+            - fifths: the number of fifths in the key sig. int
+
+            - mode: major/minor
     """
 
     def __init__(self, **kwargs):

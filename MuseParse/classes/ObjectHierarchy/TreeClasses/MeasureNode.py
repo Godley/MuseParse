@@ -15,14 +15,21 @@ class MeasureNode(IndexedNode):
     """
     Class representing the tree node for a measure.
 
-    Optional inputs:
-        partial: bool. Represents whether the bar is partial i.e a pickup or something
 
-    Optional attributes:
-        newSystem: boolean indicating to create a new system for this bar
-        newPage: boolean indicating to create a anew page for this bar
-        key: Key class entry representing key sig
-        meter: meter class entry representing meter/time sig
+    # Optional inputs:
+
+        - partial: bool. Represents whether the bar is partial i.e a pickup or something
+
+
+    # Optional attributes:
+
+        - newSystem: boolean indicating to create a new system for this bar
+
+        - newPage: boolean indicating to create a new page for this bar
+
+        - key: Key class entry representing key sig
+
+        - meter: meter class entry representing meter/time sig
     """
 
     def __init__(self, **kwargs):
@@ -534,6 +541,7 @@ class MeasureNode(IndexedNode):
     def toLily(self):
         '''
         Method which converts the object instance, its attributes and children to a string of lilypond code
+
         :return: str of lilypond code
         '''
         lilystring = ""

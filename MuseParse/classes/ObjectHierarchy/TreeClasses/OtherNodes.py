@@ -10,7 +10,9 @@ class SelfNode(Node):
 
     def toLily(self):
         '''
+
         Method which converts the object instance and its attributes to a string of lilypond code
+
         :return: str of lilypond code
         '''
         lilystring = ""
