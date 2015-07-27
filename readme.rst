@@ -5,7 +5,7 @@ Repository for a python music parser. This works with MusicXML as the input form
 
 Written for python 3 only, python 2.7 support may come later but I'm not intending on doing that unless everything else is done.
 
-Tested against Mac OSX Yosemite and Windows 8.1.
+Tested against Mac OSX Yosemite, GNU/Linux Ubuntu 14.04 Desktop and Windows 8.1 64 bit.
 
 Originally written as part of my Final Year Project (or dissertation project) at university. I earned 93% on this along with an application of this section so you'd hope it was good.
 
