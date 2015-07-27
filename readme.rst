@@ -71,3 +71,12 @@ To provide the lilypond runner class with your own lilypond script (see http://l
 2 example scripts, 1 for OSX and 1 for Windows 8.1, are provided in MuseParse/demo/lilypond_scripts. If no script is provided it will assume to use the default for that platform. Linux users do not need to provide a script in any circumstance so long as lilypond is already installed.
 
 Demo python scripts of things you could do with this are located in MuseParse/demo
+
+=======
+Documentation
+=======
+Please see `MuseParse @ ReadTheDocs`_
+
+.. _MuseParse @ ReadTheDocs: http://museparse.readthedocs.org 
+
+for the documentation of each class in this library, and do let me know if it could be improved or submit a pull request.
