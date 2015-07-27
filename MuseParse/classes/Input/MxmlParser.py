@@ -19,23 +19,49 @@ def IdAsInt(index):
 
 class MxmlParser(object):
 
-    """this needs a huge tidy, but this class:
-        sets up a few things that define where the tags get handled
-        runs sax, which calls the parent methods according to what's happened
-        the parent methods call the handlers defined in structure, or else figure out what handler to use. If there absolutely isn't one, nothing gets called
-        spits out a piece class holding all this info.
+    """
+    This class encases a standard XML SAX parser in order to parse MusicXML into a tree of objects. Only one is needed for any parse job
+    and it can be reused for multiple files.
+
+    Optional input: excluded - a list of tags which the parser should ignore. functionality of this is not currently implemented.
+
+
     """
 
     data = {}
+
+    def clear(self):
+        '''
+        Method which resets any variables held by this class, so that the parser can be used again
+        :return: Nothing
+        '''
+
+        # the current list of tags which have been opened in the XML file
+        self.tags = []
+        # the chars held by each tag, indexed by their tag name
+        self.chars = {}
+        # the attributes of each tag, indexed by their tag name
+        self.attribs = {}
+        # the method which will handle the current tag, and the data currently in the class
+        self.handler = None
+        # the class tree top
+        self.piece = PieceTree.PieceTree()
+        # I don't remember what this does. TODO: rename.
+        self.d = False
+        # a bunch of variables we need to keep track of over time, as different tags affect each one.
+        self.data["note"] = None
+        self.data["direction"] = None
+        self.data["expression"] = None
+        self.data["degree"] = None
+        self.data["frame_note"] = None
+        self.data["staff_id"] = 1
+        self.data["voice"] = 1
+        self.data["handleType"] = ""
 
     def __init__(self, excluded=[]):
         # stuff for parsing. Tags refers to the xml tag list, chars refers to the content of each tag,
         # attribs refers to attributes of each tag, and handler is a method we
         # call to work with each tag
-        self.tags = []
-        self.chars = {}
-        self.attribs = {}
-        self.handler = None
 
         # this will be put in later, but parser can take in tags we want to
         # ignore, e.g clefs, measures etc.
@@ -75,24 +101,14 @@ class MxmlParser(object):
                             "staccatissimo", "up-bow", "down-bow",
                             "cue", "key", "clef", "part-group", "metronome"]
         self.end_tag = ["tremolo"]
-        self.piece = PieceTree.PieceTree()
-        self.d = False
-        # a bunch of variables we need to keep track of over time, as different tags affect each one.
-        self.data["note"] = None
-        self.data["direction"] = None
-        self.data["expression"] = None
-        self.data["degree"] = None
-        self.data["frame_note"] = None
-        self.data["staff_id"] = 1
-        self.data["voice"] = 1
-        self.data["handleType"] = ""
-
-    def Flush(self):
-        self.tags = []
-        self.chars = []
-        self.attribs = {}
 
     def StartTag(self, name, attrs):
+        '''
+        A method which is called by the SAX parser when a new tag is encountered
+        :param name: name of the tag
+        :param attrs: the tag's attributes
+        :return: none, side effect of modifying bits of the current class
+        '''
         if name not in self.excluded:
             if name in self.structure.keys():
                 self.handler = self.structure[name]
@@ -107,6 +123,11 @@ class MxmlParser(object):
                 self.handler(self.tags, self.attribs, self.chars, self.piece, self.data)
 
     def validateData(self, text):
+        '''
+        Method which validates the data from each tag, to check whether it is an empty string
+        :param text: data to be validated
+        :return: True or False depending on the result
+        '''
         if text == "\n":
             return False
         for c in text:
@@ -118,6 +139,11 @@ class MxmlParser(object):
         return False
 
     def NewData(self, text):
+        '''
+        Method which is called by the SAX parser upon encountering text inside a tag
+        :param text: the text encountered
+        :return: None, has side effects modifying the class itself
+        '''
         sint = ignore_exception(ValueError)(int)
         if len(self.tags) > 0:
             if self.tags[-1] == "beat-type" or self.tags[-1] == "beats":
@@ -132,9 +158,16 @@ class MxmlParser(object):
                     self.chars[self.tags[-1]] += text
 
     def CopyNote(self, part, measure_id, new_note):
-        # handles copying the latest note into the measure note list.
-        # done at end of note loading to make sure staff_id is right as staff id could be encountered
-        # any point during the note tag
+        '''
+         handles copying the latest note into the measure note list.
+         done at end of note loading to make sure staff_id is right as staff id could be encountered
+         any point during the note tag
+        :param part: the part class to copy it into
+        :param measure_id: the id of the measure in which the note belongs
+        :param new_note: the new note class to be copied in
+        :return: None, side effects modifying the piece tree
+        '''
+
         if part.getMeasure(measure_id, self.data["staff_id"]) is None:
             part.addEmptyMeasure(measure_id, self.data["staff_id"])
         measure = part.getMeasure(measure_id, self.data["staff_id"])
@@ -159,9 +192,13 @@ class MxmlParser(object):
                 measure.rest = True
                 voice_obj.rest = True
 
-    def EndTag(self, name):
-        if self.handler is not None and not self.d and name not in self.closed_tags:
-            self.handler(self.tags, self.attribs, self.chars, self.piece, self.data)
+    def ResetHandler(self, name):
+        '''
+        Method which assigns handler to the tag encountered before the current, or else
+        sets it to None
+        :param name: name of the latest tag
+        :return:
+        '''
         if name in self.tags:
             if len(self.tags) > 1:
                 key = len(self.tags) - 2
@@ -174,9 +211,23 @@ class MxmlParser(object):
 
             else:
                 self.handler = None
+
+    def EndTag(self, name):
+        '''
+        Method called by the SAX parser when a tag is ended
+        :param name: the name of the tag
+        :return: None, side effects
+        '''
+        if self.handler is not None and not self.d and name not in self.closed_tags:
+            self.handler(self.tags, self.attribs, self.chars, self.piece, self.data)
+
+        self.ResetHandler(name)
+
         if name in self.tags:
             self.tags.remove(name)
+
         if name == "direction":
+            # Copy the direction into the appropriate place, and then clear the direction cache
             if self.data["direction"] is not None:
                 measure_id = IdAsInt(
                     helpers.GetID(
@@ -191,7 +242,10 @@ class MxmlParser(object):
                     measure = part.getMeasure(measure_id, self.data["staff_id"])
                     measure.addDirection(copy.deepcopy(self.data["direction"]), self.data["voice"])
                 self.data["direction"] = None
+
+
             if self.data["expression"] is not None:
+                # copy the expression into the appropriate place, then clear the expression cache
                 measure_id = IdAsInt(
                     helpers.GetID(
                         self.attribs,
@@ -207,6 +261,7 @@ class MxmlParser(object):
                 self.data["expression"] = None
 
         if name == "part":
+            # do a few checks to confirm barlines are in the right places and to make sure there's no tab in the piece
             part_id = helpers.GetID(self.attribs, "part", "id")
             part = self.piece.getPart(part_id)
             if part is not None:
@@ -223,6 +278,7 @@ class MxmlParser(object):
                             Exceptions.DrumNotImplementedException("Drum Tab notation found: stopping"))
 
         if name == "measure":
+            # check for a few issues such as divisions not existing in certain measures
             part_id = helpers.GetID(self.attribs, "part", "id")
             measure_id = IdAsInt(
                 helpers.GetID(
@@ -240,12 +296,15 @@ class MxmlParser(object):
             measure.RunVoiceChecks()
             self.data["staff_id"] = 1
             self.data["voice"] = 1
+
+        # remove the latest data from the other caches
         if name in self.attribs:
             self.attribs.pop(name)
         if name in self.chars:
             self.chars.pop(name)
 
         if name == "note":
+            # copy accross the new note and then clear the cache
             measure_id = IdAsInt(
                 helpers.GetID(
                     self.attribs,
@@ -258,14 +317,20 @@ class MxmlParser(object):
             if part is not None:
                 self.CopyNote(part, measure_id, copy.deepcopy(self.data["note"]))
             self.data["note"] = None
+
         if name == "degree":
             self.data["degree"] = None
         if name == "frame-note":
             self.data["frame_note"] = None
 
     def parse(self, file):
+        '''
+        Method the programmer should call when ready to parse a file.
+        :param file: exact file path of the file to be processed
+        :return: PieceTree object representing the file in memory
+        '''
         parser = make_parser()
-
+        self.clear()
         class Extractor(xml.sax.ContentHandler):
 
             def __init__(self, parent):
@@ -292,6 +357,11 @@ class MxmlParser(object):
 
 
 def YesNoToBool(entry):
+    '''
+    Method which takes in either yes or no and converts it to bool. Often found in MusicXML.
+    :param entry: the word to convert
+    :return: True/False
+    '''
     if entry == "yes":
         return True
     if entry == "no":
@@ -317,6 +387,7 @@ def ignore_exception(IgnoreException=Exception, DefaultVal=None):
     return dec
 
 
+# HANDLER METHODS: see tag correlations inside the MusicXML parser class init method.
 def SetupPiece(tag, attrib, content, piece, data):
     return_val = None
     if content is not [] and len(tag) > 0:

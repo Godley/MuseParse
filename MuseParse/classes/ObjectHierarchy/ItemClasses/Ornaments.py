@@ -1,5 +1,8 @@
 from MuseParse.classes.ObjectHierarchy.ItemClasses import BaseClass
 
+"""
+The following classes really are just stubs for ornament notations that could probably be merged into 1 class.
+"""
 
 class InvertedMordent(BaseClass.Base):
 
@@ -22,6 +25,7 @@ class Trill(BaseClass.Base):
 class TrillSpanner(BaseClass.Base):
 
     def __init__(self, **kwargs):
+        BaseClass.Base.__init__(self)
         if "line" in kwargs:
             self.line = kwargs["line"]
 
@@ -48,7 +52,12 @@ class InvertedTurn(BaseClass.Base):
 
 
 class Tremolo(BaseClass.Base):
-
+    """
+    Tremolo class.
+    Optional inputs:
+       type: whether this is a starting or stopping tremolo.
+       value: the number of lines/divisions to put into the note.
+    """
     def __init__(self, **kwargs):
         self.preNote = True
         BaseClass.Base.__init__(self)

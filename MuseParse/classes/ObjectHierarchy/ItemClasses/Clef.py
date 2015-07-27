@@ -1,5 +1,7 @@
 
 __author__ = 'charlotte'
+
+# Listing which correlates the MusicXML names for clefs to their name in Lilypond
 clef_type = {"GG": "GG",
              "TENORG": "tenorG",
              "C": "C",
@@ -22,7 +24,15 @@ clef_type = {"GG": "GG",
 
 
 class Clef(object):
+    """
+    Class which represents clefs. Holds a sign, line and octave_change attrib as these are the various tags
+    coming in from MusicXML which affect which sign is used.
 
+    Optional inputs:
+      sign: the sign to use. Single character generally which when combined with "line" creates the key to pick out from clef_type dict above
+      line: the line on which the clef should rest on
+      octave_change: number of octaves to put the clef up/down by.
+    """
     def __init__(self, **kwargs):
         if "sign" in kwargs:
             self.sign = kwargs["sign"]

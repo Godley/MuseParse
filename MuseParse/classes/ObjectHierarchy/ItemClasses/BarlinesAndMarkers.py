@@ -2,7 +2,14 @@ from MuseParse.classes.ObjectHierarchy.ItemClasses import BaseClass
 
 
 class Barline(BaseClass.Base):
-
+    """
+    Barline class.
+    Optional inputs:
+      style: style of barline to display
+      repeat: bool whether it's a repeat or not
+      ending: a separate class representing which ending number this barline is, see below
+      repeatNum: number of repeats. Default is 2
+    """
     def __init__(self, **kwargs):
         if "style" in kwargs:
             if kwargs["style"] is not None:
@@ -64,7 +71,13 @@ class Barline(BaseClass.Base):
 
 
 class EndingMark(BaseClass.Base):
-
+    """
+    Ending marker. Used particularly in lilypond where there are repeats with alternative endings.
+    Optional inputs:
+       number: the ending which this is, e.g ending 1 or 2
+       type: the type of ending marker it is. If it comes at the beginning of a bar, it's anything that isn't
+       discontinue or stop. If it's at the end, opposite is true.
+    """
     def __init__(self, **kwargs):
         if "number" in kwargs:
             self.number = kwargs["number"]

@@ -18,8 +18,14 @@ class Tie(BaseClass.Base):
 
 
 class Notehead(BaseClass.Base):
-
+    """
+    Class representing noteheads.
+    Optional inputs:
+    filled: whether or not the notehead is filled. bool.
+    type: type of notehead. str.
+    """
     def __init__(self, filled=False, type=""):
+        BaseClass.Base.__init__(self)
         self.filled = filled
         self.type = type
 
@@ -57,7 +63,11 @@ class Notehead(BaseClass.Base):
 
 
 class Stem(BaseClass.Base):
-
+    """
+    Class representing the note's stem.
+    optional input:
+    type: type of stem to show
+    """
     def __init__(self, type):
         if type is not None:
             self.type = type
@@ -76,7 +86,16 @@ class Stem(BaseClass.Base):
 
 
 class Pitch(BaseClass.Base):
+    """
+    Class representing the pitch of the note
 
+    Optional inputs:
+    alter: how many semi tones to raise or lower the pitch. Generally either 1 or -1, float.
+    octave: number of the octave in which it resides in. int
+    accidental: accidental to show. Used where alter is not accurate enough, may indicate any range of accidentals such as
+                double sharps etc.
+    unpitched: bool representation of unpitchedness, aka a pitch which is like a clap or something rather than an actual note.
+    """
     def __init__(self, **kwargs):
         if "alter" in kwargs:
             self.alter = kwargs["alter"]
@@ -146,7 +165,28 @@ class Pitch(BaseClass.Base):
 
 
 class Note(BaseClass.Base):
+    """
+    Big class representing a note.
 
+    Optional inputs:
+    rest: bool as to whether this note is a rest or not.
+    dots: int - number of dots after the note, indicating extended length
+    pitch: a class representing the pitch of the note, see above
+    chord: bool indicating this note is part of a chord
+    type: string indicator of the length of note, like "quarter" or "half". Alternatively, duration may be given along with divisions
+    duration: length of note. Where musicXML is concerned, divisions should also be known, indicating how many divisions there are in
+    a quarter note.
+
+    attributes: these classes are mostly because lilypond needs specific ordering of notation
+        prenotation: any notation classes which come before the note is displayed
+        wrap_notation: any notation classes which have something to come before and something after the note is displayed
+        postnotation/closing_notation: notation to be shown after the note, can't really remember why there's 2
+        has_tremolo: bool telling you whether this note has a tremolo on it.
+        timeMod: this can be added after the class is created and represents a time modifier applied where tuplets are concerned
+        print: bool indicator of whether or not to display the current note.
+
+
+    """
     def __init__(self, **kwargs):
         BaseClass.Base.__init__(self)
         self.ties = []
@@ -176,6 +216,11 @@ class Note(BaseClass.Base):
         self.has_tremolo = False
 
     def AddSlur(self, item):
+        '''
+        Very simple method which is used for adding slurs.
+        :param item:
+        :return:
+        '''
         if not hasattr(self, "slurs"):
             self.slurs = []
         self.slurs.append(item)
@@ -184,6 +229,12 @@ class Note(BaseClass.Base):
         return self.prenotation, self.wrap_notation, self.postnotation
 
     def GetNotation(self, id, type):
+        '''
+        method which searches for notation from <type> list at position <id>
+        :param id: the number to look for - i.e if you're looking for the first one in wrap notation, id will be 0
+        :param type: post, pre or wrap
+        :return: the notation class searched for or none
+        '''
         if type == "post":
             if (id == -
                 1 and len(self.postnotation) > 0) or (id != -
@@ -207,6 +258,10 @@ class Note(BaseClass.Base):
         self.closing_notation = []
 
     def GetClosingNotationLilies(self):
+        '''
+        Converts notation in closing_notation into a lilypond string.
+        :return: str
+        '''
         lstring = ""
         for notation in self.closing_notation:
             result = notation.toLily()
@@ -216,6 +271,12 @@ class Note(BaseClass.Base):
         return lstring
 
     def addNotation(self, obj):
+        '''
+        Method to add new notation. Use this rather than adding directly so new classes can be added automatically
+        without needing to know which list to add it to in the main code.
+        :param obj: the object to add
+        :return: None
+        '''
         add = True
         wrap_notation = [
             Arpeggiate,
@@ -261,6 +322,11 @@ class Note(BaseClass.Base):
             self.postnotation.append(obj)
 
     def SetType(self, vtype):
+        '''
+        Sets the type, i.e duration of the note. Types are given as keys inside options
+        :param vtype: str - see keys in options for full list
+        :return: None, side effects modifying the class
+        '''
         self.val_type = vtype
         options = {
             "128th": 128,
@@ -278,6 +344,12 @@ class Note(BaseClass.Base):
             self.duration = options[self.val_type]
 
     def CheckDivisions(self, measure_div):
+        '''
+        Method which is called from voice/measure to update the divisions for each note which are stored at
+        measure level, but needed at lilypond time to figure out lilypond notation
+        :param measure_div: number of divisions per note. Indicator of how big or small a quarter note is
+        :return: None, side effect
+        '''
         if hasattr(self, "val_type"):
             self.divisions = 1
         else:
@@ -293,6 +365,10 @@ class Note(BaseClass.Base):
         self.dots += 1
 
     def handlePreLilies(self):
+        '''
+        Fetches all notation to come before the note as a lilypond string
+        :return: str
+        '''
         val = ""
         if hasattr(self, "chord"):
             if self.chord == "start":
@@ -324,7 +400,10 @@ class Note(BaseClass.Base):
             return self.beams
 
     def getLilyDuration(self):
-        # method to calculate duration of note in lilypond duration style
+        """
+        method to calculate duration of note in lilypond duration style
+        :return:
+        """
         value = ""
         if not hasattr(self, "val_type"):
             if hasattr(self, "duration") and self.duration is not None:
@@ -405,6 +484,11 @@ class Note(BaseClass.Base):
         return value
 
     def LilyWrap(self, value):
+        '''
+        Method to fetch lilypond representation of wrap_notation
+        :param value: current lilypond string to wrap
+        :return: updated lilypond string
+        '''
         prefixes = ""
         wrapped_notation_lilystrings = [
             wrap.toLily() for wrap in self.wrap_notation]
@@ -446,6 +530,12 @@ class Note(BaseClass.Base):
         return val
 
     def Search(self, cls_type, list_id=-1):
+        '''
+        Method which looks for a particular class type in a particular list
+        :param cls_type: the type of object to find
+        :param list_id: the list it resides in
+        :return: the first object of cls_type, or None
+        '''
         options = {
             "pre": self.prenotation,
             "post": self.postnotation,
@@ -469,7 +559,13 @@ class Note(BaseClass.Base):
 
 
 class Tuplet(BaseClass.Base):
+    """
+    Tuplet class.
 
+    Optional inputs:
+      type: either start or stop. Represents that this is either the first or last tuplet in the group.
+      bracket: bool, indicating whether or not to bracket the tuplets.
+    """
     def __init__(self, **kwargs):
         if "type" in kwargs:
             if kwargs["type"] is not None:
@@ -495,7 +591,16 @@ class Tuplet(BaseClass.Base):
 
 
 class GraceNote(BaseClass.Base):
+    """
+    Gracenotes.
 
+    Optional inputs:
+      slash: bool - indicates whether or not the gracenote should be slashed
+      first: bool - indicates whether or not this is the first gracenote
+
+    attributes:
+      last: bool - indicates whether or not this is the last gracenote in a sequence of gracenotes.
+    """
     def __init__(self, **kwargs):
         if "slash" in kwargs:
             self.slash = kwargs["slash"]
@@ -520,7 +625,14 @@ class GraceNote(BaseClass.Base):
 
 
 class TimeModifier(BaseClass.Base):
+    """
+    Class representing a time mod: these sometimes appear in music xml where there are tuplets.
 
+    Optional inputs:
+      first: bool - indicates this is the first tuplet
+      normal: what the note would normally split into
+      actual: the modifier to actually use.
+    """
     def __init__(self, **kwargs):
         BaseClass.Base.__init__(self)
         self.first = False
@@ -542,7 +654,14 @@ class TimeModifier(BaseClass.Base):
 
 
 class Arpeggiate(BaseClass.Base):
+    """
+    Arpeggiate class
 
+    Optional inputs:
+      direction: direction the arrow head of the arpeggiate should put. Generally up or down I think
+      type: whether this is start/stop/none. None indicates it's somewhere in the middle.
+
+    """
     def __init__(self, **kwargs):
         self.wrapped = True
         BaseClass.Base.__init__(self)
@@ -568,7 +687,12 @@ class Arpeggiate(BaseClass.Base):
 
 
 class Slide(BaseClass.Base):
-
+    """
+    Optional Inputs:
+       type: the type of gliss, i.e start or stop
+       lineType: style of line to use
+       number: something that comes in from MusicXML but isn't actually used at min.
+    """
     def __init__(self, **kwargs):
         self.wrapped = True
         BaseClass.Base.__init__(self)
@@ -601,7 +725,9 @@ class Slide(BaseClass.Base):
 
 
 class Glissando(Slide):
-
+    """
+    A glissando - like a slide, but it really only comes in "wavy" type so lineType is completely ignored.
+    """
     def toLily(self):
         self.lineType = "wavy"
         vals = Slide.toLily(self)
@@ -626,7 +752,11 @@ class NonArpeggiate(Arpeggiate):
 
 
 class Beam(Stem):
-
+    """
+    Class representing beam information. Normally this is automatic, but it comes in from MusicXML anyway
+    so may be useful at some stage.
+    1 optional input: type - indicates whether this is a starting, continuing or ending beam.
+    """
     def toLily(self):
         val = ""
         if hasattr(self, "type"):

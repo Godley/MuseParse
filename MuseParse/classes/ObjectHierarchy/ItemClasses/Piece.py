@@ -20,11 +20,3 @@ class Piece(object):
         if hasattr(self, "meta"):
             lilystring += "\n" + self.meta.toLily()
         return lilystring
-
-    def addPart(self, id="gubbins", part=None):
-        if id not in self.Parts:
-            self.Parts[id] = part
-
-    def getPart(self, id="gubbins"):
-        if id in self.Parts:
-            return self.Parts[id]

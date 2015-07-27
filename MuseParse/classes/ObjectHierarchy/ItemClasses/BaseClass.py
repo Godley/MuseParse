@@ -1,11 +1,20 @@
 
 class Base(object):
 
+    """
+    A class which ensures all subclasses have a basic override of the to string method, and a toLily method
+    """
+
     def __init__(self):
         self.indent = 1
 
     def toLily(self):
-        pass
+        '''
+        Method which in any sub classes produces a string, which is a line of lilypond scripting representing the class
+        and its variables.
+        :return: None, but would normally return str.
+        '''
+        raise(NotImplementedError)
 
     def __str__(self):
         st = str(type(self))

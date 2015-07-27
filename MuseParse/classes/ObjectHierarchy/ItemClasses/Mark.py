@@ -1,7 +1,13 @@
-
+# Lots of classes relating to notation. fairly obvious what they are and do based on their class name
 
 class Notation(object):
+    """
+    Notation parent class. Not generally instantiated anywhere
 
+    Optional inputs:
+       placement: above/below I think. Not used.
+       symbol: symbol to display.
+    """
     def __init__(self, **kwargs):
         if "placement" in kwargs:
             self.placement = kwargs["placement"]
