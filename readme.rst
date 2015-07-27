@@ -43,7 +43,7 @@ You can parse music from an xml file using the following code:
 
    object_hierarchy = parser.parse(filename)
 
-This will return a hierarchy of objects - please view the wiki for more information on the objects in this hierarchy.
+This will return a hierarchy of objects - please view the docs (link below) for more information on the objects in this hierarchy.
 
 ********************
 Outputting to PDF
