@@ -8,8 +8,8 @@ class Notation(object):
     Notation parent class. Not generally instantiated anywhere
 
     Optional inputs:
-       placement: above/below I think. Not used.
-       symbol: symbol to display.
+        placement: above/below I think. Not used.
+        symbol: symbol to display.
     """
 
     def __init__(self, **kwargs):
@@ -27,6 +27,10 @@ class Notation(object):
         return str_val
 
     def toLily(self):
+        '''
+        Method which converts the object instance and its attributes to a string of lilypond code
+        :return: str of lilypond code
+        '''
         return "\\"
 
 

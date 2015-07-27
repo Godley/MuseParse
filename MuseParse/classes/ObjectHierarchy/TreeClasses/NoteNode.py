@@ -13,7 +13,8 @@ class NoteNode(Node):
 
     """in order to maintain lilypond's output flow, Notes have a specific child order:
     - left: Expression (dynamic or other expressive thing that has to be attached to a note)
-    - right: direction (anything that's not a note or expression"""
+    - middle: Any other notes, if this note is part of a chord
+    - right: direction (anything that's not a note or expression)"""
 
     def __init__(self, **kwargs):
         if "duration" in kwargs:
@@ -210,6 +211,10 @@ class NoteNode(Node):
             self.AddChild(new_note)
 
     def toLily(self):
+        '''
+        Method which converts the object instance, its attributes and children to a string of lilypond code
+        :return: str of lilypond code
+        '''
         lilystring = ""
         if self.item is not None:
             if not isinstance(self.GetChild(0), NoteNode):
@@ -255,6 +260,10 @@ class Placeholder(NoteNode):
         self.item = None
 
     def toLily(self):
+        '''
+        Method which converts the object instance, its attributes and children to a string of lilypond code
+        :return: str of lilypond code
+        '''
         lilystring = ""
         if self.duration > 0:
             lilystring += "r" + str(self.duration)

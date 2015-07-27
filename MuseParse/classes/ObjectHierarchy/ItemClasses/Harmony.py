@@ -4,10 +4,13 @@ from MuseParse.classes.ObjectHierarchy.ItemClasses import BaseClass, Note
 class Harmony(BaseClass.Base):
 
     """
-    Class representing a harmony chord chart for guitarists. Not currently implemented 100% correct in lilypond notation
+    Class representing a harmonic chord for pianists/jazz musicians. Not currently implemented 100% correct in lilypond notation
 
-    For info on the optional inputs root/kind/bass/frame please refer to the MusicXML documentation, as I don't 100% understand
-    this myself. Class representations for each are beneath this class.
+    Optional inputs:
+        root: the root note of the chord
+        kind: see MusicXML docs TODO write this up
+        bass: the bass note of the chord
+        degrees: any degrees to be included in the chord
     """
 
     def __init__(self, **kwargs):
@@ -59,7 +62,14 @@ class Harmony(BaseClass.Base):
 
 
 class Frame(BaseClass.Base):
+    """
+    Class representing a harmony frame chart for guitarists
 
+    Optional inputs:
+        strings: the number of strings to show on the chart
+        frets: the number of frets to show on the chart
+        notes: a dictionary of notes in the frame
+    """
     def __init__(self, **kwargs):
         if "strings" in kwargs:
             if kwargs["strings"] is not None:
@@ -109,6 +119,13 @@ class Frame(BaseClass.Base):
 
 
 class FrameNote(BaseClass.Base):
+    """
+    A note to be included in the Frame notes list.
+
+    Optional inputs:
+        string: the string this note is positioned on
+        fret: the fret this note is positioned on
+    """
 
     def __init__(self, **kwargs):
         if "string" in kwargs:

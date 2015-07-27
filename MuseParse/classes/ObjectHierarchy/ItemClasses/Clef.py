@@ -61,6 +61,10 @@ class Clef(object):
         return name
 
     def toLily(self):
+        '''
+        Method which converts the object instance and its attributes to a string of lilypond code
+        :return: str of lilypond code
+        '''
         val = "\clef "
         clef = ""
         if hasattr(self, "sign") and self.sign is not None:

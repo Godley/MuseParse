@@ -4,9 +4,9 @@ class Meter(object):
     Class representing time signatures/meter markings.
 
     Optional inputs:
-        beats: number of beats in every bar
-        type: type of beats in every bar
-        style: indicator of how it should be displayed. Used for single digit meters using value "single-number"
+            beats: number of beats in every bar
+            type: type of beats in every bar
+            style: indicator of how it should be displayed. Used for single digit meters using value "single-number"
     """
 
     def __init__(self, **kwargs):

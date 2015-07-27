@@ -532,6 +532,10 @@ class MeasureNode(IndexedNode):
                 note_obj.AttachExpression(direction_obj)
 
     def toLily(self):
+        '''
+        Method which converts the object instance, its attributes and children to a string of lilypond code
+        :return: str of lilypond code
+        '''
         lilystring = ""
         left_barline = self.GetBarline("left")
         other_lefts = self.GetBarline("left-1")

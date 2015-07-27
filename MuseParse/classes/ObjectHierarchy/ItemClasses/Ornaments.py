@@ -56,9 +56,10 @@ class Tremolo(BaseClass.Base):
 
     """
     Tremolo class.
+
     Optional inputs:
-       type: whether this is a starting or stopping tremolo.
-       value: the number of lines/divisions to put into the note.
+        type: whether this is a starting or stopping tremolo.
+        value: the number of lines/divisions to put into the note.
     """
 
     def __init__(self, **kwargs):

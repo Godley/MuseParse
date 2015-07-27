@@ -18,8 +18,8 @@ class Key(object):
     key signature class
 
     Optional inputs:
-        fifths: the number of fifths in the key sig. int
-        mode: major/minor
+            fifths: the number of fifths in the key sig. int
+            mode: major/minor
     """
 
     def __init__(self, **kwargs):

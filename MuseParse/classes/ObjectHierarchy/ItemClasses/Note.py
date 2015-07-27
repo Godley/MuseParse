@@ -4,8 +4,15 @@ from MuseParse.classes.ObjectHierarchy.ItemClasses import BaseClass, Mark, Ornam
 
 
 class Tie(BaseClass.Base):
+    """
+    Class representing a tie.
+
+    Optional inputs:
+        type: either start or stop. Stop isn't particularly useful to lilypond but may be used in other output formats.
+    """
 
     def __init__(self, type):
+        BaseClass.Base.__init__(self)
         if type is not None:
             self.type = type
 
@@ -22,8 +29,8 @@ class Notehead(BaseClass.Base):
     """
     Class representing noteheads.
     Optional inputs:
-    filled: whether or not the notehead is filled. bool.
-    type: type of notehead. str.
+        filled: whether or not the notehead is filled. bool.
+        type: type of notehead. str.
     """
 
     def __init__(self, filled=False, type=""):
@@ -69,7 +76,7 @@ class Stem(BaseClass.Base):
     """
     Class representing the note's stem.
     optional input:
-    type: type of stem to show
+        type: type of stem to show
     """
 
     def __init__(self, type):
@@ -95,11 +102,11 @@ class Pitch(BaseClass.Base):
     Class representing the pitch of the note
 
     Optional inputs:
-    alter: how many semi tones to raise or lower the pitch. Generally either 1 or -1, float.
-    octave: number of the octave in which it resides in. int
-    accidental: accidental to show. Used where alter is not accurate enough, may indicate any range of accidentals such as
+        alter: how many semi tones to raise or lower the pitch. Generally either 1 or -1, float.
+        octave: number of the octave in which it resides in. int
+        accidental: accidental to show. Used where alter is not accurate enough, may indicate any range of accidentals such as
                 double sharps etc.
-    unpitched: bool representation of unpitchedness, aka a pitch which is like a clap or something rather than an actual note.
+        unpitched: bool representation of unpitchedness, aka a pitch which is like a clap or something rather than an actual note.
     """
 
     def __init__(self, **kwargs):
@@ -176,13 +183,13 @@ class Note(BaseClass.Base):
     Big class representing a note.
 
     Optional inputs:
-    rest: bool as to whether this note is a rest or not.
-    dots: int - number of dots after the note, indicating extended length
-    pitch: a class representing the pitch of the note, see above
-    chord: bool indicating this note is part of a chord
-    type: string indicator of the length of note, like "quarter" or "half". Alternatively, duration may be given along with divisions
-    duration: length of note. Where musicXML is concerned, divisions should also be known, indicating how many divisions there are in
-    a quarter note.
+        rest: bool as to whether this note is a rest or not.
+        dots: int - number of dots after the note, indicating extended length
+        pitch: a class representing the pitch of the note, see above
+        chord: bool indicating this note is part of a chord
+        type: string indicator of the length of note, like "quarter" or "half". Alternatively, duration may be given along with divisions
+        duration: length of note. Where musicXML is concerned, divisions should also be known, indicating how many divisions there are in
+            a quarter note.
 
     attributes: these classes are mostly because lilypond needs specific ordering of notation
         prenotation: any notation classes which come before the note is displayed
@@ -572,8 +579,8 @@ class Tuplet(BaseClass.Base):
     Tuplet class.
 
     Optional inputs:
-      type: either start or stop. Represents that this is either the first or last tuplet in the group.
-      bracket: bool, indicating whether or not to bracket the tuplets.
+        type: either start or stop. Represents that this is either the first or last tuplet in the group.
+        bracket: bool, indicating whether or not to bracket the tuplets.
     """
 
     def __init__(self, **kwargs):
@@ -606,11 +613,11 @@ class GraceNote(BaseClass.Base):
     Gracenotes.
 
     Optional inputs:
-      slash: bool - indicates whether or not the gracenote should be slashed
-      first: bool - indicates whether or not this is the first gracenote
+        slash: bool - indicates whether or not the gracenote should be slashed
+        first: bool - indicates whether or not this is the first gracenote
 
     attributes:
-      last: bool - indicates whether or not this is the last gracenote in a sequence of gracenotes.
+        last: bool - indicates whether or not this is the last gracenote in a sequence of gracenotes.
     """
 
     def __init__(self, **kwargs):
@@ -642,9 +649,9 @@ class TimeModifier(BaseClass.Base):
     Class representing a time mod: these sometimes appear in music xml where there are tuplets.
 
     Optional inputs:
-      first: bool - indicates this is the first tuplet
-      normal: what the note would normally split into
-      actual: the modifier to actually use.
+        first: bool - indicates this is the first tuplet
+        normal: what the note would normally split into
+        actual: the modifier to actually use.
     """
 
     def __init__(self, **kwargs):
@@ -673,8 +680,8 @@ class Arpeggiate(BaseClass.Base):
     Arpeggiate class
 
     Optional inputs:
-      direction: direction the arrow head of the arpeggiate should put. Generally up or down I think
-      type: whether this is start/stop/none. None indicates it's somewhere in the middle.
+        direction: direction the arrow head of the arpeggiate should put. Generally up or down I think
+        type: whether this is start/stop/none. None indicates it's somewhere in the middle.
 
     """
 
@@ -706,9 +713,9 @@ class Slide(BaseClass.Base):
 
     """
     Optional Inputs:
-       type: the type of gliss, i.e start or stop
-       lineType: style of line to use
-       number: something that comes in from MusicXML but isn't actually used at min.
+        type: the type of gliss, i.e start or stop
+        lineType: style of line to use
+        number: something that comes in from MusicXML but isn't actually used at min.
     """
 
     def __init__(self, **kwargs):
@@ -776,7 +783,8 @@ class Beam(Stem):
     """
     Class representing beam information. Normally this is automatic, but it comes in from MusicXML anyway
     so may be useful at some stage.
-    1 optional input: type - indicates whether this is a starting, continuing or ending beam.
+    1 optional input:
+        type - indicates whether this is a starting, continuing or ending beam.
     """
 
     def toLily(self):

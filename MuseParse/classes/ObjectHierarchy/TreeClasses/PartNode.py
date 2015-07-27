@@ -8,7 +8,9 @@ from MuseParse import helpers
 
 
 class PartNode(IndexedNode):
-
+    """
+    Class representing the node holding the part.
+    """
     def __init__(self, index=0):
         IndexedNode.__init__(self, rules=[StaffNode])
         self.index = index
@@ -195,6 +197,10 @@ class PartNode(IndexedNode):
             return "DRUM"
 
     def toLily(self):
+        '''
+        Method which converts the object instance, its attributes and children to a string of lilypond code
+        :return: str of lilypond code
+        '''
         self.CheckDivisions()
         self.CheckTotals()
         staves = self.GetChildrenIndexes()

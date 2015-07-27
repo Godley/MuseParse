@@ -129,6 +129,10 @@ class PieceTree(Tree):
         return lilystring, groupings, ids_loaded
 
     def toLily(self):
+        '''
+        Method which converts the object instance, its attributes and children to a string of lilypond code
+        :return: str of lilypond code
+        '''
         lilystring = "\\version \"2.18.2\" \n"
 
         partstrings = []

@@ -107,6 +107,11 @@ class VoiceNode(Node):
             previous = note
 
     def toLily(self):
+        '''
+        Method which converts the object instance, its attributes and children to a string of lilypond code
+        :return: str of lilypond code
+        '''
+
         lilystring = ""
         children = self.GetChildrenIndexes()
         total = self.note_total

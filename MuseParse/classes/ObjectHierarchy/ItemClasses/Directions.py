@@ -10,9 +10,9 @@ class Text(BaseClass.Base):
     A class representing any kind of text
 
     Optional inputs:
-      font: the font to use. If this isn't in the list of fonts in lilypond, a random one will be picked.
-      size: font size to use
-      text: the actual text to display
+        font: the font to use. If this isn't in the list of fonts in lilypond, a random one will be picked.
+        size: font size to use
+        text: the actual text to display
     """
 
     def __init__(self, **kwargs):
@@ -41,7 +41,11 @@ class Text(BaseClass.Base):
         return ret_list
 
     def toLily(self):
-        # \abs-fontsize #20
+        '''
+        Method which converts the object instance and its attributes to a string of lilypond code
+        :return: str of lilypond code
+        '''
+
         lilystring = ""
         if hasattr(self, "size"):
             try:
@@ -91,11 +95,11 @@ class CreditText(Text):
     authors etc. Essentially the same as text except it can be positioned
 
     Optional inputs:
-      x: the x position of the text
-      y: the y position of the text
-      justify: left/right
-      valign: vertical alignment - top/bottom
-      page: unused, but the page to put this text on
+        x: the x position of the text
+        y: the y position of the text
+        justify: left/right
+        valign: vertical alignment - top/bottom
+        page: unused, but the page to put this text on
     """
 
     def __init__(self, **kwargs):
@@ -154,7 +158,7 @@ class Lyric(Text):
     Essentially the same as text but 1 additional input
 
     Optional input:
-    syllabic: whether this lyric is meant to fit syllables to each diff note
+        syllabic: whether this lyric is meant to fit syllables to each diff note
     """
 
     def __init__(self, **kwargs):
@@ -177,6 +181,9 @@ class Direction(Text):
     """
     Class representing directions - see sub classes for what these generally are. This class is used for
     regular text directions such as "andante" or "cantabile"
+
+    Optional inputs:
+        placement: above or below the bar
     """
 
     def __init__(self, **kwargs):
@@ -349,8 +356,8 @@ class OctaveShift(Line):
     Class representing specifically octave shifts
 
     Optional inputs:
-      amount: the amount to shift up/down octaves. Int, generally 8 or 15 depending on whether 1 or 2
-      type: type of shift - up/down.
+        amount: the amount to shift up/down octaves. Int, generally 8 or 15 depending on whether 1 or 2
+        type: type of shift - up/down.
 
     """
 
@@ -426,8 +433,8 @@ class Pedal(Line):
     A piano pedal marker class.
 
     Optional inputs:
-      line: bool representing whether or not to display a line
-      type: start/stop
+        line: bool representing whether or not to display a line
+        type: start/stop
     """
 
     def __init__(self, **kwargs):
@@ -538,14 +545,14 @@ class Metronome(Direction):
     Class representing a metronome mark, which can be a combination of <note> = <number per minute> and text
 
     Optional inputs:
-      beat: the beat marker. I.e <beat> = <bpm>
-      min: the number of beats per minute.
-      secondBeat: in place of min, could also have this representing another beat. Like crotchet = quaver
-      text: the text to display with the metronome mark
+        beat: the beat marker. I.e <beat> = <bpm>
+        min: the number of beats per minute.
+        secondBeat: in place of min, could also have this representing another beat. Like crotchet = quaver
+        text: the text to display with the metronome mark
 
     attributes:
-      parentheses: this could also be optionally set later to indicate whether or not to put parentheses round the mark.
-                   bool.
+        parentheses: this could also be optionally set later to indicate whether or not to put parentheses round the mark.
+                        bool.
     """
 
     def __init__(self, **kwargs):
@@ -627,7 +634,7 @@ class Dynamic(Direction):
     Dynamic marking class
 
     Optional inputs:
-       mark: the mark to use in the dynamic
+        mark: the mark to use in the dynamic
     """
 
     def __init__(self, **kwargs):
@@ -692,8 +699,8 @@ class Wedge(Dynamic):
     Wedge - i.e crescendo line or decrescendo line
 
     Optional inputs:
-       type: crescendo/diminuendo/stop. In Lilypond stop is an option because every wedge must end somewhere,
-             and this gives an indication to stop the wedge at x position.
+        type: crescendo/diminuendo/stop. In Lilypond stop is an option because every wedge must end somewhere,
+                and this gives an indication to stop the wedge at x position.
     """
 
     def __init__(self, **kwargs):
@@ -725,7 +732,7 @@ class Slur(Direction):
     Slur class
 
     Optional inputs:
-       type: start/stop
+        type: start/stop
     """
 
     def __init__(self, **kwargs):
@@ -749,6 +756,7 @@ class Slur(Direction):
                            size=size)
 
     def toLily(self):
+
         return_val = ""
         if hasattr(self, "type"):
             if self.type == "start":

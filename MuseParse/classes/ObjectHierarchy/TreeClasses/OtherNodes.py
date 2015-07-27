@@ -9,6 +9,10 @@ class SelfNode(Node):
         Node.__init__(self, rules=[type(self)], limit=1)
 
     def toLily(self):
+        '''
+        Method which converts the object instance and its attributes to a string of lilypond code
+        :return: str of lilypond code
+        '''
         lilystring = ""
         if self.item is not None:
             lstring = self.item.toLily()
