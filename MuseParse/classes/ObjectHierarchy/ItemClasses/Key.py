@@ -1,4 +1,5 @@
-# dictionaries which hold the mapping between sharps or flats and their key signature name
+# dictionaries which hold the mapping between sharps or flats and their
+# key signature name
 majors = {-
           7: "Cflat", -
           6: "Gflat", -
@@ -12,6 +13,7 @@ minors = {-7: "Aflat", -6: "Eflat", -5: "Bflat", -4: "F", -3: "C", -2: "G", -1: 
 
 
 class Key(object):
+
     """
     key signature class
 

@@ -2,6 +2,7 @@ from MuseParse.classes.ObjectHierarchy.ItemClasses import BaseClass
 
 
 class Meta(BaseClass.Base):
+
     """
     Class which holds information about the piece.
     Optional inputs:
@@ -9,6 +10,7 @@ class Meta(BaseClass.Base):
     - composer
     - copyright: company or tag line who owns the copyright
     """
+
     def __init__(self, **kwargs):
         BaseClass.Base.__init__(self)
         if "title" in kwargs:

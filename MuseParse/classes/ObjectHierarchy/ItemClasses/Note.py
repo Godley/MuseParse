@@ -18,12 +18,14 @@ class Tie(BaseClass.Base):
 
 
 class Notehead(BaseClass.Base):
+
     """
     Class representing noteheads.
     Optional inputs:
     filled: whether or not the notehead is filled. bool.
     type: type of notehead. str.
     """
+
     def __init__(self, filled=False, type=""):
         BaseClass.Base.__init__(self)
         self.filled = filled
@@ -63,11 +65,13 @@ class Notehead(BaseClass.Base):
 
 
 class Stem(BaseClass.Base):
+
     """
     Class representing the note's stem.
     optional input:
     type: type of stem to show
     """
+
     def __init__(self, type):
         if type is not None:
             self.type = type
@@ -86,6 +90,7 @@ class Stem(BaseClass.Base):
 
 
 class Pitch(BaseClass.Base):
+
     """
     Class representing the pitch of the note
 
@@ -96,6 +101,7 @@ class Pitch(BaseClass.Base):
                 double sharps etc.
     unpitched: bool representation of unpitchedness, aka a pitch which is like a clap or something rather than an actual note.
     """
+
     def __init__(self, **kwargs):
         if "alter" in kwargs:
             self.alter = kwargs["alter"]
@@ -165,6 +171,7 @@ class Pitch(BaseClass.Base):
 
 
 class Note(BaseClass.Base):
+
     """
     Big class representing a note.
 
@@ -187,6 +194,7 @@ class Note(BaseClass.Base):
 
 
     """
+
     def __init__(self, **kwargs):
         BaseClass.Base.__init__(self)
         self.ties = []
@@ -559,6 +567,7 @@ class Note(BaseClass.Base):
 
 
 class Tuplet(BaseClass.Base):
+
     """
     Tuplet class.
 
@@ -566,6 +575,7 @@ class Tuplet(BaseClass.Base):
       type: either start or stop. Represents that this is either the first or last tuplet in the group.
       bracket: bool, indicating whether or not to bracket the tuplets.
     """
+
     def __init__(self, **kwargs):
         if "type" in kwargs:
             if kwargs["type"] is not None:
@@ -591,6 +601,7 @@ class Tuplet(BaseClass.Base):
 
 
 class GraceNote(BaseClass.Base):
+
     """
     Gracenotes.
 
@@ -601,6 +612,7 @@ class GraceNote(BaseClass.Base):
     attributes:
       last: bool - indicates whether or not this is the last gracenote in a sequence of gracenotes.
     """
+
     def __init__(self, **kwargs):
         if "slash" in kwargs:
             self.slash = kwargs["slash"]
@@ -625,6 +637,7 @@ class GraceNote(BaseClass.Base):
 
 
 class TimeModifier(BaseClass.Base):
+
     """
     Class representing a time mod: these sometimes appear in music xml where there are tuplets.
 
@@ -633,6 +646,7 @@ class TimeModifier(BaseClass.Base):
       normal: what the note would normally split into
       actual: the modifier to actually use.
     """
+
     def __init__(self, **kwargs):
         BaseClass.Base.__init__(self)
         self.first = False
@@ -654,6 +668,7 @@ class TimeModifier(BaseClass.Base):
 
 
 class Arpeggiate(BaseClass.Base):
+
     """
     Arpeggiate class
 
@@ -662,6 +677,7 @@ class Arpeggiate(BaseClass.Base):
       type: whether this is start/stop/none. None indicates it's somewhere in the middle.
 
     """
+
     def __init__(self, **kwargs):
         self.wrapped = True
         BaseClass.Base.__init__(self)
@@ -687,12 +703,14 @@ class Arpeggiate(BaseClass.Base):
 
 
 class Slide(BaseClass.Base):
+
     """
     Optional Inputs:
        type: the type of gliss, i.e start or stop
        lineType: style of line to use
        number: something that comes in from MusicXML but isn't actually used at min.
     """
+
     def __init__(self, **kwargs):
         self.wrapped = True
         BaseClass.Base.__init__(self)
@@ -725,9 +743,11 @@ class Slide(BaseClass.Base):
 
 
 class Glissando(Slide):
+
     """
     A glissando - like a slide, but it really only comes in "wavy" type so lineType is completely ignored.
     """
+
     def toLily(self):
         self.lineType = "wavy"
         vals = Slide.toLily(self)
@@ -752,11 +772,13 @@ class NonArpeggiate(Arpeggiate):
 
 
 class Beam(Stem):
+
     """
     Class representing beam information. Normally this is automatic, but it comes in from MusicXML anyway
     so may be useful at some stage.
     1 optional input: type - indicates whether this is a starting, continuing or ending beam.
     """
+
     def toLily(self):
         val = ""
         if hasattr(self, "type"):

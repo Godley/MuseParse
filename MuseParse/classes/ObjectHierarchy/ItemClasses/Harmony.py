@@ -2,12 +2,14 @@ from MuseParse.classes.ObjectHierarchy.ItemClasses import BaseClass, Note
 
 
 class Harmony(BaseClass.Base):
+
     """
     Class representing a harmony chord chart for guitarists. Not currently implemented 100% correct in lilypond notation
 
     For info on the optional inputs root/kind/bass/frame please refer to the MusicXML documentation, as I don't 100% understand
     this myself. Class representations for each are beneath this class.
     """
+
     def __init__(self, **kwargs):
         self.degrees = []
         if "root" in kwargs:

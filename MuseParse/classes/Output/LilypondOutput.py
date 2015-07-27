@@ -1,5 +1,8 @@
-import os, subprocess, sys
+import os
+import subprocess
+import sys
 from MuseParse.classes import Exceptions
+
 
 class LilypondRenderer(object):
 
@@ -14,9 +17,10 @@ class LilypondRenderer(object):
         self.pdf = self.file.split(".")[0] + ".pdf"
         self.folder = "/".join(self.file.split("/")[:-1])
 
-        self.defaults = {"darwin":"/Users/charlottegodley/bin/lilypond", "win32":"lilypond"}
+        self.defaults = {
+            "darwin": "/Users/charlottegodley/bin/lilypond", "win32": "lilypond"}
         if lyscript != "":
-           self.lily_script = lyscript
+            self.lily_script = lyscript
         else:
             if sys.platform.startswith("linux"):
                 self.lily_script = "lilypond"
@@ -41,9 +45,9 @@ class LilypondRenderer(object):
         # subprocess.Popen(['sudo', self.lily_script," --output=" +
         #     self.folder, self.lyfile])
         os.system(self.lily_script +
-             " --output=" +
-            self.folder + " " + self.lyfile
-             )
+                  " --output=" +
+                  self.folder + " " + self.lyfile
+                  )
 
     def cleanup(self, pdf=False):
         if os.path.exists(self.lyfile):

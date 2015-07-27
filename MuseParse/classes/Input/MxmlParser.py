@@ -42,13 +42,15 @@ class MxmlParser(object):
         self.chars = {}
         # the attributes of each tag, indexed by their tag name
         self.attribs = {}
-        # the method which will handle the current tag, and the data currently in the class
+        # the method which will handle the current tag, and the data currently
+        # in the class
         self.handler = None
         # the class tree top
         self.piece = PieceTree.PieceTree()
         # I don't remember what this does. TODO: rename.
         self.d = False
-        # a bunch of variables we need to keep track of over time, as different tags affect each one.
+        # a bunch of variables we need to keep track of over time, as different
+        # tags affect each one.
         self.data["note"] = None
         self.data["direction"] = None
         self.data["expression"] = None
@@ -118,9 +120,11 @@ class MxmlParser(object):
                 self.attribs[name] = attrs
             self.d = CheckDynamics(name)
             if self.d and "dynamics" in self.tags:
-                self.handler(self.tags, self.attribs, self.chars, self.piece, self.data)
+                self.handler(
+                    self.tags, self.attribs, self.chars, self.piece, self.data)
             if name in self.closed_tags and self.handler is not None:
-                self.handler(self.tags, self.attribs, self.chars, self.piece, self.data)
+                self.handler(
+                    self.tags, self.attribs, self.chars, self.piece, self.data)
 
     def validateData(self, text):
         '''
@@ -219,7 +223,8 @@ class MxmlParser(object):
         :return: None, side effects
         '''
         if self.handler is not None and not self.d and name not in self.closed_tags:
-            self.handler(self.tags, self.attribs, self.chars, self.piece, self.data)
+            self.handler(
+                self.tags, self.attribs, self.chars, self.piece, self.data)
 
         self.ResetHandler(name)
 
@@ -227,7 +232,8 @@ class MxmlParser(object):
             self.tags.remove(name)
 
         if name == "direction":
-            # Copy the direction into the appropriate place, and then clear the direction cache
+            # Copy the direction into the appropriate place, and then clear the
+            # direction cache
             if self.data["direction"] is not None:
                 measure_id = IdAsInt(
                     helpers.GetID(
@@ -239,13 +245,15 @@ class MxmlParser(object):
                 if part is not None:
                     if part.getMeasure(measure_id, self.data["staff_id"]) is None:
                         part.addEmptyMeasure(measure_id, self.data["staff_id"])
-                    measure = part.getMeasure(measure_id, self.data["staff_id"])
-                    measure.addDirection(copy.deepcopy(self.data["direction"]), self.data["voice"])
+                    measure = part.getMeasure(
+                        measure_id, self.data["staff_id"])
+                    measure.addDirection(
+                        copy.deepcopy(self.data["direction"]), self.data["voice"])
                 self.data["direction"] = None
 
-
             if self.data["expression"] is not None:
-                # copy the expression into the appropriate place, then clear the expression cache
+                # copy the expression into the appropriate place, then clear
+                # the expression cache
                 measure_id = IdAsInt(
                     helpers.GetID(
                         self.attribs,
@@ -256,12 +264,15 @@ class MxmlParser(object):
                 if part is not None:
                     if part.getMeasure(measure_id, self.data["staff_id"]) is None:
                         part.addEmptyMeasure(measure_id, self.data["staff_id"])
-                    measure = part.getMeasure(measure_id, self.data["staff_id"])
-                    measure.addExpression(copy.deepcopy(self.data["expression"]), self.data["voice"])
+                    measure = part.getMeasure(
+                        measure_id, self.data["staff_id"])
+                    measure.addExpression(
+                        copy.deepcopy(self.data["expression"]), self.data["voice"])
                 self.data["expression"] = None
 
         if name == "part":
-            # do a few checks to confirm barlines are in the right places and to make sure there's no tab in the piece
+            # do a few checks to confirm barlines are in the right places and
+            # to make sure there's no tab in the piece
             part_id = helpers.GetID(self.attribs, "part", "id")
             part = self.piece.getPart(part_id)
             if part is not None:
@@ -278,7 +289,8 @@ class MxmlParser(object):
                             Exceptions.DrumNotImplementedException("Drum Tab notation found: stopping"))
 
         if name == "measure":
-            # check for a few issues such as divisions not existing in certain measures
+            # check for a few issues such as divisions not existing in certain
+            # measures
             part_id = helpers.GetID(self.attribs, "part", "id")
             measure_id = IdAsInt(
                 helpers.GetID(
@@ -315,7 +327,8 @@ class MxmlParser(object):
             if part is None:
                 part = self.piece.getLastPart()
             if part is not None:
-                self.CopyNote(part, measure_id, copy.deepcopy(self.data["note"]))
+                self.CopyNote(
+                    part, measure_id, copy.deepcopy(self.data["note"]))
             self.data["note"] = None
 
         if name == "degree":
@@ -331,6 +344,7 @@ class MxmlParser(object):
         '''
         parser = make_parser()
         self.clear()
+
         class Extractor(xml.sax.ContentHandler):
 
             def __init__(self, parent):
@@ -387,7 +401,8 @@ def ignore_exception(IgnoreException=Exception, DefaultVal=None):
     return dec
 
 
-# HANDLER METHODS: see tag correlations inside the MusicXML parser class init method.
+# HANDLER METHODS: see tag correlations inside the MusicXML parser class
+# init method.
 def SetupPiece(tag, attrib, content, piece, data):
     return_val = None
     if content is not [] and len(tag) > 0:
@@ -647,7 +662,8 @@ def handleOtherNotations(tag, attrs, content, piece, data):
                 text = None
                 if tag[-1] in content:
                     text = content[tag[-1]]
-                data["note"].addNotation(Mark.Technique(type=tag[-1], symbol=text))
+                data["note"].addNotation(
+                    Mark.Technique(type=tag[-1], symbol=text))
             elif len(tag) >= 3 and tag[-3] == "technical" and tag[-2] == "bend":
                 bend_val = 0
                 if tag[-1] in content:
@@ -683,7 +699,8 @@ def HandleMeasures(tag, attrib, content, piece, data):
                 for staff in range(1, staves + 1):
                     if part.getMeasure(measure_id, staff) is None:
                         part.addEmptyMeasure(measure_id, staff)
-            measure = part.getMeasure(measure=measure_id, staff=data["staff_id"])
+            measure = part.getMeasure(
+                measure=measure_id, staff=data["staff_id"])
             if measure is None:
                 part.addEmptyMeasure(measure_id, data["staff_id"])
                 measure = part.getMeasure(measure_id, data["staff_id"])
@@ -863,7 +880,8 @@ def HandleMeasures(tag, attrib, content, piece, data):
                         data["degree"].type = content["degree-type"]
                     if "degree-type" in attrib:
                         if "text" in attrib["degree-type"]:
-                            data["degree"].display = attrib["degree-type"]["text"]
+                            data["degree"].display = attrib[
+                                "degree-type"]["text"]
 
             if "frame" in tag:
                 if not hasattr(data["direction"], "frame"):
@@ -872,9 +890,11 @@ def HandleMeasures(tag, attrib, content, piece, data):
                     data["direction"].frame.firstFret = True
                     if "first-fret" in content:
                         if "first-fret" not in attrib:
-                            data["direction"].frame.firstFret = [content["first-fret"]]
+                            data["direction"].frame.firstFret = [
+                                content["first-fret"]]
                         else:
-                            data["direction"].frame.firstFret = [content["first-fret"]]
+                            data["direction"].frame.firstFret = [
+                                content["first-fret"]]
                             if "text" in attrib["first-fret"]:
                                 data["direction"].frame.firstFret.append(
                                     attrib["first-fret"]["text"])
@@ -916,7 +936,8 @@ def handleClef(tag, attrib, content, piece, data):
             part.addEmptyMeasure(measure_id, data["staff_id"])
             measureNode = part.getMeasure(measure_id, data["staff_id"])
         if tag[-1] == "clef":
-            part.addClef(Clef.Clef(), measure_id, data["staff_id"], data["voice"])
+            part.addClef(
+                Clef.Clef(), measure_id, data["staff_id"], data["voice"])
         if measureNode is not None:
             clef = measureNode.GetLastClef(voice=data["voice"])
             if clef is not None and type(clef) is not Clef.Clef:
@@ -1268,9 +1289,11 @@ def HandleDirections(tags, attrs, chars, piece, data):
         part_id = helpers.GetID(attrs, "part", "id")
         measure = None
         if measure_id is not None and part_id is not None:
-            measure = piece.getPart(part_id).getMeasure(measure_id, data["staff_id"])
+            measure = piece.getPart(part_id).getMeasure(
+                measure_id, data["staff_id"])
             if measure is None:
-                piece.getPart(part_id).addEmptyMeasure(measure_id, data["staff_id"])
+                piece.getPart(part_id).addEmptyMeasure(
+                    measure_id, data["staff_id"])
                 measure = piece.getPart(part_id).getMeasure(
                     measure_id,
                     data["staff_id"])
@@ -1345,9 +1368,11 @@ def HandleDirections(tags, attrs, chars, piece, data):
                     data["direction"].placement = placement
                 if "metronome" in attrs:
                     if "font-family" in attrs["metronome"]:
-                        data["direction"].font = attrs["metronome"]["font-family"]
+                        data["direction"].font = attrs[
+                            "metronome"]["font-family"]
                     if "font-size" in attrs["metronome"]:
-                        data["direction"].size = attrs["metronome"]["font-size"]
+                        data["direction"].size = attrs[
+                            "metronome"]["font-size"]
                     if "parentheses" in attrs["metronome"]:
                         data["direction"].parentheses = YesNoToBool(
                             attrs["metronome"]["parentheses"])
@@ -1361,9 +1386,11 @@ def HandleDirections(tags, attrs, chars, piece, data):
                     data["direction"].min = pm
                 if "metronome" in attrs:
                     if "font-family" in attrs["metronome"]:
-                        data["direction"].font = attrs["metronome"]["font-family"]
+                        data["direction"].font = attrs[
+                            "metronome"]["font-family"]
                     if "font-size" in attrs["metronome"]:
-                        data["direction"].size = float(attrs["metronome"]["font-size"])
+                        data["direction"].size = float(
+                            attrs["metronome"]["font-size"])
                     if "parentheses" in attrs["metronome"]:
                         data["direction"].parentheses = YesNoToBool(
                             attrs["metronome"]["parentheses"])
@@ -1372,7 +1399,8 @@ def HandleDirections(tags, attrs, chars, piece, data):
             if "wedge" in attrs:
                 if "type" in attrs["wedge"]:
                     w_type = attrs["wedge"]["type"]
-            data["expression"] = Directions.Wedge(placement=placement, type=w_type)
+            data["expression"] = Directions.Wedge(
+                placement=placement, type=w_type)
 
         if len(tags) > 1:
             if tags[-2] == "dynamics" and tags[-1] != "other-dynamics":

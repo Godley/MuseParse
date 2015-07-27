@@ -1,4 +1,5 @@
 class Meter(object):
+
     """
     Class representing time signatures/meter markings.
 
@@ -7,6 +8,7 @@ class Meter(object):
         type: type of beats in every bar
         style: indicator of how it should be displayed. Used for single digit meters using value "single-number"
     """
+
     def __init__(self, **kwargs):
         if "beats" in kwargs:
             self.beats = kwargs["beats"]

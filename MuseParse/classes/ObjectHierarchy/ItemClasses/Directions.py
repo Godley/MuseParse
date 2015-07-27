@@ -5,6 +5,7 @@ from MuseParse.classes.ObjectHierarchy.ItemClasses import BaseClass
 
 
 class Text(BaseClass.Base):
+
     """
     A class representing any kind of text
 
@@ -13,6 +14,7 @@ class Text(BaseClass.Base):
       size: font size to use
       text: the actual text to display
     """
+
     def __init__(self, **kwargs):
         BaseClass.Base.__init__(self)
         if "font" in kwargs and kwargs["font"] is not None:
@@ -83,6 +85,7 @@ class Text(BaseClass.Base):
 
 
 class CreditText(Text):
+
     """
     Class which represents credits - anything which is to go at the bottom of the page, like copyrights,
     authors etc. Essentially the same as text except it can be positioned
@@ -94,6 +97,7 @@ class CreditText(Text):
       valign: vertical alignment - top/bottom
       page: unused, but the page to put this text on
     """
+
     def __init__(self, **kwargs):
         font = None
         size = None
@@ -144,6 +148,7 @@ class CreditText(Text):
 
 
 class Lyric(Text):
+
     """
     Text class representing lyrics. Unused because needs readjustment in order to fit lyrics into Lilypond's output.
     Essentially the same as text but 1 additional input
@@ -151,6 +156,7 @@ class Lyric(Text):
     Optional input:
     syllabic: whether this lyric is meant to fit syllables to each diff note
     """
+
     def __init__(self, **kwargs):
         font = None
         text = None
@@ -167,10 +173,12 @@ class Lyric(Text):
 
 
 class Direction(Text):
+
     """
     Class representing directions - see sub classes for what these generally are. This class is used for
     regular text directions such as "andante" or "cantabile"
     """
+
     def __init__(self, **kwargs):
         text = None
         size = None
@@ -205,11 +213,13 @@ class Direction(Text):
 
 
 class RehearsalMark(Direction):
+
     """
     Class representing rehearsal marks like A in a box above a bar.
 
     Same as direction, except that text - generally "A" or "C" is used to figure out which number mark lilypond is expecting.
     """
+
     def toLily(self):
         text = " \mark "
         if self.text == "":
@@ -224,9 +234,11 @@ class RehearsalMark(Direction):
 
 
 class Forward(Direction):
+
     """
     Probably an unused class - forwards arent what I thought they were.
     """
+
     def __init__(self, **kwargs):
         text = None
         size = None
@@ -263,9 +275,11 @@ class Forward(Direction):
 
 
 class RepeatSign(Direction):
+
     """
     Class representing coda symbols and DC symbols.
     """
+
     def __init__(self, **kwargs):
         text = None
         size = None
@@ -298,10 +312,12 @@ class RepeatSign(Direction):
 
 
 class Line(Direction):
+
     """
     Class representing lines over the bar, such as brackets or braces. Essentially I think this is a stub to be sub classed
     so don't instantiate line on its own without some modification.
     """
+
     def __init__(self, **kwargs):
         text = None
         size = None
@@ -328,6 +344,7 @@ class Line(Direction):
 
 
 class OctaveShift(Line):
+
     """
     Class representing specifically octave shifts
 
@@ -336,6 +353,7 @@ class OctaveShift(Line):
       type: type of shift - up/down.
 
     """
+
     def __init__(self, **kwargs):
         placement = None
         text = None
@@ -389,9 +407,11 @@ class OctaveShift(Line):
 
 
 class WavyLine(Line):
+
     """
     Class representing a wavy line, such as the one used for an extended trill marking
     """
+
     def toLily(self):
         if not hasattr(self, "type"):
             text = "\start"
@@ -401,6 +421,7 @@ class WavyLine(Line):
 
 
 class Pedal(Line):
+
     """
     A piano pedal marker class.
 
@@ -408,6 +429,7 @@ class Pedal(Line):
       line: bool representing whether or not to display a line
       type: start/stop
     """
+
     def __init__(self, **kwargs):
         text = None
         size = None
@@ -511,6 +533,7 @@ class Bracket(Line):
 
 
 class Metronome(Direction):
+
     """
     Class representing a metronome mark, which can be a combination of <note> = <number per minute> and text
 
@@ -524,6 +547,7 @@ class Metronome(Direction):
       parentheses: this could also be optionally set later to indicate whether or not to put parentheses round the mark.
                    bool.
     """
+
     def __init__(self, **kwargs):
         size = None
         font = None
@@ -598,12 +622,14 @@ class Metronome(Direction):
 
 
 class Dynamic(Direction):
+
     """
     Dynamic marking class
 
     Optional inputs:
        mark: the mark to use in the dynamic
     """
+
     def __init__(self, **kwargs):
         placement = None
         size = None
@@ -661,6 +687,7 @@ class Dynamic(Direction):
 
 
 class Wedge(Dynamic):
+
     """
     Wedge - i.e crescendo line or decrescendo line
 
@@ -668,6 +695,7 @@ class Wedge(Dynamic):
        type: crescendo/diminuendo/stop. In Lilypond stop is an option because every wedge must end somewhere,
              and this gives an indication to stop the wedge at x position.
     """
+
     def __init__(self, **kwargs):
         placement = None
         self.type = None
@@ -692,12 +720,14 @@ class Wedge(Dynamic):
 
 
 class Slur(Direction):
+
     """
     Slur class
 
     Optional inputs:
        type: start/stop
     """
+
     def __init__(self, **kwargs):
         placement = None
         size = None
