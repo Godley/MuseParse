@@ -75,8 +75,8 @@ Demo python scripts of things you could do with this are located in MuseParse/de
 =======
 Documentation
 =======
-Please see `MuseParse @ ReadTheDocs`_
+Please see `MuseParse @ my docs site`_
 
-.. _MuseParse @ ReadTheDocs: http://museparse.readthedocs.org 
+.. _MuseParse @ charlottegodley: http://docs.charlottegodley.co.uk/MuseParse
 
 for the documentation of each class in this library, and do let me know if it could be improved or submit a pull request.
