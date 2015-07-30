@@ -1,6 +1,6 @@
 from MuseParse.classes.ObjectHierarchy.TreeClasses.BaseTree import IndexedNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses import MeasureNode
-from MuseParse.classes.ObjectHierarchy.ItemClasses import Measure
+from MuseParse.classes.ObjectHierarchy.ItemClasses import BarlinesAndMarkers
 
 
 class StaffNode(IndexedNode):
