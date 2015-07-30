@@ -28,7 +28,7 @@ class LilypondRenderer(object):
         self.file = fname
         self.lyfile = self.file.split(".")[0] + ".ly"
         self.pdf = self.file.split(".")[0] + ".pdf"
-        self.folder = "/".join(self.file.split("/")[:-1])
+        self.folder = os.path.join(*os.path.split(self.file)[:-1])
 
         self.defaults = {
             "darwin": "/Users/charlottegodley/bin/lilypond", "win32": "lilypond"}

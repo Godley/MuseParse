@@ -46,20 +46,26 @@ def SplitString(value):
 
 
 def GetID(attrs, tag, val):
-    # handy method which pulls out a nested id: attrs refers to a dictionary holding the id
-    # tag refers to the tag we're looking at (e.g measure, part etc)
-    # val refers to the exact index of the tag we're looking for (e.g number, id etc)
-    # example case: attrs = self.attribs, tag=measure and val=number would
-    # return current measure number
+    """
+    handy method which pulls out a nested id: attrs refers to a dictionary holding the id
+    tag refers to the tag we're looking at (e.g measure, part etc)
+    val refers to the exact index of the tag we're looking for (e.g number, id etc)
+    example case: attrs = self.attribs, tag=measure and val=number would
+    return current measure number
+    """
+
     if tag in attrs:
         if val in attrs[tag]:
             return attrs[tag][val]
 
 
 def NumbersToWords(number):
-    # little function that converts numbers to words. This could be more efficient,
-    # and won't work if the number is bigger than 999 but it's for stave names,
-    # and I doubt any part would have more than 10 staves let alone 999.
+    """
+    little function that converts numbers to words. This could be more efficient,
+    and won't work if the number is bigger than 999 but it's for stave names,
+    and I doubt any part would have more than 10 staves let alone 999.
+    """
+
     units = [
         'one',
         'two',
