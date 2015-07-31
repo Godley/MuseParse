@@ -10,6 +10,6 @@ setup(
     license='MIT',
     author='charlottegodley',
     author_email='me@charlottegodley.co.uk',
-    description='A package which takes an inputted music file (at the moment only MusicXML) and generates an object hierarchy in memory. This version fixes a bug in the music xml parser and provides lilypond setup methods for each operating system.'
+    description='A package which takes an inputted music file (at the moment only MusicXML) and generates an object hierarchy in memory. This version fixes a bug in the music xml parser and provides lilypond setup methods for windows and OSX.'
 
 )
