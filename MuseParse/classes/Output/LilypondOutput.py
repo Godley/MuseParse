@@ -39,52 +39,7 @@ class LilypondRenderer(object):
             else:
                 self.lily_script = self.default
 
-    @staticmethod
-    def setup_windows(self, path_to_lilypond_folder="default"):
-        '''
-        Optional helper method which does the environment setup for lilypond in windows. If you've ran this method, you do not need and should not provide
-        a lyscript when you instantiate this class. As this method is static, you can run this method before you set up the LilypondRenderer
-        instance.
 
-        * parameter: path_to_lilypond is the path to the folder which contains the file "lilypond.exe". Usually ProgramFiles/Lilypond/usr/bin.
-        Leave at default to set to this path.
-
-        * returns: None
-        '''
-        default = "C:/Program Files (x86)/LilyPond/usr/bin"
-        path_variable = os.environ['PATH'].split(";")
-        if path_to_lilypond_folder == "default":
-            path_variable.append(default)
-        else:
-            path_variable.append(path_to_lilypond_folder)
-        os.environ['PATH'] = ";".join(path_variable)
-
-    @staticmethod
-    def setup_linux(self):
-        '''
-        Optional helper method which downloads and installs lilypond from apt-get.
-
-        * return: None
-        '''
-        os.system("sudo apt-get install lilypond")
-
-    @staticmethod
-    def setup_osx(self, path):
-        '''
-        Optional helper method which sets up the environment on osx.
-
-        * parameter: path is the path to the file you are using as an lyscript. Please refer to the lilypond.org documentation for what this should contain
-
-        * return: None
-        '''
-
-        default = "/Applications/LilyPond.app/Contents/Resources/bin"
-        path_variable = os.environ['PATH'].split(":")
-        if path == "default":
-            path_variable.append(default)
-        else:
-            path_variable.append(path)
-        os.environ['PATH'] = ":".join(path_variable)
 
     def run(self, wrappers=["", ""]):
         '''

@@ -316,8 +316,8 @@ class MxmlParser(object):
             part = self.piece.getPart(part_id)
             if part is None:
                 part = self.piece.getLastPart()
-            part.CheckBarlinesAndMarkersDivisions(measure_id)
-            part.CheckBarlinesAndMarkersMeter(measure_id)
+            part.CheckMeasureDivisions(measure_id)
+            part.CheckMeasureMeter(measure_id)
             part.CheckPreviousBarline(self.data["staff_id"])
 
             measure =  part.getMeasure(measure_id, self.data["staff_id"])
@@ -1086,7 +1086,7 @@ def handleBarline(tag, attrib, content, piece, data):
 
         if location not in measure.barlines:
             if barline is None:
-                barline = measure.Barline(
+                barline = BarlinesAndMarkers.Barline(
                     style=style,
                     repeat=repeat,
                     ending=ending)
