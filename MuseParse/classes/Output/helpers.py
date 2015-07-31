@@ -1,4 +1,5 @@
-import os
+import os, subprocess
+from subprocess import STDOUT
 from sys import platform
 
 def setup_lilypond(path_to_lilypond_folder="default"):
@@ -42,7 +43,8 @@ def setup_lilypond_linux():
 
     * return: None
     '''
-    os.system("sudo apt-get install lilypond")
+    print("Sorry, not currently providing a setup method for linux systems. If you're using apt-get, run \"sudo apt-get install lilypond\". or on yum \"sudo yum install lilypond\"")
+
 
 
 def setup_lilypond_osx(path="default"):
