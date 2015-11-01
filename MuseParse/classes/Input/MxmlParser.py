@@ -1049,7 +1049,7 @@ def handleBarline(tag, attrib, content, piece, data):
                     repeat = attrib["repeat"]["direction"]
                     if hasattr(barline, "ending"):
                         position = -2
-                        index = part.getMeasureIDAtPosition(
+                        index = part.getMeasureAtPosition(
                             position,
                             staff=data["staff_id"])
                         if index is not None:
@@ -1060,7 +1060,7 @@ def handleBarline(tag, attrib, content, piece, data):
                                     right_barline,
                                     "ending"):
                                 position -= 1
-                                index = part.getMeasureIDAtPosition(
+                                index = part.getMeasureAtPosition(
                                     position,
                                     staff=data["staff_id"])
                             part.AddBarline(
