@@ -1,7 +1,7 @@
 import os
 
-from MuseParse.tests.testUsingXML.setup import xmlSet, parsePiece
-from MuseParse.classes.ObjectHierarchy.ItemClasses import Measure
+from MuseParse.tests.testUsingXML.xmlSet import xmlSet, parsePiece
+from MuseParse.classes.ObjectHierarchy.ItemClasses import BarlinesAndMarkers
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.SampleMusicXML import testcases
 
@@ -38,7 +38,7 @@ class testBarlines(xmlSet):
     def testMeasure2BarlineInstance(self):
         part=piece.getPart(self.p_id)
         item=part.getMeasure(measure=2,staff=1)
-        self.assertIsInstance(item.barlines["right"], Measure.Barline)
+        self.assertIsInstance(item.barlines["right"], BarlinesAndMarkers.Barline)
 
     def testMeasure2BarlineStyle(self):
         part=piece.getPart(self.p_id)
@@ -53,7 +53,7 @@ class testBarlines(xmlSet):
     def testMeasure4BarlineInstance(self):
         part=piece.getPart(self.p_id)
         item=part.getMeasure(measure=4,staff=1)
-        self.assertIsInstance(item.barlines["right"], Measure.Barline)
+        self.assertIsInstance(item.barlines["right"], BarlinesAndMarkers.Barline)
 
     def testMeasure4BarlineRight(self):
         part=piece.getPart(self.p_id)
@@ -78,7 +78,7 @@ class testBarlines(xmlSet):
     def testMeasure5BarlineRightInstance(self):
         part=piece.getPart(self.p_id)
         item=part.getMeasure(measure=5,staff=1)
-        self.assertIsInstance(item.barlines["right"], Measure.Barline)
+        self.assertIsInstance(item.barlines["right"], BarlinesAndMarkers.Barline)
 
     def testMeasure5BarlineStyle(self):
         part=piece.getPart(self.p_id)

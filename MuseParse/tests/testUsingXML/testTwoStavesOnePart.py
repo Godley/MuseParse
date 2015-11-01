@@ -1,7 +1,7 @@
 import unittest
 import os
 
-from MuseParse.tests.testUsingXML.setup import parsePiece
+from MuseParse.tests.testUsingXML.xmlSet import parsePiece
 from MuseParse.classes.ObjectHierarchy.TreeClasses.StaffNode import StaffNode
 
 

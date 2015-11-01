@@ -1,6 +1,6 @@
 import os
 
-from MuseParse.tests.testUsingXML.setup import xmlSet, parsePiece
+from MuseParse.tests.testUsingXML.xmlSet import xmlSet, parsePiece
 from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode

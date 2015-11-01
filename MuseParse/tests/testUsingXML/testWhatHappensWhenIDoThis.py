@@ -1,7 +1,7 @@
 import os
 
-from MuseParse.tests.testUsingXML.setup import xmlSet, parsePiece
-from MuseParse.classes.ObjectHierarchy.ItemClasses import Measure
+from MuseParse.tests.testUsingXML.xmlSet import xmlSet, parsePiece
+from MuseParse.classes.ObjectHierarchy.ItemClasses import BarlinesAndMarkers
 from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 
@@ -50,7 +50,7 @@ class testMeasure1(xmlSet):
 
     def testLeftEndingInstance(self):
         barline = self.measure.GetBarline("left")
-        self.assertIsInstance(barline.ending, Measure.EndingMark)
+        self.assertIsInstance(barline.ending, BarlinesAndMarkers.EndingMark)
 
     def testLeftNumber(self):
         barline = self.measure.GetBarline("left")
@@ -65,7 +65,7 @@ class testMeasure1(xmlSet):
 
     def testRightEndingInstance(self):
         barline = self.measure.GetBarline("right")
-        self.assertIsInstance(barline.ending, Measure.EndingMark)
+        self.assertIsInstance(barline.ending, BarlinesAndMarkers.EndingMark)
 
     def testRightNumber(self):
         barline = self.measure.GetBarline("right")

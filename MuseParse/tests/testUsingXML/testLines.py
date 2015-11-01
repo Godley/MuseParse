@@ -1,7 +1,7 @@
 import os
 
-from MuseParse.tests.testUsingXML.setup import xmlSet, parsePiece
-from MuseParse.classes.ObjectHierarchy.ItemClasses import Directions, Measure
+from MuseParse.tests.testUsingXML.xmlSet import xmlSet, parsePiece
+from MuseParse.classes.ObjectHierarchy.ItemClasses import Directions, BarlinesAndMarkers
 from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.BaseTree import Search
@@ -192,7 +192,7 @@ class testEndings(xmlSet):
 
     def testBarlineInstance(self):
         if hasattr(self, "key"):
-            self.assertIsInstance(self.measure.barlines[self.key], Measure.Barline)
+            self.assertIsInstance(self.measure.barlines[self.key], BarlinesAndMarkers.Barline)
 
     def testBarlineEnding(self):
         if hasattr(self, "key"):
@@ -200,7 +200,7 @@ class testEndings(xmlSet):
 
     def testBarlineEndingInstance(self):
         if hasattr(self, "key"):
-            self.assertIsInstance(self.measure.barlines[self.key].ending, Measure.EndingMark)
+            self.assertIsInstance(self.measure.barlines[self.key].ending, BarlinesAndMarkers.EndingMark)
     def testBarlineNum(self):
         if hasattr(self, "num"):
             self.assertEqual(self.num, self.measure.barlines[self.key].ending.number)

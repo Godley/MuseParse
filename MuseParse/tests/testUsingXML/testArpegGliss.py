@@ -1,7 +1,7 @@
 import os
 import unittest
 
-from MuseParse.tests.testUsingXML.setup import xmlSet, parsePiece
+from MuseParse.tests.testUsingXML.xmlSet import xmlSet, parsePiece
 from MuseParse.classes.ObjectHierarchy.TreeClasses.BaseTree import Search, FindByIndex
 from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
