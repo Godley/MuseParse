@@ -5,14 +5,14 @@ from MuseParse.classes.Output import LilypondOutput
 from MuseParse.classes.Input import MxmlParser
 
 
-script = "/Users/charlottegodley/bin/lilypond"
-folder = "/Users/charlottegodley/PycharmProjects/FYP/implementation/primaries/SampleMusicXML/testcases"
+myfolder = os.path.dirname(os.path.realpath(__file__))
+folder = os.path.join(*(os.path.split(myfolder)[:-1], "SampleMusicXML/testcases"))
 
 #runs all testcases from start to end
 class testRun(unittest.TestCase):
     def setUp(self):
         if hasattr(self, "item"):
-            self.lp = LilypondOutput.LilypondRenderer(self.item, self.file, script)
+            self.lp = LilypondOutput.LilypondRenderer(self.item, self.file)
             self.lp.run()
             self.pdf = self.file.split(".")[0] + ".pdf"
 

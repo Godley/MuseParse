@@ -1,7 +1,7 @@
 import unittest
 
-from MuseParse.classes.ObjectHierarchy.ItemClasses import Directions, Measure, Meter, Note
-from MuseParse.tests.testLilyMethods.setup import Lily
+from MuseParse.classes.ObjectHierarchy.ItemClasses import Directions, BarlinesAndMarkers, Meter, Note
+from MuseParse.tests.testLilyMethods.lily import Lily
 from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
 from MuseParse.classes.ObjectHierarchy.TreeClasses.StaffNode import StaffNode
@@ -206,17 +206,17 @@ class testMeasureTranspositionCalc(unittest.TestCase):
 
 
     def testCalcUpWithChromatic(self):
-        self.item.transpose = Measure.Transposition(chromatic=2)
+        self.item.transpose = BarlinesAndMarkers.Transposition(chromatic=2)
         expected = "\\transpose c' d' {"
         self.assertEqual(self.item.CalculateTransposition(), expected)
 
     def testCalcUpWithDiatonic(self):
-        self.item.transpose = Measure.Transposition(diatonic=1)
+        self.item.transpose = BarlinesAndMarkers.Transposition(diatonic=1)
         expected = "\\transpose c' d' {"
         self.assertEqual(self.item.CalculateTransposition(), expected)
 
     def testCalcOctaveShift(self):
-        self.item.transpose = Measure.Transposition(octave=1)
+        self.item.transpose = BarlinesAndMarkers.Transposition(octave=1)
         expected = "\\transpose c' c'' {"
         self.assertEqual(self.item.CalculateTransposition(), expected)
 

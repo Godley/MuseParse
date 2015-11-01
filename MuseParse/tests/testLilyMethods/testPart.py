@@ -1,6 +1,6 @@
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Note
 from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
-from MuseParse.tests.testLilyMethods.setup import Lily
+from MuseParse.tests.testLilyMethods.lily import Lily
 
 class testPartMeasureWithNote(Lily):
     def setUp(self):

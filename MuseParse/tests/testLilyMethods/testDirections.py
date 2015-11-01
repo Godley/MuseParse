@@ -1,4 +1,4 @@
-from MuseParse.tests.testLilyMethods.setup import Lily
+from MuseParse.tests.testLilyMethods.lily import Lily
 from MuseParse.classes.ObjectHierarchy.ItemClasses import Directions
 
 
