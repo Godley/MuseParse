@@ -115,13 +115,13 @@ class PartNode(IndexedNode):
             measure_obj = staff_obj.GetChild(measure)
         return measure_obj
 
-    def GetMeasureAtPosition(self, index, staff=1):
+    def getMeasureAtPosition(self, index, staff=1):
         staff_obj = self.getStaff(staff)
         children = staff_obj.GetChildrenIndexes()
         if abs(index) <= len(children):
             return self.getMeasure(children[index], staff)
 
-    def GetMeasureIDAtPosition(self, index, staff=1):
+    def getMeasureIDAtPosition(self, index, staff=1):
         staff_obj = self.getStaff(staff)
         children = staff_obj.GetChildrenIndexes()
         if abs(index) <= len(children):
