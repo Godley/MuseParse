@@ -1,6 +1,6 @@
 import unittest
 
-from MuseParse.classes.ObjectHierarchy.ItemClasses import Key, Measure, Clef, Harmony, Part
+from MuseParse.classes.ObjectHierarchy.ItemClasses import Key, BarlinesAndMarkers, Clef, Harmony, Part
 from MuseParse.classes.Input import MxmlParser
 from MuseParse.classes.ObjectHierarchy.TreeClasses.PieceTree import PieceTree
 from MuseParse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
@@ -503,7 +503,7 @@ class testBarline(MeasureTesting):
         self.attrs["barline"] = {"location": "left"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertTrue("left" in self.measure.barlines.keys())
-        self.assertIsInstance(self.measure.GetBarline("left"), Measure.Barline)
+        self.assertIsInstance(self.measure.GetBarline("left"), BarlinesAndMarkers.Barline)
 
     def testBarStyle(self):
         self.attrs["barline"] = {"location": "left"}
@@ -525,7 +525,7 @@ class testBarline(MeasureTesting):
         self.attrs["barline"] = {"location": "left"}
         self.attrs["repeat"] = {"direction": "backward"}
 
-        MxmlParser.last_barline = Measure.Barline(repeat="forward")
+        MxmlParser.last_barline = BarlinesAndMarkers.Barline(repeat="forward")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         
         self.assertEqual("backward", self.measure.GetBarline("left").repeat)

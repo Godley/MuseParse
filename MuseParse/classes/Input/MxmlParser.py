@@ -115,6 +115,7 @@ class MxmlParser(object):
         '''any tags which close instantly in here'''
 
         self.end_tag = ["tremolo"]
+        self.clear()
 
     def StartTag(self, name, attrs):
         '''
