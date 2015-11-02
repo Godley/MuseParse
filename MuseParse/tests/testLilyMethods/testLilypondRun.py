@@ -3,6 +3,7 @@ import os
 
 from MuseParse.classes.Output import LilypondOutput
 from MuseParse.classes.Input import MxmlParser
+from MuseParse.classes import Exceptions
 
 
 myfolder = os.path.dirname(os.path.realpath(__file__))
@@ -36,13 +37,19 @@ class testAccidentals(testRun):
 
         testRun.setUp(self)
 
-class testActorPreludeSample(testRun):
+class testActorPreludeSample(unittest.TestCase):
     def setUp(self):
         self.file = os.path.join(folder, "ActorPreludeSample.xml")
-        parser = MxmlParser.MxmlParser()
-        self.item = parser.parse(self.file)
-        self.dontcleanup = True
-        testRun.setUp(self)
+
+
+        # self.lp = LilypondOutput.LilypondRenderer(self.item, self.file, lyscript="~/bin/lilypond")
+        self.pdf = self.file.split(".")[0] + ".pdf"
+
+    def testRun(self):
+        with self.assertRaises(Exceptions.DrumNotImplementedException):
+            parser = MxmlParser.MxmlParser()
+            self.item = parser.parse(self.file)
+
 
 class testarpeggiosAndGlissandos(testRun):
     def setUp(self):
