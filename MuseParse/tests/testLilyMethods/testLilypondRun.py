@@ -6,7 +6,9 @@ from MuseParse.classes.Input import MxmlParser
 
 
 myfolder = os.path.dirname(os.path.realpath(__file__))
-folder = os.path.join(*(os.path.split(myfolder)[:-1], "SampleMusicXML/testcases"))
+entries = list(os.path.split(myfolder)[:-1])
+entries.extend(["SampleMusicXML", "testcases"])
+folder = os.path.join(*entries)
 
 #runs all testcases from start to end
 class testRun(unittest.TestCase):
