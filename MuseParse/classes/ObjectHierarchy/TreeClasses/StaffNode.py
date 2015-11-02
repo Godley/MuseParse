@@ -93,7 +93,7 @@ class StaffNode(IndexedNode):
                 measure = self.GetChild(measure_indexes[0])
                 for repeat in self.backward_repeats:
                     measure.AddBarline(
-                        Measure.Barline(
+                         BarlinesAndMarkers.Barline(
                             repeat="forward",
                             repeatNum=repeat),
                         location="left-1")
@@ -102,7 +102,7 @@ class StaffNode(IndexedNode):
                 measure = self.GetChild(measure_indexes[-1])
                 for repeat in self.forward_repeats:
                     measure.AddBarline(
-                        Measure.Barline(
+                         BarlinesAndMarkers.Barline(
                             repeat="backward",
                             repeatNum=repeat),
                         location="right-1")

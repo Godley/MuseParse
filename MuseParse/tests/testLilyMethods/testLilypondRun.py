@@ -9,12 +9,13 @@ myfolder = os.path.dirname(os.path.realpath(__file__))
 entries = list(os.path.split(myfolder)[:-1])
 entries.extend(["SampleMusicXML", "testcases"])
 folder = os.path.join(*entries)
+import sys
 
 #runs all testcases from start to end
 class testRun(unittest.TestCase):
     def setUp(self):
         if hasattr(self, "item"):
-            self.lp = LilypondOutput.LilypondRenderer(self.item, self.file)
+            self.lp = LilypondOutput.LilypondRenderer(self.item, self.file, lyscript="~/bin/lilypond")
             self.lp.run()
             self.pdf = self.file.split(".")[0] + ".pdf"
 

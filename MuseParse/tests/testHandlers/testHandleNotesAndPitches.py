@@ -67,8 +67,8 @@ class testCreateNoteHandler(notes):
         self.tags.append("rest")
         self.attrs["rest"] = {"measure":"yes"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertTrue(hasattr(self.data["note"], "MeasureRest"))
-        self.assertEqual(True, self.data["note"].MeasureRest)
+        self.assertTrue(hasattr(self.data["note"], "measureRest"))
+        self.assertEqual(True, self.data["note"].measureRest)
 
     def testCueTag(self):
         self.tags.append("cue")
