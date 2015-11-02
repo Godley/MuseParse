@@ -9,7 +9,7 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.NoteNode import NoteNode
 from MuseParse.SampleMusicXML import testcases
 
 
-partname = "tremolo.xml"
+partname = "Tremolo.xml"
 directory = testcases.__path__._path[0]
 piece = parsePiece(os.path.join(directory, partname))
 

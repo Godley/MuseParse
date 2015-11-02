@@ -4,12 +4,9 @@ import os
 from MuseParse.classes.Output import LilypondOutput
 from MuseParse.classes.Input import MxmlParser
 from MuseParse.classes import Exceptions
+from MuseParse.SampleMusicXML import testcases
 
-
-myfolder = os.path.dirname(os.path.realpath(__file__))
-entries = list(os.path.split(myfolder)[:-1])
-entries.extend(["SampleMusicXML", "testcases"])
-folder = os.path.join(*entries)
+folder = testcases.__path__._path[0]
 import sys
 
 #runs all testcases from start to end
