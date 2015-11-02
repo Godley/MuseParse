@@ -11,7 +11,7 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.OtherNodes import DirectionNo
 from MuseParse.SampleMusicXML import testcases
 
 
-partname = "repeatmarks.xml"
+partname = "repeatMarks.xml"
 directory = testcases.__path__._path[0]
 piece = parsePiece(os.path.join(directory, partname))
 
