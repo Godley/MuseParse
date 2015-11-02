@@ -1,6 +1,5 @@
 before_install:
   - sudo apt-get update 
-  - sudo apt-get upgrade
   - wget http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2.18.2-1.linux-64.sh
   - ./lilypond-2.18.2-1.linux-64.sh
 
