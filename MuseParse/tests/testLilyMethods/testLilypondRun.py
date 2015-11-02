@@ -15,8 +15,11 @@ import sys
 #runs all testcases from start to end
 class testRun(unittest.TestCase):
     def setUp(self):
+        script= None
+        if sys.platform == 'darwin':
+            script = "~/bin/lilypond"
         if hasattr(self, "item"):
-            self.lp = LilypondOutput.LilypondRenderer(self.item, self.file, lyscript="~/bin/lilypond")
+            self.lp = LilypondOutput.LilypondRenderer(self.item, self.file, lyscript=script)
             self.lp.run()
             self.pdf = self.file.split(".")[0] + ".pdf"
 
