@@ -20,7 +20,13 @@ class Lily(unittest.TestCase):
             if self.compile and hasattr(self, "item"):
                 if os.path.exists("/Users/charlottegodley/testlily.pdf"):
                     os.remove("/Users/charlottegodley/testlily.pdf")
-                ly = LilypondOutput.LilypondRenderer(self.item, "/Users/charlottegodley/"+self.name+".xml", "/Users/charlottegodley/bin/lilypond")
+                filepath = ""
+                script = ''
+                if sys.platform == 'darwin':
+                    filepath += '~/'
+                    script = '~/bin/lilypond'
+                filepath += self.name +".xml"
+                ly = LilypondOutput.LilypondRenderer(self.item, filepath, script)
                 if hasattr(self, "wrappers"):
                     ly.run(wrappers=self.wrappers)
                 else:
