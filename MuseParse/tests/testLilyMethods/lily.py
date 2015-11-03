@@ -1,5 +1,5 @@
 import unittest, os, sys
-
+from os.path import expanduser
 from MuseParse.classes.Output import LilypondOutput
 
 
@@ -15,20 +15,21 @@ class Lily(unittest.TestCase):
                 self.assertEqual(self.lilystring, self.item.toLily())
 
     def testCompilation(self):
-        if hasattr(self, "compile"):
+        if hasattr(self, "compile") and self.compile is True:
+
+            filepath = expanduser("~")
+            script = ''
+            if sys.platform == 'darwin':
+                script = os.path.join(filepath, 'bin', 'lilypond')
+            filepath = os.path.join(filepath, self.name)
             if self.compile and hasattr(self, "item"):
-                if os.path.exists("/Users/charlottegodley/testlily.pdf"):
-                    os.remove("/Users/charlottegodley/testlily.pdf")
-                filepath = ""
-                script = ''
-                if sys.platform == 'darwin':
-                    filepath += '~/'
-                    script = '~/bin/lilypond'
-                filepath += self.name +".xml"
-                ly = LilypondOutput.LilypondRenderer(self.item, filepath, script)
+                if os.path.exists(filepath+".pdf"):
+                    os.remove(filepath+".pdf")
+
+                ly = LilypondOutput.LilypondRenderer(self.item, filepath +".xml", script)
                 if hasattr(self, "wrappers"):
                     ly.run(wrappers=self.wrappers)
                 else:
                     ly.run()
-                self.assertTrue(os.path.exists("/Users/charlottegodley/"+self.name+".pdf"))
+                self.assertTrue(os.path.exists(filepath+".pdf"))
 
