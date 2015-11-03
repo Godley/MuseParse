@@ -1,6 +1,8 @@
 ============
 MuseParse
 ============
+.. image:: https://travis-ci.org/Godley/MuseParse.svg?branch=master
+    :target: https://travis-ci.org/Godley/MuseParse
 Repository for a python music parser. This works with MusicXML as the input format which forms a tree of objects in memory representing the piece. This can be optionally outputted to lilypond which produces a PDF, or perused for your own uses. All classes are intentionally loosely coupled, so if you would like to put in another input or output format as may come later, please do suggest them in issues and if you want, work on it yourself. For now, MusicXML is a fairly standard format. 
 
 Written for python 3 only, python 2.7 support may come later but I'm not intending on doing that unless everything else is done.
