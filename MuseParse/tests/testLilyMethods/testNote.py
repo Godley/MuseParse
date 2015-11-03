@@ -130,7 +130,7 @@ class testHiddenNote(Lily):
         self.item.print = False
         Lily.setUp(self)
         self.compile = True
-        self.wrappers = ["\\new Staff{a8 ","c'8]}"]
+        self.wrappers = ["\\new Staff{a8 "," c'8]}"]
         self.lilystring = "\n\hideNotes\nc'\n\\unHideNotes"
         self.name = "notebeamstart"
 
