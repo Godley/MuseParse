@@ -1,5 +1,4 @@
-import unittest
-import os
+import unittest, os, sys
 
 from MuseParse.classes.Output import LilypondOutput
 
