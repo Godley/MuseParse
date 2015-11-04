@@ -1,5 +1,5 @@
 ============
-Music Parser
+MuseParse: Music Parser
 ============
 .. image:: https://travis-ci.org/Godley/MuseParse.svg?branch=master
     :target: https://travis-ci.org/Godley/MuseParse
