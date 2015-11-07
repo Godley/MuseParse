@@ -32,7 +32,7 @@ init:
   - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
 
 install:
-  - "set PATH=%PATH%;%PYTHON%;%PYTHON%\\Scripts;"
+  - "set PATH=%PATH%;%PYTHON%;%PYTHON%\\Scripts;C:\\Program Files (x86)\\Lilypond\\usr\\bin"
   - "pip install nose"
   - "pip install -r requirements.txt"
   - "set HOME=%APPVEYOR_BUILD_FOLDER%"
