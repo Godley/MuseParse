@@ -38,8 +38,8 @@ install:
   - "set HOME=%APPVEYOR_BUILD_FOLDER%"
   - ps: (new-object net.webclient).DownloadFile('http://download.linuxaudio.org/lilypond/binaries/mingw/lilypond-2.18.2-1.mingw.exe', 'lilypond.exe')
   - ps: lilypond.exe /S
-  - ps: cd C:\\Program Files (x86)
-  - ps: dir
+  - "cd 'C:\\Program Files (x86)'"
+  - "dir"
 
 build: off
 
