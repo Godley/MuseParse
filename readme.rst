@@ -81,7 +81,7 @@ Demo python scripts of things you could do with this are located in MuseParse/de
 =======
 Documentation
 =======
-Please see `Music-Parser @ docs.charlottegodley.co.uk`_
+Please see `MuseParse @ docs.charlottegodley.co.uk`_
 
 .. _MuseParse @ docs.charlottegodley.co.uk: http://docs.charlottegodley.co.uk/MuseParse
 
