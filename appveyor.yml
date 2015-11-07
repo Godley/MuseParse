@@ -37,9 +37,7 @@ install:
   - "pip install -r requirements.txt"
   - "set HOME=%APPVEYOR_BUILD_FOLDER%"
   - ps: (new-object net.webclient).DownloadFile('http://download.linuxaudio.org/lilypond/binaries/mingw/lilypond-2.18.2-1.mingw.exe', 'lilypond.exe')
-  - ps: lilypond.exe /S
-  - "cd 'C:\\'"
-  - "dir"
+  - ps: start /wait -verb runas lilypond.exe /S
 
 build: off
 
