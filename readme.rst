@@ -28,7 +28,7 @@ Otherwise clone this repo and run these commands from inside the main folder:
    python3 setup.py build
    python3 setup.py install
 
-
+To use the Lilypond rendering classes, you will also need to .. _install lilypond: http://lilypond.org. Note that whilst lilypond is on apt-get, it is version 1.14 whilst this library uses 1.18, so even if you are a linux user I would still advise downloading directly from the lilypond website.
 =======
 Usage
 =======
