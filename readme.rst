@@ -28,7 +28,9 @@ Otherwise clone this repo and run these commands from inside the main folder:
    python3 setup.py build
    python3 setup.py install
 
+To use the lilypond rendering portion, you will need to install lilypond from http://lilypond.org.
 
+Please note, Linux users, that whilst lilypond is on apt-get, this library expects the version to be 1.18, whilst currently apt-get only has 1.14, so I would advise downloading from the website rather than using apt-get.
 =======
 Usage
 =======
@@ -77,7 +79,7 @@ Demo python scripts of things you could do with this are located in MuseParse/de
 =======
 Documentation
 =======
-Please see `Music-Parser @ docs.charlottegodley.co.uk`_
+Please see `MuseParse @ docs.charlottegodley.co.uk`_
 
 .. _MuseParse @ docs.charlottegodley.co.uk: http://docs.charlottegodley.co.uk/MuseParse
 
