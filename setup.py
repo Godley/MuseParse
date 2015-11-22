@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='MuseParse',
-    version='1.1.6',
+    version='1.1.7',
     packages=['MuseParse', 'MuseParse.demo', 'MuseParse.classes',
               'MuseParse.classes.Input', 'MuseParse.classes.Output', 'MuseParse.classes.ObjectHierarchy',
               'MuseParse.classes.ObjectHierarchy.ItemClasses', 'MuseParse.classes.ObjectHierarchy.TreeClasses'],
