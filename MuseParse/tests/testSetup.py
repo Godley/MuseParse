@@ -1,5 +1,5 @@
 import unittest, os, sys, subprocess
-from MuseParse.helpers import setupLilypond
+from MuseParse.classes.Output.helpers import setupLilypondClean as setupLilypond
 
 
 class testLilySetup(unittest.TestCase):

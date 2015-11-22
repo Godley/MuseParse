@@ -2,6 +2,11 @@ import os, subprocess
 from subprocess import STDOUT
 from sys import platform
 
+def setupLilypondClean(path_to_lily):
+    path = os.environ['PATH']
+    new_path = path_to_lily+os.path.pathsep+path
+    os.environ['PATH'] = new_path
+
 def setup_lilypond(path_to_lilypond_folder="default"):
     '''
     Optional helper method which works out the platform and calls the relevant setup method

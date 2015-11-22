@@ -106,7 +106,3 @@ def NumbersToWords(number):
         output = "zero"
     return output
 
-def setupLilypond(path_to_lily):
-    path = os.environ['PATH']
-    new_path = path_to_lily+os.path.pathsep+path
-    os.environ['PATH'] = new_path
