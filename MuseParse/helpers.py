@@ -1,4 +1,4 @@
-
+import os
 
 def SplitString(value):
     """simple method that puts in spaces every 10 characters"""
@@ -105,3 +105,8 @@ def NumbersToWords(number):
     else:
         output = "zero"
     return output
+
+def setupLilypond(path_to_lily):
+    path = os.environ['PATH']
+    new_path = path_to_lily+os.path.pathsep+path
+    os.environ['PATH'] = new_path
