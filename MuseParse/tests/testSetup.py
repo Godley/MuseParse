@@ -10,6 +10,8 @@ class testLilySetup(unittest.TestCase):
         path = ''
         if sys.platform != 'win32':
             path = '~/bin'
+        else:
+            path = 'C:/Program Files (x86)/LilyPond/usr/bin'
         setupLilypond(path)
         batcmd = 'lilypond'
 
