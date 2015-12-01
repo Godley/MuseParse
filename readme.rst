@@ -35,6 +35,22 @@ Please note, Linux users, that whilst lilypond is on apt-get, this library expec
 Usage
 =======
 ****************
+Setting up 
+****************
+To aid the process of setting up lilypond, a helper is provided which does the environment variable set up so that you can run lilypond from commandline without modifying the variables yourself. The following code provides an example:
+.. code-block:: python
+   
+   from MuseParse.classes.Output.helpers import setupLilypondClean as setupLilypond
+   import os
+  
+   default_path_to_lily = 'path/to/lilypond/install/bin'
+   setupLilypond(default_path_to_lily)
+   os.system('lilypond')
+
+Assuming you provided the right path, you should see the default help text coming into STDOUT after os.system is ran. Various assumed paths for different operating systems are provided on the `lilypond install instructions page`_
+
+.. _lilypond install instructions page: http://lilypond.org/download.html
+****************
 Parsing music
 ****************
 You can parse music from an xml file using the following code:
