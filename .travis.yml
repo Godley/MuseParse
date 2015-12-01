@@ -1,7 +1,7 @@
 before_install:
-  - sudo apt-get update 
+  - apt-get update 
   - wget http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2.18.2-1.linux-64.sh
-  - sudo sh ./lilypond-2.18.2-1.linux-64.sh --batch
+  - sh ./lilypond-2.18.2-1.linux-64.sh --batch
 
 language: python
 python:
@@ -14,3 +14,5 @@ python:
 install: "pip3 install -r requirements.txt"
 # command to run tests
 script: python3 -m "nose"
+cache: pip3
+sudo: false
