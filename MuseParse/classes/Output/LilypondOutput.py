@@ -61,7 +61,7 @@ class LilypondRenderer(object):
         # subprocess.Popen(['sudo', self.lily_script," --output=" +
         #     self.folder, self.lyfile])
         os.system(self.lily_script +
-                  "--loglevel=WARNING --output=" +
+                  " --loglevel=WARNING --output=" +
                   self.folder + " " + self.lyfile
                   )
 
