@@ -41,10 +41,14 @@ To aid the process of setting up lilypond, a helper is provided which does the e
 .. code-block:: python
    
    from MuseParse.classes.Output.helpers import setupLilypondClean as setupLilypond
+   
    import os
   
+  
    default_path_to_lily = 'path/to/lilypond/install/bin'
+   
    setupLilypond(default_path_to_lily)
+   
    os.system('lilypond')
 
 Assuming you provided the right path, you should see the default help text coming into STDOUT after os.system is ran. Various assumed paths for different operating systems are provided on the `lilypond install instructions page`_
