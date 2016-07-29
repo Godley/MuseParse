@@ -4,44 +4,45 @@ from MuseParse.classes.Input import MxmlParser
 
 
 class testRepeatSymbols(testclass.TestClass):
+
     def setUp(self):
         testclass.TestClass.setUp(self)
         self.handler = MxmlParser.HandleRepeatMarking
         self.piece.addPart(Part.Part(), "P1")
-        self.piece.getPart("P1").addEmptyMeasure(1,1)
+        self.piece.getPart("P1").addEmptyMeasure(1, 1)
         self.attrs["measure"] = {"number": "1"}
         self.attrs["part"] = {"id": "P1"}
-        self.measure = self.piece.getPart("P1").getMeasure(1,1)
+        self.measure = self.piece.getPart("P1").getMeasure(1, 1)
         self.tags.append("direction")
         self.attrs["direction"] = {"placement": "above"}
-        self.data = {"staff_id" : 1}
+        self.data = {"staff_id": 1}
 
     def testSegno(self):
         self.tags.append("direction-type")
         self.tags.append("segno")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertIsInstance(self.data["direction"], Directions.RepeatSign)
 
     def testRType(self):
         self.tags.append("direction-type")
         self.tags.append("segno")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("segno", self.data["direction"].type)
 
     def testCoda(self):
         self.tags.append("direction-type")
         self.tags.append("coda")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertIsInstance(self.data["direction"], Directions.RepeatSign)
 
     def testCType(self):
         self.tags.append("direction-type")
         self.tags.append("coda")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("coda", self.data["direction"].type)
 
     def testSoundSegno(self):

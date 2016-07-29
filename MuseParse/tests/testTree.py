@@ -4,6 +4,7 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses import BaseTree
 
 
 class testTree(unittest.TestCase):
+
     def setUp(self):
         self.item = BaseTree.Tree()
 
@@ -15,7 +16,10 @@ class testTree(unittest.TestCase):
     def testAddInvalidNode(self):
         elem = BaseTree.Node()
         self.item.AddNode(elem)
-        self.assertRaises(BaseTree.CannotAddToTreeException, self.item.AddNode, BaseTree.Node())
+        self.assertRaises(
+            BaseTree.CannotAddToTreeException,
+            self.item.AddNode,
+            BaseTree.Node())
 
     def testAddTwoValidNodes(self):
         elem = BaseTree.Node(rules=[BaseTree.EmptyNode, BaseTree.IndexedNode])
@@ -24,55 +28,74 @@ class testTree(unittest.TestCase):
         self.assertEqual(1, len(elem.children))
 
     def testAddNodeOverLimit(self):
-        elem = BaseTree.Node(rules=[BaseTree.EmptyNode, BaseTree.IndexedNode],limit=-1)
+        elem = BaseTree.Node(
+            rules=[
+                BaseTree.EmptyNode,
+                BaseTree.IndexedNode],
+            limit=-1)
         self.item.AddNode(elem)
-        self.assertRaises(BaseTree.CannotAddToTreeException, self.item.AddNode, BaseTree.EmptyNode(0))
+        self.assertRaises(
+            BaseTree.CannotAddToTreeException,
+            self.item.AddNode,
+            BaseTree.EmptyNode(0))
 
     def testAddNodeAddsToNextLevel(self):
         # this test confirms that with a parent who allows 1 child which has to be empty or indexed, Next is it's child
         # and third is a child of next.
-        elem = BaseTree.Node(rules=[BaseTree.EmptyNode, BaseTree.IndexedNode],limit=1)
-        next = BaseTree.EmptyNode(0,rules=[BaseTree.Node])
+        elem = BaseTree.Node(
+            rules=[
+                BaseTree.EmptyNode,
+                BaseTree.IndexedNode],
+            limit=1)
+        next = BaseTree.EmptyNode(0, rules=[BaseTree.Node])
         third = BaseTree.Node()
         self.item.AddNode(elem)
         self.item.AddNode(next)
         self.item.AddNode(third)
-        self.assertEqual(next.GetChild(0),third)
+        self.assertEqual(next.GetChild(0), third)
 
     def testAddNodeAddsToNextLevelWithExpandedLimit(self):
         # this test confirms the above still happens when the limit is 2
-        elem = BaseTree.Node(rules=[BaseTree.EmptyNode, BaseTree.IndexedNode],limit=2)
-        next = BaseTree.EmptyNode(0,rules=[BaseTree.Node])
+        elem = BaseTree.Node(
+            rules=[
+                BaseTree.EmptyNode,
+                BaseTree.IndexedNode],
+            limit=2)
+        next = BaseTree.EmptyNode(0, rules=[BaseTree.Node])
         third = BaseTree.Node()
         self.item.AddNode(elem)
         self.item.AddNode(next)
         self.item.AddNode(third)
-        self.assertEqual(next.GetChild(0),third)
+        self.assertEqual(next.GetChild(0), third)
 
     def testAddNodeAddsToCurrentLevelWithRelevantRuleAndLimit(self):
         # this test confirms the first spot for third to land in is a second child of elem, because elem lets you have
         # node as a child and can have 2 children.
-        elem = BaseTree.Node(rules=[BaseTree.EmptyNode, BaseTree.Node],limit=2)
-        next = BaseTree.EmptyNode(0,rules=[BaseTree.Node])
+        elem = BaseTree.Node(
+            rules=[
+                BaseTree.EmptyNode,
+                BaseTree.Node],
+            limit=2)
+        next = BaseTree.EmptyNode(0, rules=[BaseTree.Node])
         third = BaseTree.Node()
         self.item.AddNode(elem)
         self.item.AddNode(next)
         self.item.AddNode(third)
-        self.assertEqual(elem.GetChild(1),third)
+        self.assertEqual(elem.GetChild(1), third)
 
     def testAddNodeWithIndex(self):
         elem = BaseTree.IndexedNode(rules=[BaseTree.EmptyNode], limit=1)
         second_elem = BaseTree.EmptyNode(0)
         self.item.AddNode(elem)
         self.item.AddNode(second_elem, index=2)
-        self.assertEqual(elem.GetChild(2),second_elem)
+        self.assertEqual(elem.GetChild(2), second_elem)
 
     def testAddNodeToSecondNode(self):
         elem = BaseTree.Node(rules=[BaseTree.EmptyNode])
         self.item.AddNode(elem)
         second = BaseTree.EmptyNode(0)
         self.item.AddNode(second)
-        third = BaseTree.EmptyNode(0,rules=[BaseTree.Node])
+        third = BaseTree.EmptyNode(0, rules=[BaseTree.Node])
         self.item.AddNode(third)
         fourth = BaseTree.Node()
         self.item.AddNode(fourth)
@@ -167,6 +190,3 @@ class testTree(unittest.TestCase):
         third = BaseTree.Node()
         self.item.AddNode(third, "B")
         self.assertEqual(self.item.FindNodeByIndex("B"), third)
-
-
-

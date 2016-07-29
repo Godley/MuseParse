@@ -8,6 +8,7 @@ from MuseParse.classes.Input import MxmlParser
 This script can be ran from a console window. It checks for 1 xml file as an argument and then parses/outputs to lilypond
 '''
 
+
 def Run(fname):
     parser = MxmlParser.MxmlParser()
     try:
@@ -27,4 +28,3 @@ if len(sys.argv) > 1:
     file = sys.argv[1]
     print(file)
     Run(file)
-

@@ -4,6 +4,7 @@ from MuseParse.tests.testHandlers import testclass
 
 
 class testHandleDirections(testclass.TestClass):
+
     def setUp(self):
         testclass.TestClass.setUp(self)
         self.tags.append("direction")
@@ -13,44 +14,54 @@ class testHandleDirections(testclass.TestClass):
         self.measure = self.piece.getPart("P1").getMeasure(1, 1)
         self.attrs["measure"] = {"number": "1"}
         self.attrs["part"] = {"id": "P1"}
-        self.data = {"note":None, "direction":None, "expression": None}
+        self.data = {"note": None, "direction": None, "expression": None}
         self.data["staff_id"] = 1
-        
-
 
     def testNoTags(self):
         self.tags.remove("direction")
-        self.assertEqual(None, self.handler(self.tags, self.attrs, self.chars, self.piece, self.data))
+        self.assertEqual(
+            None,
+            self.handler(
+                self.tags,
+                self.attrs,
+                self.chars,
+                self.piece,
+                self.data))
 
     def testIrrelevantTags(self):
         self.tags.remove("direction")
         self.tags.append("hello")
-        self.assertEqual(None, self.handler(self.tags, self.attrs, self.chars, self.piece, self.data))
-
+        self.assertEqual(
+            None,
+            self.handler(
+                self.tags,
+                self.attrs,
+                self.chars,
+                self.piece,
+                self.data))
 
     def testDirectionAttribTag(self):
         self.tags.append("words")
         self.attrs["direction"] = {"placement": "above"}
         self.chars["words"] = "sup"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("above", self.data["direction"].placement)
 
     def testDirectionTag(self):
         self.tags.append("words")
         self.chars["words"] = "hello, world"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertIsInstance(self.data["direction"], Directions.Direction)
         self.assertEqual("hello, world", self.data["direction"].text)
-
 
     def testWordsWithFontSizeAttrib(self):
         self.tags.append("words")
         self.chars["words"] = "hello, world"
         self.attrs["words"] = {"font-size": "6.5"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "size"))
         self.assertEqual("6.5", self.data["direction"].size)
 
@@ -59,7 +70,7 @@ class testHandleDirections(testclass.TestClass):
         self.chars["words"] = "hello, world"
         self.attrs["words"] = {"font-family": "times"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "font"))
         self.assertEqual("times", self.data["direction"].font)
 
@@ -68,62 +79,62 @@ class testHandleDirections(testclass.TestClass):
         self.chars["words"] = "hello, world"
         self.attrs["words"] = {"font-family": "times", "font-size": "6.2"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("times", self.data["direction"].font)
         self.assertEqual("6.2", self.data["direction"].size)
 
     def testOctaveShift(self):
         self.tags.append("octave-shift")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertIsInstance(self.data["direction"], Directions.OctaveShift)
 
     def testOctaveShiftType(self):
         self.tags.append("octave-shift")
         self.attrs["octave-shift"] = {"type": "down"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "type"))
 
     def testOctaveShiftAmount(self):
         self.tags.append("octave-shift")
         self.attrs["octave-shift"] = {"size": "8"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "amount"))
         self.assertEqual(8, self.data["direction"].amount)
 
     def testWavyLine(self):
         self.tags.append("wavy-line")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertIsInstance(self.data["direction"], Directions.WavyLine)
 
     def testWavyLineType(self):
         self.tags.append("wavy-line")
         self.attrs["wavy-line"] = {"type": "start"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("start", self.data["direction"].type)
 
     def testPedal(self):
         self.tags.append("pedal")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertIsInstance(self.data["direction"], Directions.Pedal)
 
     def testPedalLine(self):
         self.tags.append("pedal")
         self.attrs["pedal"] = {"line": "yes"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual(True, self.data["direction"].line)
 
     def testPedalLineType(self):
         self.tags.append("pedal")
         self.attrs["pedal"] = {"type": "start"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("start", self.data["direction"].type)
 
     def testBracket(self):
@@ -135,42 +146,43 @@ class testHandleDirections(testclass.TestClass):
         self.tags.append("bracket")
         self.attrs["bracket"] = {"type": "start"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("start", self.data["direction"].type)
 
     def testBracketNumber(self):
         self.tags.append("bracket")
         self.attrs["bracket"] = {"number": "1"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual(1, self.data["direction"].number)
 
     def testBracketLineEnd(self):
         self.tags.append("bracket")
         self.attrs["bracket"] = {"line-end": "none"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("none", self.data["direction"].lineEnd)
 
     def testBracketEndLength(self):
         self.tags.append("bracket")
         self.attrs["bracket"] = {"end-length": "15"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual(15, self.data["direction"].endLength)
 
     def testBracketLineType(self):
         self.tags.append("bracket")
         self.attrs["bracket"] = {"line-type": "solid"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertEqual("solid", self.data["direction"].lineType)
 
+
 class testMetronome(testHandleDirections):
+
     def setUp(self):
         testHandleDirections.setUp(self)
         self.tags.append("metronome")
-
 
     def testText(self):
         self.tags.remove("metronome")
@@ -178,7 +190,7 @@ class testMetronome(testHandleDirections):
         self.chars["words"] = "hello"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.tags.append("metronome")
-        self.handler(self.tags,self.attrs,self.chars,self.piece, self.data)
+        self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertEqual(self.data["direction"].text, "hello")
         self.assertIsInstance(self.data["direction"], Directions.Metronome)
 
@@ -186,7 +198,7 @@ class testMetronome(testHandleDirections):
         self.tags.append("beat-unit")
         self.chars["beat-unit"] = "quarter"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "beat"))
         self.assertEqual("quarter", self.data["direction"].beat)
 
@@ -215,7 +227,7 @@ class testMetronome(testHandleDirections):
         self.chars["beat-unit"] = "quarter"
         self.attrs["metronome"] = {"font-family": "times"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "beat"))
         self.assertEqual("quarter", self.data["direction"].beat)
         self.assertTrue(hasattr(self.data["direction"], "font"))
@@ -226,7 +238,7 @@ class testMetronome(testHandleDirections):
         self.chars["beat-unit"] = "quarter"
         self.attrs["metronome"] = {"font-size": "6.5"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "beat"))
         self.assertEqual("quarter", self.data["direction"].beat)
         self.assertTrue(hasattr(self.data["direction"], "size"))
@@ -237,7 +249,7 @@ class testMetronome(testHandleDirections):
         self.chars["beat-unit"] = "quarter"
         self.attrs["metronome"] = {"parentheses": "yes"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "beat"))
         self.assertEqual("quarter", self.data["direction"].beat)
         self.assertTrue(hasattr(self.data["direction"], "parentheses"))
@@ -246,9 +258,12 @@ class testMetronome(testHandleDirections):
     def testBeatUnitAllAttribs(self):
         self.tags.append("beat-unit")
         self.chars["beat-unit"] = "quarter"
-        self.attrs["metronome"] = {"font-family": "times", "font-size": "6.5", "parentheses": "yes"}
+        self.attrs["metronome"] = {
+            "font-family": "times",
+            "font-size": "6.5",
+            "parentheses": "yes"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "beat"))
         self.assertEqual("quarter", self.data["direction"].beat)
         self.assertTrue(hasattr(self.data["direction"], "font"))
@@ -271,7 +286,7 @@ class testMetronome(testHandleDirections):
         self.chars["per-minute"] = "85"
         self.attrs["metronome"] = {"font-family": "times"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "font"))
         self.assertEqual("times", self.data["direction"].font)
 
@@ -280,7 +295,7 @@ class testMetronome(testHandleDirections):
         self.chars["per-minute"] = "85"
         self.attrs["metronome"] = {"font-size": "6.5"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "size"))
         self.assertEqual(6.5, self.data["direction"].size)
 
@@ -289,7 +304,7 @@ class testMetronome(testHandleDirections):
         self.chars["per-minute"] = "85"
         self.attrs["metronome"] = {"parentheses": "yes"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "parentheses"))
         self.assertTrue(self.data["direction"].parentheses)
 
@@ -300,7 +315,7 @@ class testMetronome(testHandleDirections):
                                    "font-size": "6.5",
                                    "font-family": "times"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["direction"], "parentheses"))
         self.assertTrue(self.data["direction"].parentheses)
         self.assertTrue(hasattr(self.data["direction"], "size"))
@@ -308,7 +323,9 @@ class testMetronome(testHandleDirections):
         self.assertTrue(hasattr(self.data["direction"], "font"))
         self.assertEqual("times", self.data["direction"].font)
 
+
 class testDynamicsAndSound(testHandleDirections):
+
     def tearDown(self):
         self.data["expression"] = None
 
@@ -329,13 +346,20 @@ class testDynamicsAndSound(testHandleDirections):
 
     def testSoundTag(self):
         self.tags.append("sound")
-        self.assertEqual(1, self.handler(self.tags, self.attrs, self.chars, self.piece, self.data))
+        self.assertEqual(
+            1,
+            self.handler(
+                self.tags,
+                self.attrs,
+                self.chars,
+                self.piece,
+                self.data))
 
     def testSoundDynamicAttr(self):
         self.tags.append("sound")
         self.attrs["sound"] = {"dynamics": "80"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.measure, "volume"))
         self.assertEqual("80", self.measure.volume)
 
@@ -343,15 +367,15 @@ class testDynamicsAndSound(testHandleDirections):
         self.tags.append("sound")
         self.attrs["sound"] = {"tempo": "80"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.measure, "tempo"))
         self.assertEqual("80", self.measure.tempo)
 
     def testSoundAttrs(self):
         self.tags.append("sound")
         self.attrs["sound"] = {"dynamics": "60", "tempo": "50"}
-        self.handler(self.tags,self.attrs,self.chars,self.piece, self.data)
-        
+        self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
+
         self.assertTrue(hasattr(self.measure, "tempo"))
         self.assertEqual("50", self.measure.tempo)
         self.assertTrue(hasattr(self.measure, "volume"))
@@ -360,13 +384,13 @@ class testDynamicsAndSound(testHandleDirections):
     def testWedgeTag(self):
         self.tags.append("wedge")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertIsInstance(self.data["expression"], Directions.Wedge)
 
     def testWedgeVal(self):
         self.tags.append("wedge")
         self.attrs["wedge"] = {"type": "crescendo"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        
+
         self.assertTrue(hasattr(self.data["expression"], "type"))
         self.assertEqual("crescendo", self.data["expression"].type)

@@ -4,6 +4,7 @@ from MuseParse.classes.Input import MxmlParser
 
 
 class testCheckDynamics(unittest.TestCase):
+
     def setUp(self):
         self.handler = MxmlParser.CheckDynamics
 
@@ -42,5 +43,3 @@ class testCheckDynamics(unittest.TestCase):
 
     def testmm(self):
         self.assertFalse(self.handler('mm'))
-
-

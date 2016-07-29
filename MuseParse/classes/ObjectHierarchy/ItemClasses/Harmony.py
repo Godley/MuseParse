@@ -79,6 +79,7 @@ class Frame(BaseClass.Base):
 
         - notes: a dictionary of notes in the frame
     """
+
     def __init__(self, **kwargs):
         if "strings" in kwargs:
             if kwargs["strings"] is not None:

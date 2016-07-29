@@ -1,5 +1,6 @@
 import os
 
+
 def SplitString(value):
     """simple method that puts in spaces every 10 characters"""
     string_length = len(value)
@@ -105,4 +106,3 @@ def NumbersToWords(number):
     else:
         output = "zero"
     return output
-

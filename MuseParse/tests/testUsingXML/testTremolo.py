@@ -13,7 +13,9 @@ partname = "Tremolo.xml"
 directory = testcases.__path__._path[0]
 piece = parsePiece(os.path.join(directory, partname))
 
+
 class testFile(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.m_num = 32
@@ -26,15 +28,28 @@ class testFile(xmlSet):
         self.assertEqual(self.p_name, piece.getPart(self.p_id).GetItem().name)
 
     def testMeasures(self):
-        self.assertIsInstance(piece.getPart(self.p_id).getMeasure(self.m_num, 1), MeasureNode)
+        self.assertIsInstance(
+            piece.getPart(
+                self.p_id).getMeasure(
+                self.m_num,
+                1),
+            MeasureNode)
+
 
 class testTremolo(xmlSet):
+
     def setUp(self):
         self.p_id = "P1"
         if hasattr(self, "measure_id"):
-            self.measure = piece.getPart(self.p_id).getMeasure(self.measure_id, 1)
+            self.measure = piece.getPart(
+                self.p_id).getMeasure(
+                self.measure_id, 1)
         if hasattr(self, "item_id"):
-            self.item = Search(NoteNode, self.measure, self.item_id+1).GetItem()
+            self.item = Search(
+                NoteNode,
+                self.measure,
+                self.item_id +
+                1).GetItem()
         if hasattr(self, "notation_id"):
             if self.type == "stop":
                 self.notation = self.item.closing_notation[self.notation_id]
@@ -50,9 +65,13 @@ class testTremolo(xmlSet):
                     self.assertEqual(1, len(self.item.prenotation))
             else:
                 if self.type == "stop":
-                    self.assertEqual(self.notate_num, len(self.item.closing_notation))
+                    self.assertEqual(
+                        self.notate_num, len(
+                            self.item.closing_notation))
                 else:
-                    self.assertEqual(self.notate_num, len(self.item.prenotation))
+                    self.assertEqual(
+                        self.notate_num, len(
+                            self.item.prenotation))
 
     def testNotationInstance(self):
         if hasattr(self, "notation"):
@@ -66,7 +85,9 @@ class testTremolo(xmlSet):
         if hasattr(self, "notation"):
             self.assertEqual(self.value, self.notation.value)
 
+
 class testMeasure1Note1(testTremolo):
+
     def setUp(self):
         self.measure_id = 1
         self.item_id = 0
@@ -75,7 +96,9 @@ class testMeasure1Note1(testTremolo):
         self.value = 1
         testTremolo.setUp(self)
 
+
 class testMeasure1Note2(testTremolo):
+
     def setUp(self):
         self.measure_id = 1
         self.item_id = 1
@@ -84,7 +107,9 @@ class testMeasure1Note2(testTremolo):
         self.value = 2
         testTremolo.setUp(self)
 
+
 class testMeasure1Note3(testTremolo):
+
     def setUp(self):
         self.measure_id = 1
         self.item_id = 2
@@ -93,7 +118,9 @@ class testMeasure1Note3(testTremolo):
         self.value = 3
         testTremolo.setUp(self)
 
+
 class testMeasure2Note1(testTremolo):
+
     def setUp(self):
         self.measure_id = 2
         self.item_id = 0
@@ -102,7 +129,9 @@ class testMeasure2Note1(testTremolo):
         self.value = 2
         testTremolo.setUp(self)
 
+
 class testMeasure2Note2Notation0(testTremolo):
+
     def setUp(self):
         self.measure_id = 2
         self.item_id = 1

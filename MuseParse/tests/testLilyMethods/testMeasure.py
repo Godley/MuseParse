@@ -14,16 +14,20 @@ class MeasureTests(Lily):
             if hasattr(self, "item"):
                 self.assertEqual(self.lilystring, self.item.toLily())
 
+
 class testMeasure(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
         self.lilystring = " | "
 
+
 class testMeasureNote(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
         note = Note.Note()
-        note.pitch= Note.Pitch()
+        note.pitch = Note.Pitch()
         self.item.addNote(note)
         self.lilystring = "c'  | "
         self.compile = True
@@ -31,11 +35,13 @@ class testMeasureNote(MeasureTests):
         Lily.setUp(self)
         self.name = "measurenote"
 
+
 class testMeasureChord(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
         note = Note.Note()
-        note.pitch= Note.Pitch()
+        note.pitch = Note.Pitch()
         self.item.addNote(note)
         note2 = Note.Note(chord=True)
         note2.pitch = Note.Pitch()
@@ -46,11 +52,13 @@ class testMeasureChord(MeasureTests):
         Lily.setUp(self)
         self.name = "measurenotechord"
 
+
 class testMeasureNoteWithGrace(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
         note = Note.Note(type="quarter")
-        note.pitch= Note.Pitch()
+        note.pitch = Note.Pitch()
         grace = Note.GraceNote(first=True)
         grace.last = True
         note.addNotation(grace)
@@ -62,10 +70,12 @@ class testMeasureNoteWithGrace(MeasureTests):
         Lily.setUp(self)
         self.name = "measurenotegrace"
 
+
 class testMeasureTempo(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
-        self.item.addDirection(Directions.Metronome(beat="quarter",min=60))
+        self.item.addDirection(Directions.Metronome(beat="quarter", min=60))
         self.item.addNote(NoteNode())
         self.lilystring = " \\tempo 4=60  | "
         self.compile = True
@@ -73,11 +83,16 @@ class testMeasureTempo(MeasureTests):
         Lily.setUp(self)
         self.name = "measuretempo"
 
+
 class testMeasureTwoDirections(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
-        self.item.addDirection(Directions.Direction(text="hello world",placement="above"))
-        self.item.addDirection(Directions.Metronome(beat="quarter",min=60))
+        self.item.addDirection(
+            Directions.Direction(
+                text="hello world",
+                placement="above"))
+        self.item.addDirection(Directions.Metronome(beat="quarter", min=60))
         self.item.addNote(NoteNode())
         self.lilystring = " ^\\markup { \"hello world\"  } \\tempo 4=60  | "
         self.compile = True
@@ -85,7 +100,9 @@ class testMeasureTwoDirections(MeasureTests):
         Lily.setUp(self)
         self.name = "measuretwodirections"
 
+
 class testMeasureTwoNotes(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
         note = Note.Note()
@@ -100,12 +117,17 @@ class testMeasureTwoNotes(MeasureTests):
         Lily.setUp(self)
         self.name = "measuretwonotes"
 
+
 class testMeasureOneNoteOneDirection(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
         note = Note.Note()
         note.pitch = Note.Pitch()
-        self.item.addDirection(Directions.Direction(text="hello",placement="below"))
+        self.item.addDirection(
+            Directions.Direction(
+                text="hello",
+                placement="below"))
         self.item.addNote(note)
         self.lilystring = "c' _\\markup { \"hello\"  }  | "
         self.compile = True
@@ -113,7 +135,9 @@ class testMeasureOneNoteOneDirection(MeasureTests):
         Lily.setUp(self)
         self.name = "measurenotedirection"
 
+
 class testPartialMeasure(MeasureTests):
+
     def setUp(self):
         self.item = MeasureNode()
         self.item.partial = True
@@ -127,10 +151,12 @@ class testPartialMeasure(MeasureTests):
         Lily.setUp(self)
         self.name = "measurePartial"
 
+
 class testPartialMeasureTwoNotes(Lily):
+
     def setUp(self):
         self.item = MeasureNode(partial=True)
-        self.item.meter = Meter.Meter(type=4,beats=4)
+        self.item.meter = Meter.Meter(type=4, beats=4)
         note = Note.Note()
         note.SetType("quarter")
         note.pitch = Note.Pitch(octave=4)
@@ -142,10 +168,12 @@ class testPartialMeasureTwoNotes(Lily):
         Lily.setUp(self)
         self.lilystring = "\\time 4/4 \partial 2 c'4 c'4  | "
 
+
 class testPartialMeasureTwoNotesDifferentTypes(Lily):
+
     def setUp(self):
         self.item = MeasureNode(partial=True)
-        self.item.meter = Meter.Meter(type=4,beats=4)
+        self.item.meter = Meter.Meter(type=4, beats=4)
         note = Note.Note()
         note.SetType("quarter")
         note.pitch = Note.Pitch(octave=4)
@@ -157,10 +185,12 @@ class testPartialMeasureTwoNotesDifferentTypes(Lily):
         Lily.setUp(self)
         self.lilystring = "\\time 4/4 \partial 2. c'4 c'2  | "
 
+
 class testPartialMeasureThreeNotesDifferentTypes(Lily):
+
     def setUp(self):
         self.item = MeasureNode(partial=True)
-        self.item.meter = Meter.Meter(type=4,beats=4)
+        self.item.meter = Meter.Meter(type=4, beats=4)
         note = Note.Note(type="quarter")
         note.pitch = Note.Pitch(octave=4)
         note2 = Note.Note(type="half")
@@ -173,10 +203,12 @@ class testPartialMeasureThreeNotesDifferentTypes(Lily):
         Lily.setUp(self)
         self.lilystring = "\\time 4/4 \partial 2.. c'4 c'2 c'8  | "
 
+
 class testPartialMeasureThreeNotesSameTypes(Lily):
+
     def setUp(self):
         self.item = MeasureNode(partial=True)
-        self.item.meter = Meter.Meter(type=4,beats=4)
+        self.item.meter = Meter.Meter(type=4, beats=4)
         note = Note.Note(type="quarter")
         note.pitch = Note.Pitch(octave=4)
         note2 = Note.Note(type="quarter")
@@ -189,7 +221,9 @@ class testPartialMeasureThreeNotesSameTypes(Lily):
         Lily.setUp(self)
         self.lilystring = "\\time 4/4 \partial 2. c'4 c'4 c'4  | "
 
+
 class testMeasureOrder(Lily):
+
     def setUp(self):
         self.item = StaffNode()
         measure1 = MeasureNode()
@@ -200,10 +234,11 @@ class testMeasureOrder(Lily):
         self.item.AddChild(measure3, index=2)
         self.lilystring = " % measure 1\n | \n\n % measure X1\n | \n\n % measure 2\n | \n\n"
 
+
 class testMeasureTranspositionCalc(unittest.TestCase):
+
     def setUp(self):
         self.item = MeasureNode()
-
 
     def testCalcUpWithChromatic(self):
         self.item.transpose = BarlinesAndMarkers.Transposition(chromatic=2)
@@ -221,9 +256,8 @@ class testMeasureTranspositionCalc(unittest.TestCase):
         self.assertEqual(self.item.CalculateTransposition(), expected)
 
 
-
-
 class testMeasureNoteWithShifter(Lily):
+
     def setUp(self):
         self.item = MeasureNode()
         node = NoteNode()
@@ -236,11 +270,13 @@ class testMeasureNoteWithShifter(Lily):
         self.item.addNote(node2)
         Lily.setUp(self)
         self.compile = True
-        self.wrappers = ["\\new Staff{a8 ","c'8]}"]
+        self.wrappers = ["\\new Staff{a8 ", "c'8]}"]
         self.lilystring = "c' \n\\ottava #-1\n c'  | "
         self.name = "noteOctaveShift"
 
+
 class testShiftBeforeNote(unittest.TestCase):
+
     def setUp(self):
         self.item = MeasureNode()
         dirnode = Directions.OctaveShift(amount=8, type="up")
@@ -255,6 +291,7 @@ class testShiftBeforeNote(unittest.TestCase):
 
 
 class testGraceAtStartOfMeasure(unittest.TestCase):
+
     def setUp(self):
         self.item = MeasureNode()
         node = NoteNode()
@@ -273,7 +310,9 @@ class testGraceAtStartOfMeasure(unittest.TestCase):
         value = "\grace { c'4 }  | "
         self.assertEqual(value, self.item.toLily())
 
+
 class testTwoVoicesMeasureNotePosition(Lily):
+
     def setUp(self):
         self.item = MeasureNode()
         node = Note.Note(type="quarter")
@@ -286,11 +325,9 @@ class testTwoVoicesMeasureNotePosition(Lily):
         self.item.addNote(node2, voice=2)
         Lily.setUp(self)
         self.compile = True
-        self.wrappers = ["\\new Staff{a8 ","c'8]}"]
+        self.wrappers = ["\\new Staff{a8 ", "c'8]}"]
         self.lilystring = "<< % voice 1\n\\new Voice = \"one\"\n{\\voiceOne c'4 c'4 } % voice 2\n\\new Voice = \"two\"\n{\\voiceTwo r4 c'4 }>> | "
         self.name = "noteOctaveShift"
 
     def tearDown(self):
         self.item = None
-
-

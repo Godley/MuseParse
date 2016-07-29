@@ -1,11 +1,14 @@
-import os, subprocess
+import os
+import subprocess
 from subprocess import STDOUT
 from sys import platform
 
+
 def setupLilypondClean(path_to_lily):
     path = os.environ['PATH']
-    new_path = path_to_lily+os.path.pathsep+path
+    new_path = path_to_lily + os.path.pathsep + path
     os.environ['PATH'] = new_path
+
 
 def setup_lilypond(path_to_lilypond_folder="default"):
     '''
@@ -16,11 +19,12 @@ def setup_lilypond(path_to_lilypond_folder="default"):
 
     * :return: None
     '''
-    options = {"win32" : setup_lilypond_windows, "darwin": setup_lilypond_osx}
+    options = {"win32": setup_lilypond_windows, "darwin": setup_lilypond_osx}
     if platform.startswith("linux"):
         setup_lilypond_linux()
     else:
         options[platform](path_to_lilypond_folder)
+
 
 def setup_lilypond_windows(path="default"):
     '''
@@ -49,7 +53,6 @@ def setup_lilypond_linux():
     * return: None
     '''
     print("Sorry, not currently providing a setup method for linux systems. If you're using apt-get, run \"sudo apt-get install lilypond\". or on yum \"sudo yum install lilypond\"")
-
 
 
 def setup_lilypond_osx(path="default"):

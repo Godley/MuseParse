@@ -39,18 +39,14 @@ class MxmlParser(object):
         :return: Nothing
         '''
 
-
         self.tags = []
         '''the current list of tags which have been opened in the XML file'''
-
 
         self.chars = {}
         '''the chars held by each tag, indexed by their tag name'''
 
-
         self.attribs = {}
         '''the attributes of each tag, indexed by their tag name'''
-
 
         self.handler = None
         ''' the method which will handle the current tag, and the data currently in the class '''
@@ -75,10 +71,8 @@ class MxmlParser(object):
         # attribs refers to attributes of each tag, and handler is a method we
         # call to work with each tag
 
-
         self.excluded = excluded
         '''this will be put in later, but parser can take in tags we want to ignore, e.g clefs, BarlinesAndMarkerss etc.'''
-
 
         self.structure = {
             "movement-title": SetupPiece,
@@ -102,10 +96,8 @@ class MxmlParser(object):
             "forward": HandleMovementBetweenDurations}
         '''Dictionary indicating which tags link to which handler methods'''
 
-
         self.multiple_attribs = ["beats", "sign"]
         '''not sure this is needed anymore, but tags which we shouldn't clear the previous data for should be added here'''
-
 
         self.closed_tags = ["tie", "chord", "note", "measure", "part",
                             "score-part", "sound", "print", "rest", "slur",
@@ -205,7 +197,8 @@ class MxmlParser(object):
                 chord = new_note.chord
 
             measure.addNote(new_note, self.data["voice"], chord=chord)
-            if hasattr(new_note, "BarlinesAndMarkersRest") and new_note.BarlinesAndMarkersRest:
+            if hasattr(
+                    new_note, "BarlinesAndMarkersRest") and new_note.BarlinesAndMarkersRest:
                 measure.rest = True
                 voice_obj.rest = True
 
@@ -260,9 +253,10 @@ class MxmlParser(object):
                 part_id = helpers.GetID(self.attribs, "part", "id")
                 part = self.piece.getPart(part_id)
                 if part is not None:
-                    if part.getMeasure(measure_id, self.data["staff_id"]) is None:
+                    if part.getMeasure(measure_id, self.data[
+                                       "staff_id"]) is None:
                         part.addEmptyMeasure(measure_id, self.data["staff_id"])
-                    measure =  part.getMeasure(
+                    measure = part.getMeasure(
                         measure_id, self.data["staff_id"])
                     measure.addDirection(
                         copy.deepcopy(self.data["direction"]), self.data["voice"])
@@ -279,9 +273,10 @@ class MxmlParser(object):
                 part_id = helpers.GetID(self.attribs, "part", "id")
                 part = self.piece.getPart(part_id)
                 if part is not None:
-                    if part.getMeasure(measure_id, self.data["staff_id"]) is None:
+                    if part.getMeasure(measure_id, self.data[
+                                       "staff_id"]) is None:
                         part.addEmptyMeasure(measure_id, self.data["staff_id"])
-                    measure =  part.getMeasure(
+                    measure = part.getMeasure(
                         measure_id, self.data["staff_id"])
                     measure.addExpression(
                         copy.deepcopy(self.data["expression"]), self.data["voice"])
@@ -321,7 +316,7 @@ class MxmlParser(object):
             part.CheckMeasureMeter(measure_id)
             part.CheckPreviousBarline(self.data["staff_id"])
 
-            measure =  part.getMeasure(measure_id, self.data["staff_id"])
+            measure = part.getMeasure(measure_id, self.data["staff_id"])
             measure.RunVoiceChecks()
             self.data["staff_id"] = 1
             self.data["voice"] = 1
@@ -636,7 +631,7 @@ def HandleMovementBetweenDurations(tags, attrs, chars, piece, data):
             part = piece.getPart(part_id)
             if part.getMeasure(measure_id, data["staff_id"]) is None:
                 part.addEmptyMeasure(measure_id, data["staff_id"])
-            measure =  part.getMeasure(measure_id, data["staff_id"])
+            measure = part.getMeasure(measure_id, data["staff_id"])
             if "backup" in tags and tags[-1] == "duration":
                 part.CheckDivisions()
                 part.Backup(measure_id, duration=float(chars["duration"]))
@@ -716,11 +711,11 @@ def HandleMeasures(tag, attrib, content, piece, data):
                 for staff in range(1, staves + 1):
                     if part.getMeasure(measure_id, staff) is None:
                         part.addEmptyMeasure(measure_id, staff)
-            measure =  part.getMeasure(
+            measure = part.getMeasure(
                 measure=measure_id, staff=data["staff_id"])
             if measure is None:
                 part.addEmptyMeasure(measure_id, data["staff_id"])
-                measure =  part.getMeasure(measure_id, data["staff_id"])
+                measure = part.getMeasure(measure_id, data["staff_id"])
             if measure is not None:
                 key = measure.GetLastKey(voice=data["voice"])
                 if key is not None and type(key) is not Key.Key:
@@ -818,14 +813,14 @@ def HandleMeasures(tag, attrib, content, piece, data):
                     for staff in staves:
                         if part.getMeasure(measure_id, staff) is None:
                             part.addEmptyMeasure(measure_id, staff)
-                        measure =  part.getMeasure(measure_id, staff)
+                        measure = part.getMeasure(measure_id, staff)
                         measure.newSystem = YesNoToBool(
                             attrib["print"]["new-system"])
                 if "new-page" in attrib["print"]:
                     for staff in staves:
                         if part.getMeasure(measure_id, staff) is None:
                             part.addEmptyMeasure(measure_id, staff)
-                        measure =  part.getMeasure(measure_id, staff)
+                        measure = part.getMeasure(measure_id, staff)
                         measure.newPage = YesNoToBool(
                             attrib["print"]["new-page"])
             return_val = 1
@@ -853,7 +848,8 @@ def HandleMeasures(tag, attrib, content, piece, data):
                         root.alter = content["root-alter"]
 
             if "kind" in tag:
-                if not hasattr(data["direction"], "kind") or data["direction"].kind is None:
+                if not hasattr(data["direction"], "kind") or data[
+                        "direction"].kind is None:
                     kind = Harmony.Kind()
                     data["direction"].kind = kind
                 elif data["direction"].kind is not None:
@@ -951,7 +947,8 @@ def handleClef(tag, attrib, content, piece, data):
         BarlinesAndMarkersNode = part.getMeasure(measure_id, data["staff_id"])
         if BarlinesAndMarkersNode is None:
             part.addEmptyMeasure(measure_id, data["staff_id"])
-            BarlinesAndMarkersNode = part.getMeasure(measure_id, data["staff_id"])
+            BarlinesAndMarkersNode = part.getMeasure(
+                measure_id, data["staff_id"])
         if tag[-1] == "clef":
             part.addClef(
                 Clef.Clef(), measure_id, data["staff_id"], data["voice"])
@@ -989,7 +986,7 @@ def handleClef(tag, attrib, content, piece, data):
 def handleBarline(tag, attrib, content, piece, data):
     part_id = helpers.GetID(attrib, "part", "id")
     measure_id = IdAsInt(helpers.GetID(attrib, "measure", "number"))
-    measure =  None
+    measure = None
     times = 2
     if part_id is not None and measure_id is not None:
         part = piece.getPart(part_id)
@@ -998,7 +995,7 @@ def handleBarline(tag, attrib, content, piece, data):
 
         if part.getMeasure(measure_id, int(data["staff_id"])) is None:
             part.addEmptyMeasure(measure_id, int(data["staff_id"]))
-        measure =  part.getMeasure(measure_id, int(data["staff_id"]))
+        measure = part.getMeasure(measure_id, int(data["staff_id"]))
     if "barline" in tag and measure is not None:
         location = helpers.GetID(attrib, "barline", "location")
         barline = None
@@ -1118,7 +1115,7 @@ def CreateNote(tag, attrs, content, piece, data):
                 result = YesNoToBool(attrs["note"]["print-object"])
                 data["note"].print = result
         if "rest" in tag:
-            rest_measure =  helpers.GetID(attrs, "rest", "measure")
+            rest_measure = helpers.GetID(attrs, "rest", "measure")
             if rest_measure is not None:
                 value = YesNoToBool(rest_measure)
                 data["note"].measureRest = value
@@ -1304,14 +1301,14 @@ def HandleDirections(tags, attrs, chars, piece, data):
     if "direction" in tags:
         measure_id = IdAsInt(helpers.GetID(attrs, "measure", "number"))
         part_id = helpers.GetID(attrs, "part", "id")
-        measure =  None
+        measure = None
         if measure_id is not None and part_id is not None:
-            measure =  piece.getPart(part_id).getMeasure(
+            measure = piece.getPart(part_id).getMeasure(
                 measure_id, data["staff_id"])
             if measure is None:
                 piece.getPart(part_id).addEmptyMeasure(
                     measure_id, data["staff_id"])
-                measure =  piece.getPart(part_id).getMeasure(
+                measure = piece.getPart(part_id).getMeasure(
                     measure_id,
                     data["staff_id"])
         placement = None
@@ -1491,12 +1488,12 @@ def HandleRepeatMarking(tags, attrs, chars, piece, data):
     if "direction" in tags or "forward" in tags:
         if tags[-1] == "voice":
             data["voice"] = int(chars["voice"])
-        measure =  None
+        measure = None
         part_id = helpers.GetID(attrs, "part", "id")
         measure_id = IdAsInt(helpers.GetID(attrs, "measure", "number"))
         if part_id is not None:
             if measure_id is not None:
-                measure =  piece.getPart(part_id).getMeasure(
+                measure = piece.getPart(part_id).getMeasure(
                     measure_id,
                     data["staff_id"])
 

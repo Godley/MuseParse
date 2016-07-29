@@ -6,6 +6,7 @@ from MuseParse.classes.ObjectHierarchy.TreeClasses.PartNode import PartNode
 
 
 class testPieceTree(unittest.TestCase):
+
     def setUp(self):
         self.item = PieceTree.PieceTree()
 
@@ -16,7 +17,7 @@ class testPieceTree(unittest.TestCase):
         self.item.AddNode(part2, index="P2")
         self.item.AddToGroup("wind", index="P1")
         self.item.AddToGroup("wind", index="P2")
-        self.assertEqual(self.item.getGroup("wind"), ["P1","P2"])
+        self.assertEqual(self.item.getGroup("wind"), ["P1", "P2"])
 
     def testAddPart(self):
         part = PartNode()
@@ -52,10 +53,12 @@ class testPieceTree(unittest.TestCase):
         self.item.AddNode(part, index="P1")
         self.item.AddNode(staff, index=1)
         self.item.AddNode(staff2, index=2)
-        part.addMeasure(measure,staff=2)
-        self.assertEqual(part.getMeasure(1,2),measure)
+        part.addMeasure(measure, staff=2)
+        self.assertEqual(part.getMeasure(1, 2), measure)
+
 
 class testAddToMeasure(unittest.TestCase):
+
     def setUp(self):
         self.item = PieceTree.PieceTree()
         self.part = PartNode()
@@ -87,7 +90,7 @@ class testAddToMeasure(unittest.TestCase):
         self.assertEqual(voice.GetChild(0).GetItem(), None)
 
     def testAddNoteWithPlaceholderBeforeIt(self):
-        note=2
+        note = 2
         self.measure.addNote(note)
         self.measure.index = 0
         self.measure.addPlaceholder()

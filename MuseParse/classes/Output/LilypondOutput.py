@@ -31,15 +31,13 @@ class LilypondRenderer(object):
         self.folder = os.path.join(*os.path.split(self.file)[:-1])
 
         self.default = "lilypond"
-        if lyscript != "" and lyscript != None:
+        if lyscript != "" and lyscript is not None:
             self.lily_script = lyscript
         else:
             if sys.platform.startswith("linux"):
                 self.lily_script = "lilypond"
             else:
                 self.lily_script = self.default
-
-
 
     def run(self, wrappers=["", ""]):
         '''

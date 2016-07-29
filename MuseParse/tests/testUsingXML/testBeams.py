@@ -11,7 +11,9 @@ partname = "beams.xml"
 directory = testcases.__path__._path[0]
 piece = parsePiece(os.path.join(directory, partname))
 
+
 class testArpeg(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.m_num = 32
@@ -27,7 +29,6 @@ class testArpeg(xmlSet):
         part = piece.getPart(self.p_id)
         measure = part.getMeasure(measure=self.m_num, staff=1)
         self.assertIsInstance(measure, MeasureNode)
-
 
     def testNote2ID(self):
         part = piece.getPart(self.p_id)
@@ -76,7 +77,6 @@ class testArpeg(xmlSet):
         measure = part.getMeasure(measure=1, staff=1)
         item = Search(NoteNode, measure, 4).GetItem()
         self.assertEqual("end", item.beams[1].type)
-
 
     def testNote6(self):
         part = piece.getPart(self.p_id)
@@ -131,5 +131,3 @@ class testArpeg(xmlSet):
         measure = part.getMeasure(measure=1, staff=1)
         item = Search(NoteNode, measure, 8).GetItem()
         self.assertEqual("end", item.beams[1].type)
-
-

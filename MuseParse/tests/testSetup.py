@@ -1,8 +1,12 @@
-import unittest, os, sys, subprocess
+import unittest
+import os
+import sys
+import subprocess
 from MuseParse.classes.Output.helpers import setupLilypondClean as setupLilypond
 
 
 class testLilySetup(unittest.TestCase):
+
     def setUp(self):
         pass
 
@@ -15,5 +19,8 @@ class testLilySetup(unittest.TestCase):
         setupLilypond(path)
         batcmd = 'lilypond'
 
-        output = subprocess.Popen(["lilypond"], stderr=subprocess.PIPE, shell=True).communicate()[0]
+        output = subprocess.Popen(
+            ["lilypond"],
+            stderr=subprocess.PIPE,
+            shell=True).communicate()[0]
         self.assertIsNone(output)

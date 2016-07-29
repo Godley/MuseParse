@@ -10,6 +10,7 @@ from MuseParse.SampleMusicXML import testcases
 directory = testcases.__path__._path[0]
 piece = parsePiece(os.path.join(directory, partname))
 
+
 class testTwoStavesInOnePart(unittest.TestCase):
 
     def testItemsIds(self):

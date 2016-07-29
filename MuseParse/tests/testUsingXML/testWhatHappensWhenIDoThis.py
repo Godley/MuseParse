@@ -13,6 +13,7 @@ piece = parsePiece(os.path.join(directory, partname))
 
 
 class testFile(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.m_num = 32
@@ -25,9 +26,16 @@ class testFile(xmlSet):
         self.assertEqual(self.p_name, piece.getPart(self.p_id).GetItem().name)
 
     def testMeasures(self):
-        self.assertIsInstance(piece.getPart(self.p_id).getMeasure(self.m_num, 1), MeasureNode)
+        self.assertIsInstance(
+            piece.getPart(
+                self.p_id).getMeasure(
+                self.m_num,
+                1),
+            MeasureNode)
+
 
 class testMeasure1(xmlSet):
+
     def setUp(self):
         self.measure_id = 1
         self.left_number = 1
@@ -36,8 +44,8 @@ class testMeasure1(xmlSet):
         self.right_type = "discontinue"
         self.right_repeat = "backward-barline"
         self.right_style = "light-heavy"
-        self.measure = piece.getPart("P1").getMeasure(measure=self.measure_id,staff=1)
-
+        self.measure = piece.getPart("P1").getMeasure(
+            measure=self.measure_id, staff=1)
 
     def testHasBarlines(self):
         self.assertTrue(hasattr(self.measure, "barlines"))
@@ -78,6 +86,3 @@ class testMeasure1(xmlSet):
     def testRightStyle(self):
         barline = self.measure.GetBarline("right")
         self.assertEqual(self.right_style, barline.style)
-
-
-

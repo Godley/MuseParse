@@ -11,6 +11,7 @@ class PartNode(IndexedNode):
     """
     Class representing the node holding the part.
     """
+
     def __init__(self, index=0):
         IndexedNode.__init__(self, rules=[StaffNode])
         self.index = index

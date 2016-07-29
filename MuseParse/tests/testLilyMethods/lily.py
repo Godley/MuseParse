@@ -1,13 +1,15 @@
-import unittest, os, sys
+import unittest
+import os
+import sys
 from os.path import expanduser
 from MuseParse.classes.Output import LilypondOutput
 
 
 class Lily(unittest.TestCase):
+
     def setUp(self):
         self.compile = False
         self.wrappers = []
-
 
     def testValue(self):
         if hasattr(self, "lilystring"):
@@ -23,13 +25,13 @@ class Lily(unittest.TestCase):
                 script = os.path.join(filepath, 'bin', 'lilypond')
             filepath = os.path.join(filepath, self.name)
             if self.compile and hasattr(self, "item"):
-                if os.path.exists(filepath+".pdf"):
-                    os.remove(filepath+".pdf")
+                if os.path.exists(filepath + ".pdf"):
+                    os.remove(filepath + ".pdf")
 
-                ly = LilypondOutput.LilypondRenderer(self.item, filepath +".xml", script)
+                ly = LilypondOutput.LilypondRenderer(
+                    self.item, filepath + ".xml", script)
                 if hasattr(self, "wrappers"):
                     ly.run(wrappers=self.wrappers)
                 else:
                     ly.run()
-                self.assertTrue(os.path.exists(filepath+".pdf"))
-
+                self.assertTrue(os.path.exists(filepath + ".pdf"))

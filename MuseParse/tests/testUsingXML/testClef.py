@@ -11,7 +11,9 @@ partname = "clefs.xml"
 directory = testcases.__path__._path[0]
 piece = parsePiece(os.path.join(directory, partname))
 
+
 class testClef(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.m_num = 32
@@ -24,9 +26,16 @@ class testClef(xmlSet):
         self.assertEqual(self.p_name, piece.getPart(self.p_id).GetItem().name)
 
     def testMeasures(self):
-        self.assertIsInstance(piece.getPart(self.p_id).getMeasure(measure=self.m_num, staff=1), MeasureNode)
+        self.assertIsInstance(
+            piece.getPart(
+                self.p_id).getMeasure(
+                measure=self.m_num,
+                staff=1),
+            MeasureNode)
+
 
 class CTests(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.p_id = "P1"
@@ -37,26 +46,42 @@ class CTests(xmlSet):
 
     def testClef(self):
         if self.measure is not None:
-            measure = piece.getPart(self.p_id).getMeasure(measure=self.measure,staff=1)
+            measure = piece.getPart(
+                self.p_id).getMeasure(
+                measure=self.measure,
+                staff=1)
             self.assertIsInstance(measure.GetLastClef(), Clef.Clef)
 
     def testSign(self):
         if self.measure is not None:
-            measure = piece.getPart(self.p_id).getMeasure(measure=self.measure,staff=1)
+            measure = piece.getPart(
+                self.p_id).getMeasure(
+                measure=self.measure,
+                staff=1)
 
             self.assertEqual(self.sign, measure.GetLastClef().sign)
 
     def testLine(self):
         if self.measure is not None:
-            measure = piece.getPart(self.p_id).getMeasure(measure=self.measure,staff=1)
+            measure = piece.getPart(
+                self.p_id).getMeasure(
+                measure=self.measure,
+                staff=1)
             self.assertEqual(self.line, measure.GetLastClef().line)
 
     def testOctaveChange(self):
         if self.measure is not None and self.clef_octave_change is not 0:
-            measure = piece.getPart(self.p_id).getMeasure(measure=self.measure,staff=1)
-            self.assertEqual(self.clef_octave_change, measure.GetLastClef().octave_change)
+            measure = piece.getPart(
+                self.p_id).getMeasure(
+                measure=self.measure,
+                staff=1)
+            self.assertEqual(
+                self.clef_octave_change,
+                measure.GetLastClef().octave_change)
+
 
 class testMeasure1(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 1
@@ -64,7 +89,9 @@ class testMeasure1(CTests):
         self.line = 2
         self.clef_octave_change = 0
 
+
 class testMeasure2(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 2
@@ -72,7 +99,9 @@ class testMeasure2(CTests):
         self.line = 2
         self.clef_octave_change = 1
 
+
 class testMeasure3(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 3
@@ -80,7 +109,9 @@ class testMeasure3(CTests):
         self.line = 2
         self.clef_octave_change = 2
 
+
 class testMeasure4(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 4
@@ -88,7 +119,9 @@ class testMeasure4(CTests):
         self.line = 2
         self.clef_octave_change = -1
 
+
 class testMeasure5(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 5
@@ -96,7 +129,9 @@ class testMeasure5(CTests):
         self.line = 1
         self.clef_octave_change = 0
 
+
 class testMeasure6(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 6
@@ -104,7 +139,9 @@ class testMeasure6(CTests):
         self.line = 1
         self.clef_octave_change = 0
 
+
 class testMeasure7(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 7
@@ -112,7 +149,9 @@ class testMeasure7(CTests):
         self.line = 2
         self.clef_octave_change = 0
 
+
 class testMeasure8(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 8
@@ -120,7 +159,9 @@ class testMeasure8(CTests):
         self.line = 3
         self.clef_octave_change = 0
 
+
 class testMeasure9(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 9
@@ -128,7 +169,9 @@ class testMeasure9(CTests):
         self.line = 4
         self.clef_octave_change = 0
 
+
 class testMeasure10(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 10
@@ -136,7 +179,9 @@ class testMeasure10(CTests):
         self.line = 5
         self.clef_octave_change = 0
 
+
 class testMeasure11(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 11
@@ -144,7 +189,9 @@ class testMeasure11(CTests):
         self.line = 4
         self.clef_octave_change = 0
 
+
 class testMeasure12(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 12
@@ -152,7 +199,9 @@ class testMeasure12(CTests):
         self.line = 4
         self.clef_octave_change = 1
 
+
 class testMeasure13(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 13
@@ -160,7 +209,9 @@ class testMeasure13(CTests):
         self.line = 4
         self.clef_octave_change = 2
 
+
 class testMeasure14(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 14
@@ -168,7 +219,9 @@ class testMeasure14(CTests):
         self.line = 4
         self.clef_octave_change = -1
 
+
 class testMeasure15(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 15
@@ -176,7 +229,9 @@ class testMeasure15(CTests):
         self.line = 4
         self.clef_octave_change = -2
 
+
 class testMeasure16(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 16
@@ -184,7 +239,9 @@ class testMeasure16(CTests):
         self.line = 3
         self.clef_octave_change = 0
 
+
 class testMeasure17(CTests):
+
     def setUp(self):
         CTests.setUp(self)
         self.measure = 17

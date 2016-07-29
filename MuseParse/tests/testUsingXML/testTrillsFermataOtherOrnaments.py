@@ -13,7 +13,9 @@ partname = "TrillsFermataOrnaments.xml"
 directory = testcases.__path__._path[0]
 piece = parsePiece(os.path.join(directory, partname))
 
+
 class testFile(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.m_num = 32
@@ -26,17 +28,30 @@ class testFile(xmlSet):
         self.assertEqual(self.p_name, piece.getPart(self.p_id).GetItem().name)
 
     def testMeasures(self):
-        self.assertIsInstance(piece.getPart(self.p_id).getMeasure(self.m_num, 1), MeasureNode)
+        self.assertIsInstance(
+            piece.getPart(
+                self.p_id).getMeasure(
+                self.m_num,
+                1),
+            MeasureNode)
+
 
 class testOrnament(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.p_id = "P1"
         if hasattr(self, "measure_id"):
-            self.measure = piece.getPart(self.p_id).getMeasure(self.measure_id, 1)
+            self.measure = piece.getPart(
+                self.p_id).getMeasure(
+                self.measure_id, 1)
 
         if hasattr(self, "item_id"):
-            self.item = Search(NoteNode, self.measure, self.item_id+1).GetItem()
+            self.item = Search(
+                NoteNode,
+                self.measure,
+                self.item_id +
+                1).GetItem()
         if hasattr(self, "orn_id") and hasattr(self.item, "postnotation"):
             self.ornament = self.item.postnotation[self.orn_id]
 
@@ -48,15 +63,23 @@ class testOrnament(xmlSet):
         if hasattr(self, "type") and hasattr(self, "ornament"):
             self.assertEqual(self.type, self.ornament.type)
 
+
 class testTechnique(xmlSet):
+
     def setUp(self):
         xmlSet.setUp(self)
         self.p_id = "P1"
         if hasattr(self, "measure_id"):
-            self.measure = piece.getPart(self.p_id).getMeasure(self.measure_id, 1)
+            self.measure = piece.getPart(
+                self.p_id).getMeasure(
+                self.measure_id, 1)
 
         if hasattr(self, "item_id"):
-            self.item = Search(NoteNode, self.measure, self.item_id+1).GetItem()
+            self.item = Search(
+                NoteNode,
+                self.measure,
+                self.item_id +
+                1).GetItem()
         if hasattr(self, "orn_id"):
             self.ornament = self.item.postnotation[self.orn_id]
 
@@ -68,11 +91,16 @@ class testTechnique(xmlSet):
         if hasattr(self, "ornament"):
             self.assertEqual(self.type, self.ornament.type)
 
+
 class testFermata(testOrnament):
+
     def testSymbol(self):
         if hasattr(self, "ornament") and hasattr(self, "value"):
             self.assertEqual(self.value, self.ornament.symbol)
+
+
 class testMeasure1Note1(testOrnament):
+
     def setUp(self):
         self.measure_id = 1
         self.item_id = 0
@@ -80,7 +108,9 @@ class testMeasure1Note1(testOrnament):
         self.instance = Ornaments.InvertedMordent
         testOrnament.setUp(self)
 
+
 class testMeasure1Note2(testOrnament):
+
     def setUp(self):
         self.measure_id = 1
         self.item_id = 1
@@ -88,7 +118,9 @@ class testMeasure1Note2(testOrnament):
         self.instance = Ornaments.Trill
         testOrnament.setUp(self)
 
+
 class testMeasure1Note3(testOrnament):
+
     def setUp(self):
         self.measure_id = 1
         self.item_id = 2
@@ -96,7 +128,9 @@ class testMeasure1Note3(testOrnament):
         self.instance = Ornaments.InvertedTurn
         testOrnament.setUp(self)
 
+
 class testMeasure1Note4(testTechnique):
+
     def setUp(self):
         self.measure_id = 1
         self.item_id = 3
@@ -104,7 +138,9 @@ class testMeasure1Note4(testTechnique):
         self.type = "snap-pizzicato"
         testTechnique.setUp(self)
 
+
 class testMeasure3Note3(testOrnament):
+
     def setUp(self):
         self.measure_id = 3
         self.item_id = 2
@@ -112,7 +148,9 @@ class testMeasure3Note3(testOrnament):
         self.instance = Ornaments.Mordent
         testOrnament.setUp(self)
 
+
 class testMeasure3Note4(testOrnament):
+
     def setUp(self):
         self.measure_id = 3
         self.item_id = 3
@@ -120,7 +158,9 @@ class testMeasure3Note4(testOrnament):
         self.instance = Ornaments.InvertedMordent
         testOrnament.setUp(self)
 
+
 class testMeasure4Note1(testOrnament):
+
     def setUp(self):
         self.measure_id = 4
         self.item_id = 0
@@ -128,7 +168,9 @@ class testMeasure4Note1(testOrnament):
         self.instance = Ornaments.Turn
         testOrnament.setUp(self)
 
+
 class testMeasure4Note2(testTechnique):
+
     def setUp(self):
         self.measure_id = 4
         self.item_id = 1
@@ -136,7 +178,9 @@ class testMeasure4Note2(testTechnique):
         self.type = "down-bow"
         testTechnique.setUp(self)
 
+
 class testMeasure4Note3(testTechnique):
+
     def setUp(self):
         self.measure_id = 4
         self.item_id = 2
@@ -144,7 +188,9 @@ class testMeasure4Note3(testTechnique):
         self.type = "up-bow"
         testTechnique.setUp(self)
 
+
 class testMeasure4Note4(testTechnique):
+
     def setUp(self):
         self.measure_id = 4
         self.item_id = 3
@@ -152,7 +198,9 @@ class testMeasure4Note4(testTechnique):
         self.type = "stopped"
         testTechnique.setUp(self)
 
+
 class testMeasure5Note2(testOrnament):
+
     def setUp(self):
         self.measure_id = 5
         self.item_id = 1
@@ -164,7 +212,9 @@ class testMeasure5Note2(testOrnament):
     def testSymbol(self):
         self.assertEqual("V", self.ornament.symbol)
 
+
 class testMeasure5Note3(testOrnament):
+
     def setUp(self):
         self.measure_id = 5
         self.item_id = 2
@@ -176,7 +226,9 @@ class testMeasure5Note3(testOrnament):
     def testSymbol(self):
         self.assertEqual("^", self.ornament.symbol)
 
+
 class testMeasure5Note4(testOrnament):
+
     def setUp(self):
         self.measure_id = 5
         self.item_id = 3
@@ -184,7 +236,9 @@ class testMeasure5Note4(testOrnament):
         self.instance = Mark.DetachedLegato
         testOrnament.setUp(self)
 
+
 class testMeasure6Note2(testOrnament):
+
     def setUp(self):
         self.measure_id = 6
         self.item_id = 1
@@ -192,7 +246,9 @@ class testMeasure6Note2(testOrnament):
         self.instance = Mark.Tenuto
         testOrnament.setUp(self)
 
+
 class testMeasure6Note3(testOrnament):
+
     def setUp(self):
         self.measure_id = 6
         self.item_id = 2
@@ -200,7 +256,9 @@ class testMeasure6Note3(testOrnament):
         self.instance = Mark.Staccatissimo
         testOrnament.setUp(self)
 
+
 class testMeasure6Note4(testOrnament):
+
     def setUp(self):
         self.measure_id = 6
         self.item_id = 3
@@ -208,7 +266,9 @@ class testMeasure6Note4(testOrnament):
         self.instance = Mark.Staccatissimo
         testOrnament.setUp(self)
 
+
 class testMeasure7Note1(testOrnament):
+
     def setUp(self):
         self.measure_id = 7
         self.item_id = 0
@@ -216,7 +276,9 @@ class testMeasure7Note1(testOrnament):
         self.instance = Mark.Staccato
         testOrnament.setUp(self)
 
+
 class testMeasure7Note3(testOrnament):
+
     def setUp(self):
         self.measure_id = 7
         self.item_id = 2
@@ -224,7 +286,9 @@ class testMeasure7Note3(testOrnament):
         self.instance = Mark.Accent
         testOrnament.setUp(self)
 
+
 class testMeasure8Note1(testFermata):
+
     def setUp(self):
         self.measure_id = 8
         self.item_id = 0
@@ -234,7 +298,9 @@ class testMeasure8Note1(testFermata):
         self.instance = Mark.Fermata
         testFermata.setUp(self)
 
+
 class testMeasure9Note1(testFermata):
+
     def setUp(self):
         self.measure_id = 9
         self.item_id = 0
@@ -244,7 +310,9 @@ class testMeasure9Note1(testFermata):
         self.instance = Mark.Fermata
         testFermata.setUp(self)
 
+
 class testMeasure9Note2(testFermata):
+
     def setUp(self):
         self.measure_id = 9
         self.item_id = 1
@@ -254,7 +322,9 @@ class testMeasure9Note2(testFermata):
         self.instance = Mark.Fermata
         testFermata.setUp(self)
 
+
 class testMeasure9Note3(testFermata):
+
     def setUp(self):
         self.measure_id = 9
         self.item_id = 2
@@ -263,7 +333,9 @@ class testMeasure9Note3(testFermata):
         self.instance = Mark.Fermata
         testFermata.setUp(self)
 
+
 class testMeasure9Note4(testFermata):
+
     def setUp(self):
         self.measure_id = 9
         self.item_id = 3
