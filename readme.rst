@@ -37,7 +37,9 @@ Usage
 Setting up
 ****************
 To aid the process of setting up lilypond, a helper is provided which does the environment variable set up so that you can run lilypond from commandline without modifying the variables yourself. The following code provides an example:
+
 .. code-block:: python
+
     from MuseParse.classes.Output.helpers import setupLilypondClean as setupLilypond
 
     import os
