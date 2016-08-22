@@ -18,10 +18,8 @@ install:
     - "pip install nose"
     - "pip install -r requirements.txt"
     - "set HOME=%APPVEYOR_BUILD_FOLDER%"
-    - ps:
-        (new - object net.webclient).DownloadFile('http://download.linuxaudio.org/lilypond/binaries/mingw/lilypond-2.18.2-1.mingw.exe', 'lilypond.exe')
-    - ps:
-        start / wait - verb runas lilypond.exe / S
+    - ps: Start-FileDownload 'http://download.linuxaudio.org/lilypond/binaries/mingw/lilypond-2.18.2-1.mingw.exe' -FileName lilypond.exe -Timeout 600000
+    - cmd: lilypond.exe /S
 
 build:
     off
