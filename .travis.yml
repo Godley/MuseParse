@@ -1,3 +1,7 @@
+addons:
+    code_climate:
+        repo_token: 15d4e36bf38f3756e642ff3b609be47327f89219e15430b2a3b86682bcd45402
+        
 before_install:
   - wget http://download.linuxaudio.org/lilypond/binaries/linux-64/lilypond-2.18.2-1.linux-64.sh
   - sh ./lilypond-2.18.2-1.linux-64.sh --batch
@@ -12,6 +16,8 @@ python:
 # command to install dependencies
 install: "pip3 install -r requirements.txt"
 # command to run tests
-script: python3 -m "nose"
+script: 
+  - python3 -m "nose" --with-coverage --cover-xml
+  - codeclimate-test-reporter
 cache: pip3
 sudo: false
