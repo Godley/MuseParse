@@ -1,13 +1,13 @@
 import copy
 
-from museparse.classes.ObjectHierarchy.TreeClasses.BaseTree import IndexedNode, BackwardSearch, Search
+from museparse.tree.basetree import IndexedNode, BackwardSearch, Search
 
-from museparse.classes.ObjectHierarchy.TreeClasses.VoiceNode import VoiceNode
-from museparse.classes.ObjectHierarchy.TreeClasses.OtherNodes import DirectionNode, ExpressionNode, KeyNode, ClefNode
-from museparse.classes.ObjectHierarchy.TreeClasses import NoteNode
-from museparse.classes.ObjectHierarchy.ItemClasses import Directions
+from museparse.tree.voicenode import VoiceNode
+from museparse.tree.othernodes import DirectionNode, ExpressionNode, KeyNode, ClefNode
+from museparse.tree.notenode import NoteNode
+from museparse.elements import directions
 from museparse import helpers
-from museparse.classes.ObjectHierarchy.ItemClasses.Directions import OctaveShift
+from museparse.elements.directions import OctaveShift
 
 
 class MeasureNode(IndexedNode):
@@ -99,13 +99,13 @@ class MeasureNode(IndexedNode):
         if hasattr(self, "newPage"):
             lilystring += "\\pageBreak "
         if hasattr(self, "clef") and self.clef is not None:
-            lilystring += self.clef.toLily() + " "
+            lilystring += self.clef.to_lily() + " "
         if hasattr(self, "key") and self.key is not None:
             if not hasattr(self.key, "mode"):
                 self.key.mode = "major"
-            lilystring += self.key.toLily() + " "
+            lilystring += self.key.to_lily() + " "
         if hasattr(self, "meter"):
-            lilystring += self.meter.toLily() + " "
+            lilystring += self.meter.to_lily() + " "
         if hasattr(self, "partial") and self.partial:
             lilystring += "\\partial " + str(self.getPartialLength()) + " "
         for item in self.items:
@@ -115,14 +115,14 @@ class MeasureNode(IndexedNode):
                 hasattr(
                     item,
                     "type") and item.type != "stop"):
-                lilystring += item.toLily()
+                lilystring += item.to_lily()
         return lilystring
 
     def HandleClosingAttributes(self):
         lstring = ""
         for item in self.items:
             if hasattr(item, "type") and item.type == "stop":
-                lstring += item.toLily()
+                lstring += item.to_lily()
 
         return lstring
 
@@ -469,7 +469,7 @@ class MeasureNode(IndexedNode):
         return None
 
     def addDirection(self, item, voice=1):
-        wrappers = [Directions.Bracket.__name__]
+        wrappers = [directions.Bracket.__name__]
         if item.__class__.__name__ in wrappers and (
             not hasattr(
                 item,
@@ -496,10 +496,10 @@ class MeasureNode(IndexedNode):
         if self.index == 0:
             finder = 0
         else:
-            if item.__class__.__name__ == Directions.Pedal.__name__:
+            if item.__class__.__name__ == directions.Pedal.__name__:
                 note = voice_obj.GetChild(self.index - 1)
                 if note is not None:
-                    result = note.Find(DirectionNode, Directions.Pedal)
+                    result = note.Find(DirectionNode, directions.Pedal)
                     if result is not None:
                         self.index += 1
             finder = self.index
@@ -549,10 +549,10 @@ class MeasureNode(IndexedNode):
         other_lefts = self.GetBarline("left-1")
         if other_lefts is not None:
             for left in other_lefts:
-                lilystring += left.toLily()
+                lilystring += left.to_lily()
 
         if left_barline is not None:
-            lilystring += left_barline.toLily()
+            lilystring += left_barline.to_lily()
 
         lilystring += self.HandleAttributes()
         voices = self.GetChildrenIndexes()
@@ -574,7 +574,7 @@ class MeasureNode(IndexedNode):
                     helpers.NumbersToWords(voice) + "\"\n"
                 lilystring += "{\\voice" + \
                     helpers.NumbersToWords(voice).capitalize() + " "
-            lilystring += v_obj.toLily()
+            lilystring += v_obj.to_lily()
             if len(voices) > 1:
                 lilystring += "}"
         if len(voices) > 1:
@@ -584,10 +584,10 @@ class MeasureNode(IndexedNode):
         other_rights = self.GetBarline("right-1")
         if other_rights is not None:
             for right in other_rights:
-                lilystring += right.toLily()
+                lilystring += right.to_lily()
 
         if right_barline is not None:
-            lilystring += right_barline.toLily()
+            lilystring += right_barline.to_lily()
         else:
             lilystring += " | "
         return lilystring

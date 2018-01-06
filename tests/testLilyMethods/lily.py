@@ -14,7 +14,7 @@ class Lily(unittest.TestCase):
     def testValue(self):
         if hasattr(self, "lilystring"):
             if hasattr(self, "item"):
-                self.assertEqual(self.lilystring, self.item.toLily())
+                self.assertEqual(self.lilystring, self.item.to_lily())
 
     def testCompilation(self):
         if hasattr(self, "compile") and self.compile is True:

@@ -1,2 +1,0 @@
-The files in this folder are expected to pass lilypond, and therefore have been moved to this folder
-so that there is a clear distinction of which tests have been completed, and which tests do not currently have the right output.

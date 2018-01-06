@@ -49,7 +49,7 @@ class GraceNotes(xmlSet):
         if hasattr(self, "nid") and hasattr(self, "grace"):
             note = Search(NoteNode, self.measure, self.nid + 1).GetItem()
             self.assertEqual(
-                self.grace, note.Search(
+                self.grace, note.search(
                     Note.GraceNote) is not None)
 
     def testGraceVal(self):
@@ -57,7 +57,7 @@ class GraceNotes(xmlSet):
             if self.grace:
                 note = Search(NoteNode, self.measure, self.nid + 1).GetItem()
                 self.assertIsInstance(
-                    note.Search(
+                    note.search(
                         Note.GraceNote),
                     Note.GraceNote)
 
@@ -67,7 +67,7 @@ class GraceNotes(xmlSet):
             if self.grace:
                 note = Search(NoteNode, self.measure, self.nid + 1).GetItem()
                 self.assertEqual(
-                    self.graceSlash, note.Search(
+                    self.graceSlash, note.search(
                         Note.GraceNote).slash)
 
 

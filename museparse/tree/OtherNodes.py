@@ -17,7 +17,7 @@ class SelfNode(Node):
         '''
         lilystring = ""
         if self.item is not None:
-            lstring = self.item.toLily()
+            lstring = self.item.to_lily()
             if isinstance(lstring, str):
                 lilystring += lstring
             else:
@@ -25,9 +25,9 @@ class SelfNode(Node):
         child = self.GetChild(0)
         if child is not None:
             if isinstance(lilystring, str):
-                lilystring += child.toLily()
+                lilystring += child.to_lily()
             else:
-                lilystring.append(child.toLily())
+                lilystring.append(child.to_lily())
         return lilystring
 
 
@@ -47,7 +47,7 @@ class KeyNode(Node):
     def toLily(self):
         lstring = ""
         if self.item is not None:
-            lstring += self.item.toLily()
+            lstring += self.item.to_lily()
         return lstring
 
 

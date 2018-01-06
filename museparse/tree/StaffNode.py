@@ -72,7 +72,7 @@ class StaffNode(IndexedNode):
             measureNode = self.GetChild(children[child])
             measureNode.autoBeam = self.autoBeam
             lilystring += " % measure " + str(children[child]) + "\n"
-            lilystring += measureNode.toLily() + "\n\n"
+            lilystring += measureNode.to_lily() + "\n\n"
         return lilystring
 
     def CheckDivisions(self):
@@ -84,7 +84,7 @@ class StaffNode(IndexedNode):
                 divisions = measure.divisions
             else:
                 measure.divisions = divisions
-            measure.CheckDivisions()
+            measure.check_divisions()
 
     def DoBarlineChecks(self):
         measure_indexes = self.GetChildrenIndexes()

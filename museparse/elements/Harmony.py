@@ -1,7 +1,7 @@
-from museparse.classes.ObjectHierarchy.ItemClasses import BaseClass, Note
+from museparse.elements import baseclass, note
 
 
-class Harmony(BaseClass.Base):
+class Harmony(baseclass.Base):
 
     """
     Class representing a harmonic chord for pianists/jazz musicians. Not currently implemented 100% correct in lilypond notation
@@ -33,9 +33,9 @@ class Harmony(BaseClass.Base):
             self.degrees = kwargs["degrees"]
         if "frame" in kwargs:
             self.frame = kwargs["frame"]
-        BaseClass.Base.__init__(self)
+        super().__init__()
 
-    def toLily(self):
+    def to_lily(self):
         val = "\chords {"
         if hasattr(self, "root"):
             val += "\n\r" + self.root
@@ -51,7 +51,7 @@ class Harmony(BaseClass.Base):
                 if hasattr(self, "kind"):
                     if self.kind.parenthesis:
                         val += "("
-                val += degree.toLily()
+                val += degree.to_lily()
                 if hasattr(self, "kind"):
                     if self.kind.parenthesis:
                         val += ")"
@@ -61,12 +61,12 @@ class Harmony(BaseClass.Base):
         if hasattr(self, "frame"):
             return_val = []
             return_val.append(val)
-            return_val.append(self.frame.toLily())
+            return_val.append(self.frame.to_lily())
             val = return_val
         return val
 
 
-class Frame(BaseClass.Base):
+class Frame(baseclass.Base):
     """
     Class representing a harmony frame chart for guitarists
 
@@ -92,9 +92,9 @@ class Frame(BaseClass.Base):
         self.notes = {}
         if "notes" in kwargs:
             self.notes = kwargs["notes"]
-        BaseClass.Base.__init__(self)
+        super().__init__()
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         val += "^\markup {\n\r\\fret-diagram #\""
         if hasattr(self, "frets"):
@@ -105,7 +105,7 @@ class Frame(BaseClass.Base):
             while value > 0:
                 val += str(value)
                 if value in self.notes:
-                    val += self.notes[value].toLily()
+                    val += self.notes[value].to_lily()
                     try:
                         fret = int(val[-2])
                         if val[-1] == "-":
@@ -128,7 +128,7 @@ class Frame(BaseClass.Base):
         return val
 
 
-class FrameNote(BaseClass.Base):
+class FrameNote(baseclass.Base):
     """
     A note to be included in the Frame notes list.
 
@@ -145,9 +145,9 @@ class FrameNote(BaseClass.Base):
             self.string = kwargs["string"]
         if "fret" in kwargs:
             self.fret = kwargs["fret"]
-        BaseClass.Base.__init__(self)
+        super().__init__()
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         if hasattr(self, "string"):
             val += str(self.string)
@@ -160,7 +160,7 @@ class FrameNote(BaseClass.Base):
         return val
 
 
-class Kind(BaseClass.Base):
+class Kind(baseclass.Base):
 
     def __init__(self, **kwargs):
         if "value" in kwargs:
@@ -175,9 +175,9 @@ class Kind(BaseClass.Base):
         if "parenthesis" in kwargs:
             if kwargs["parenthesis"] is not None:
                 self.parenthesis = kwargs["parenthesis"]
-        BaseClass.Base.__init__(self)
+        super().__init__()
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         if hasattr(self, "parenthesis"):
             if self.parenthesis:
@@ -193,7 +193,7 @@ class Kind(BaseClass.Base):
         return val
 
 
-class Degree(BaseClass.Base):
+class Degree(baseclass.Base):
 
     def __init__(self, **kwargs):
         if "alter" in kwargs and kwargs["alter"] is not None:
@@ -202,9 +202,9 @@ class Degree(BaseClass.Base):
             self.value = kwargs["value"]
         if "type" in kwargs and kwargs["type"] is not None:
             self.type = kwargs["type"]
-        BaseClass.Base.__init__(self)
+        super().__init__()
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         if hasattr(self, "type"):
             if self.type == "subtract":
@@ -221,5 +221,5 @@ class Degree(BaseClass.Base):
         return val
 
 
-class harmonyPitch(Note.Pitch):
+class harmonyPitch(note.Pitch):
     pass

@@ -12,7 +12,7 @@ class MeasureTests(Lily):
     def testValue(self):
         if hasattr(self, "lilystring"):
             if hasattr(self, "item"):
-                self.assertEqual(self.lilystring, self.item.toLily())
+                self.assertEqual(self.lilystring, self.item.to_lily())
 
 
 class testMeasure(MeasureTests):
@@ -61,7 +61,7 @@ class testMeasureNoteWithGrace(MeasureTests):
         note.pitch = Note.Pitch()
         grace = Note.GraceNote(first=True)
         grace.last = True
-        note.addNotation(grace)
+        note.add_notation(grace)
         self.item.addNote(note)
         self.item.RunVoiceChecks()
         self.lilystring = "\grace { c'4 }  | "
@@ -158,10 +158,10 @@ class testPartialMeasureTwoNotes(Lily):
         self.item = MeasureNode(partial=True)
         self.item.meter = Meter.Meter(type=4, beats=4)
         note = Note.Note()
-        note.SetType("quarter")
+        note.set_type("quarter")
         note.pitch = Note.Pitch(octave=4)
         note2 = Note.Note()
-        note2.SetType("quarter")
+        note2.set_type("quarter")
         note2.pitch = Note.Pitch(octave=4)
         self.item.addNote(note)
         self.item.addNote(note2)
@@ -175,10 +175,10 @@ class testPartialMeasureTwoNotesDifferentTypes(Lily):
         self.item = MeasureNode(partial=True)
         self.item.meter = Meter.Meter(type=4, beats=4)
         note = Note.Note()
-        note.SetType("quarter")
+        note.set_type("quarter")
         note.pitch = Note.Pitch(octave=4)
         note2 = Note.Note()
-        note2.SetType("half")
+        note2.set_type("half")
         note2.pitch = Note.Pitch(octave=4)
         self.item.addNote(note)
         self.item.addNote(note2)
@@ -287,7 +287,7 @@ class testShiftBeforeNote(unittest.TestCase):
 
     def testLilystring(self):
         value = "\n\\ottava #-1\n c,  | "
-        self.assertEqual(value, self.item.toLily())
+        self.assertEqual(value, self.item.to_lily())
 
 
 class testGraceAtStartOfMeasure(unittest.TestCase):
@@ -296,19 +296,19 @@ class testGraceAtStartOfMeasure(unittest.TestCase):
         self.item = MeasureNode()
         node = NoteNode()
         self.note = Note.Note(type="quarter")
-        self.note.addNotation(Note.GraceNote())
+        self.note.add_notation(Note.GraceNote())
         self.note.pitch = Note.Pitch()
         node.SetItem(self.note)
         self.item.addNote(node)
         self.item.RunVoiceChecks()
 
     def testIsFirstGraceNote(self):
-        result = self.note.Search(Note.GraceNote)
+        result = self.note.search(Note.GraceNote)
         self.assertTrue(result.first)
 
     def testLilystring(self):
         value = "\grace { c'4 }  | "
-        self.assertEqual(value, self.item.toLily())
+        self.assertEqual(value, self.item.to_lily())
 
 
 class testTwoVoicesMeasureNotePosition(Lily):

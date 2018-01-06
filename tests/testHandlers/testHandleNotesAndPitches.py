@@ -101,14 +101,14 @@ class testCreateNoteHandler(notes):
         self.tags.append("grace")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].Search(
+            self.data["note"].search(
                 Note.GraceNote),
             Note.GraceNote)
 
     def testGraceIsFirst(self):
         self.tags.append("grace")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertTrue(self.data["note"].Search(Note.GraceNote).first)
+        self.assertTrue(self.data["note"].search(Note.GraceNote).first)
 
     def testDurationTag(self):
         self.tags.append("duration")

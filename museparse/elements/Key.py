@@ -40,7 +40,7 @@ class Key(object):
                 if self.mode == "minor":
                     return minors[self.fifths] + " minor"
 
-    def toLily(self):
+    def to_lily(self):
         val = "\key"
         if hasattr(self, "fifths"):
             if hasattr(self, "mode"):

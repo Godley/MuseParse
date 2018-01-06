@@ -111,7 +111,7 @@ class PieceTree(Tree):
             for element in not_nested:
                 if not isinstance(element, list) and element not in ids_loaded:
                     part = self.getPart(element)
-                    pstring = part.toLily()
+                    pstring = part.to_lily()
                     lilystring += pstring[0]
                     groupstr += pstring[1]
                     ids_loaded.append(element)
@@ -119,7 +119,7 @@ class PieceTree(Tree):
                     groupstr += "\\new StaffGroup <<"
                     for nested_part in element:
                         part = self.getPart(nested_part)
-                        pstring = part.toLily()
+                        pstring = part.to_lily()
                         lilystring += pstring[0]
                         groupstr += pstring[1]
                         ids_loaded.append(nested_part)
@@ -147,10 +147,10 @@ class PieceTree(Tree):
             child for child in self.GetSortedChildren() if child not in ids_loaded]
         for child in children:
             part = self.getPart(child)
-            partstring = part.toLily()
+            partstring = part.to_lily()
             lilystring += partstring[0]
             partstrings.append(partstring[1])
-        lilystring += self.item.toLily()
+        lilystring += self.item.to_lily()
         lilystring += "<<"
         lilystring += "".join([gstring for gstring in groupings])
         lilystring += "".join([partstring for partstring in partstrings])

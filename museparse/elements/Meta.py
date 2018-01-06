@@ -1,7 +1,7 @@
-from museparse.classes.ObjectHierarchy.ItemClasses import BaseClass
+from museparse.elements import baseclass
 
 
-class Meta(BaseClass.Base):
+class Meta(baseclass.Base):
 
     """
     Class which holds information about the piece.
@@ -17,7 +17,7 @@ class Meta(BaseClass.Base):
     """
 
     def __init__(self, **kwargs):
-        BaseClass.Base.__init__(self)
+        super().__init__()
         if "title" in kwargs:
             if kwargs["title"] is not None:
                 self.title = kwargs["title"]
@@ -28,7 +28,7 @@ class Meta(BaseClass.Base):
             if kwargs["copyright"] is not None:
                 self.copyright = kwargs["copyright"]
 
-    def EscapeQuotes(self, value):
+    def escape_quotes(self, value):
         list_of_string = list(value)
         output = []
         for item in list_of_string:
@@ -37,14 +37,14 @@ class Meta(BaseClass.Base):
             output.append(item)
         return "".join(output)
 
-    def toLily(self):
+    def to_lily(self):
         val = "\header {\n"
         if hasattr(self, "title") and self.title is not None:
-            val += "title = \"" + self.EscapeQuotes(self.title) + "\"\n"
+            val += "title = \"" + self.escape_quotes(self.title) + "\"\n"
         if hasattr(self, "composer") and self.composer is not None:
-            val += "composer = \"" + self.EscapeQuotes(self.composer) + "\"\n"
+            val += "composer = \"" + self.escape_quotes(self.composer) + "\"\n"
         if hasattr(self, "copyright"):
-            val += "tagline = \"" + self.EscapeQuotes(self.copyright) + "\""
+            val += "tagline = \"" + self.escape_quotes(self.copyright) + "\""
         val += "\n}"
         if hasattr(self, "pageNum"):
             if self.pageNum:
@@ -53,12 +53,12 @@ class Meta(BaseClass.Base):
             val += "\\markuplist {"
             for credit in self.credits:
                 val += "\n\\vspace #0.5\n"
-                val += "\n" + credit.toLily()
+                val += "\n" + credit.to_lily()
             val += " }"
 
         return val
 
-    def AddCredit(self, credit):
+    def add_credit(self, credit):
         if not hasattr(self, "credits"):
             self.credits = []
         self.credits.append(credit)

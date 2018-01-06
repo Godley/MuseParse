@@ -1,36 +1,35 @@
-from museparse.classes.ObjectHierarchy.ItemClasses import BaseClass
-
+from museparse.elements import baseclass
 """
 The following classes really are just stubs for ornament notations that could probably be merged into 1 class.
 """
 
 
-class InvertedMordent(BaseClass.Base):
+class InvertedMordent(baseclass.Base):
 
-    def toLily(self):
+    def to_lily(self):
         return "\prall"
 
 
-class Mordent(BaseClass.Base):
+class Mordent(baseclass.Base):
 
-    def toLily(self):
+    def to_lily(self):
         return "\mordent"
 
 
-class Trill(BaseClass.Base):
+class Trill(baseclass.Base):
 
-    def toLily(self):
+    def to_lily(self):
         return "\\trill"
 
 
-class TrillSpanner(BaseClass.Base):
+class TrillSpanner(baseclass.Base):
 
     def __init__(self, **kwargs):
-        BaseClass.Base.__init__(self)
+        baseclass.Base.__init__(self)
         if "line" in kwargs:
             self.line = kwargs["line"]
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         if hasattr(self, "line") and self.line != "":
             val += "\\"
@@ -40,19 +39,19 @@ class TrillSpanner(BaseClass.Base):
         return val
 
 
-class Turn(BaseClass.Base):
+class Turn(baseclass.Base):
 
-    def toLily(self):
+    def to_lily(self):
         return "\\turn"
 
 
-class InvertedTurn(BaseClass.Base):
+class InvertedTurn(baseclass.Base):
 
-    def toLily(self):
+    def to_lily(self):
         return "\\reverseturn"
 
 
-class Tremolo(BaseClass.Base):
+class Tremolo(baseclass.Base):
 
     """
     Tremolo class.
@@ -67,7 +66,7 @@ class Tremolo(BaseClass.Base):
 
     def __init__(self, **kwargs):
         self.preNote = True
-        BaseClass.Base.__init__(self)
+        baseclass.Base.__init__(self)
         if "type" in kwargs:
             if kwargs["type"] is not None:
                 self.type = kwargs["type"]
@@ -78,7 +77,7 @@ class Tremolo(BaseClass.Base):
         else:
             self.value = 2
 
-    def toLily(self):
+    def to_lily(self):
         return_val = "\\repeat tremolo "
         num = ""
         if hasattr(self, "value"):

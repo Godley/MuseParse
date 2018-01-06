@@ -26,7 +26,7 @@ class Notation(object):
             str_val += self.symbol
         return str_val
 
-    def toLily(self):
+    def to_lily(self):
         '''
         Method which converts the object instance and its attributes to a string of lilypond code
         :return: str of lilypond code
@@ -42,8 +42,8 @@ class Accent(Notation):
             placement = kwargs["placement"]
         Notation.__init__(self, placement=placement, symbol="-")
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         val += "accent "
         return val
 
@@ -64,8 +64,8 @@ class StrongAccent(Notation):
                 symbol = "V"
         Notation.__init__(self, placement=placement, symbol=symbol)
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         val += "marcato "
         return val
 
@@ -80,8 +80,8 @@ class Staccato(Notation):
         symbol = "."
         Notation.__init__(self, placement=placement, symbol=symbol)
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         val += "staccato "
         return val
 
@@ -96,8 +96,8 @@ class Staccatissimo(Notation):
         symbol = "triangle"
         Notation.__init__(self, placement=placement, symbol=symbol)
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         val += "staccatissimo "
         return val
 
@@ -112,8 +112,8 @@ class Tenuto(Notation):
         symbol = "line"
         Notation.__init__(self, placement=placement, symbol=symbol)
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         val += "tenuto "
         return val
 
@@ -128,8 +128,8 @@ class DetachedLegato(Notation):
         symbol = "lineDot"
         Notation.__init__(self, placement=placement, symbol=symbol)
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         val += "portato "
         return val
 
@@ -147,11 +147,10 @@ class Fermata(Notation):
         symbol = "fermata"
         if "symbol" in kwargs:
             symbol = kwargs["symbol"]
+        super().__init__(placement=placement, symbol=symbol)
 
-        Notation.__init__(self, placement=placement, symbol=symbol)
-
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         if hasattr(self, "symbol"):
             if self.symbol != "fermata":
                 if self.symbol == "angled":
@@ -166,8 +165,8 @@ class Fermata(Notation):
 
 class BreathMark(Notation):
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = Notation.to_lily(self)
         val += "breathe "
         styling = "\override Staff.BreathingSign.text = \markup { \musicglyph #\"scripts.rvarcomma\" }"
         return [styling, val]
@@ -175,8 +174,8 @@ class BreathMark(Notation):
 
 class Caesura(BreathMark):
 
-    def toLily(self):
-        lstring = BreathMark.toLily(self)
+    def to_lily(self):
+        lstring = BreathMark.to_lily(self)
         styling = "\override BreathingSign.text = \markup { \musicglyph #\"scripts.caesura.curved\" }"
         return [styling, lstring[1]]
 
@@ -195,11 +194,11 @@ class Technique(Notation):
             symbol = kwargs["symbol"]
         if "placement" in kwargs:
             placement = kwargs["placement"]
-        Notation.__init__(self, placement=placement,
+        super().__init__(placement=placement,
                           symbol=symbol)
 
-    def toLily(self):
-        val = Notation.toLily(self)
+    def to_lily(self):
+        val = super().to_lily()
         if hasattr(self, "type"):
             if self.type != "fingering" and self.type != "pluck" and self.type != "string":
                 splitter = self.type.split("-")
@@ -225,9 +224,9 @@ class Bend(Notation):
     def __init__(self, **kwargs):
         if "value" in kwargs:
             self.value = kwargs["value"]
-        Notation.__init__(self, **kwargs)
+        super().__init__(**kwargs)
 
-    def toLily(self):
+    def to_lily(self):
         val = "\\bendAfter #"
         if hasattr(self, "value"):
             if self.value > 0:

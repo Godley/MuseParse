@@ -15,8 +15,8 @@ class Piece(object):
             st += str(self.Parts[key])
         return st
 
-    def toLily(self):
+    def to_lily(self):
         lilystring = ""
         if hasattr(self, "meta"):
-            lilystring += "\n" + self.meta.toLily()
+            lilystring += "\n" + self.meta.to_lily()
         return lilystring

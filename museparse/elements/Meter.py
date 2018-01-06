@@ -23,7 +23,7 @@ class Meter(object):
     def __str__(self):
         return str(self.beats) + "/" + str(self.type)
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         if hasattr(self, "style") and self.style == "single-number":
             val += "\n\once \override Staff.TimeSignature.style = #'single-digit\n"

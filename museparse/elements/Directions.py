@@ -45,7 +45,7 @@ class Text(BaseClass.Base):
             ret_list.append(self.text)
         return ret_list
 
-    def toLily(self):
+    def to_lily(self):
         '''
         Method which converts the object instance and its attributes to a string of lilypond code
 
@@ -144,7 +144,7 @@ class CreditText(Text):
                 self.page = kwargs["page"]
         Text.__init__(self, font=font, size=size, text=text)
 
-    def toLily(self):
+    def to_lily(self):
         lily = ""
         if hasattr(self, "justify"):
             options = {
@@ -155,7 +155,7 @@ class CreditText(Text):
         if hasattr(self, "valign"):
             option = {"top": "UP", "bottom": "DOWN"}
             lily += "\general-align #Y #" + option[self.valign] + "\n "
-        lily += Text.toLily(self)
+        lily += Text.to_lily(self)
         if hasattr(self, "justify"):
             options = {"right": "\n}\n\t}\n\\null\\null", "center": "\n}\n}"}
             if self.justify in options:
@@ -217,8 +217,8 @@ class Direction(Text):
             font = kwargs["font"]
         Text.__init__(self, text=text, size=size, font=font)
 
-    def toLily(self):
-        textLilyString = Text.toLily(self)
+    def to_lily(self):
+        textLilyString = Text.to_lily(self)
         symbol = ""
         return_val = " "
         if hasattr(self, "placement"):
@@ -243,7 +243,7 @@ class RehearsalMark(Direction):
     Same as direction, except that text - generally "A" or "C" is used to figure out which number mark lilypond is expecting.
     """
 
-    def toLily(self):
+    def to_lily(self):
         text = " \mark "
         if self.text == "":
             text += "\default"
@@ -287,7 +287,7 @@ class Forward(Direction):
             size=size,
             font=font)
 
-    def toLily(self):
+    def to_lily(self):
         lilystring = "percent repeat"
         return_list = [lilystring]
         if hasattr(self, "duration"):
@@ -330,8 +330,8 @@ class RepeatSign(Direction):
             size=size,
             font=font)
 
-    def toLily(self):
-        return " \mark " + Direction.toLily(self)
+    def to_lily(self):
+        return " \mark " + Direction.to_lily(self)
 
 
 class Line(Direction):
@@ -409,7 +409,7 @@ class OctaveShift(Line):
             font=font,
             placement=placement)
 
-    def toLily(self):
+    def to_lily(self):
         return_val = "\n\ottava #"
         multiplier = 1
         octave = 0
@@ -438,7 +438,7 @@ class WavyLine(Line):
     Class representing a wavy line, such as the one used for an extended trill marking
     """
 
-    def toLily(self):
+    def to_lily(self):
         if not hasattr(self, "type"):
             text = "\start"
         else:
@@ -486,7 +486,7 @@ class Pedal(Line):
             font=font,
             placement=placement)
 
-    def toLily(self):
+    def to_lily(self):
         return_val = ""
         if (hasattr(self, "type") and self.type != "stop") or not hasattr(
                 self, "type"):
@@ -545,7 +545,7 @@ class Bracket(Line):
             font=font,
             placement=placement)
 
-    def toLily(self):
+    def to_lily(self):
         lilystring = ""
         style_line = ""
         if hasattr(self, "lineType"):
@@ -610,7 +610,7 @@ class Metronome(Direction):
         else:
             self.parentheses = False
 
-    def toLily(self):
+    def to_lily(self):
         return_val = " \\tempo "
         converter = {
             "eighth": 8,
@@ -692,7 +692,7 @@ class Dynamic(Direction):
                            size=size,
                            text=text)
 
-    def toLily(self):
+    def to_lily(self):
         return_val = "\\"
         if hasattr(self, "mark") and len(self.mark) < 6:
             special_marks = [
@@ -746,7 +746,7 @@ class Wedge(Dynamic):
 
         Dynamic.__init__(self, placement=placement, text=self.type)
 
-    def toLily(self):
+    def to_lily(self):
         return_val = "\\"
         if hasattr(self, "type"):
             if self.type == "crescendo":
@@ -790,7 +790,7 @@ class Slur(Direction):
                            font=font,
                            size=size)
 
-    def toLily(self):
+    def to_lily(self):
 
         return_val = ""
         if hasattr(self, "type"):

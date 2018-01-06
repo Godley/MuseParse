@@ -53,7 +53,7 @@ class testNoteWithCaesura(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Mark.Caesura())
+        self.item.add_notation(Mark.Caesura())
         self.lilystring = "\override BreathingSign.text = \markup { \musicglyph #\"scripts.caesura.curved\" } c'\\breathe "
 
 
@@ -62,7 +62,7 @@ class testNoteBeaming(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addBeam(1, Note.Beam("begin"))
+        self.item.add_beam(1, Note.Beam("begin"))
         self.lilystring = "c'["
 
         Lily.setUp(self)
@@ -137,7 +137,7 @@ class testNoteTuplet(Lily):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
         self.item.timeMod = Note.TimeModifier(normal=2, actual=3)
-        self.item.addNotation(Note.Tuplet(type="start"))
+        self.item.add_notation(Note.Tuplet(type="start"))
         self.lilystring = "\\tuplet 3/2 {c'"
         Lily.setUp(self)
         self.compile = True
@@ -163,7 +163,7 @@ class testNoteBeam(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addBeam(1, Note.Beam("begin"))
+        self.item.add_beam(1, Note.Beam("begin"))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{a8 ", "c'8]}"]
@@ -176,8 +176,8 @@ class testNoteMultipleBeam(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addBeam(1, Note.Beam("end"))
-        self.item.addBeam(2, Note.Beam("begin"))
+        self.item.add_beam(1, Note.Beam("end"))
+        self.item.add_beam(2, Note.Beam("begin"))
         Lily.setUp(self)
         self.wrappers = ["\\new Staff{a8 ", "c'8]}"]
         self.lilystring = "c']["
@@ -192,7 +192,7 @@ class testStaffWithNoEndBeams(Lily):
         measure = self.item.GetChild(1)
         note = Note.Note()
         note.pitch = Note.Pitch()
-        note.addBeam(2, Note.Beam("begin"))
+        note.add_beam(2, Note.Beam("begin"))
         measure.addNote(note)
         self.item.NewBeam("begin")
         Lily.setUp(self)
@@ -205,7 +205,7 @@ class testNoteContinue(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addBeam(1, Note.Beam("continue"))
+        self.item.add_beam(1, Note.Beam("continue"))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{a [c'8", "8]}"]
@@ -218,7 +218,7 @@ class testNoteStop(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addBeam(1, Note.Beam("end"))
+        self.item.add_beam(1, Note.Beam("end"))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{a [", "}"]
@@ -244,7 +244,7 @@ class testGraceNote(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.GraceNote(first=True))
+        self.item.add_notation(Note.GraceNote(first=True))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}}"]
@@ -257,7 +257,7 @@ class testGraceNoteSlash(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.GraceNote(slash=True, first=True))
+        self.item.add_notation(Note.GraceNote(slash=True, first=True))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}}"]
@@ -270,7 +270,7 @@ class testGraceNoteContinue(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.GraceNote(slash=True))
+        self.item.add_notation(Note.GraceNote(slash=True))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}}"]
@@ -319,8 +319,8 @@ class testNoteArpeggiate(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.Arpeggiate(type="start"))
-        self.item.addNotation(Note.Arpeggiate(type="stop"))
+        self.item.add_notation(Note.Arpeggiate(type="start"))
+        self.item.add_notation(Note.Arpeggiate(type="stop"))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}"]
@@ -333,8 +333,8 @@ class testNoteNonArpeggiate(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.NonArpeggiate(type="start"))
-        self.item.addNotation(Note.NonArpeggiate(type="stop"))
+        self.item.add_notation(Note.NonArpeggiate(type="start"))
+        self.item.add_notation(Note.NonArpeggiate(type="stop"))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}"]
@@ -347,7 +347,7 @@ class testGliss(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.Glissando())
+        self.item.add_notation(Note.Glissando())
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}"]
@@ -360,7 +360,7 @@ class testSlide(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.Slide())
+        self.item.add_notation(Note.Slide())
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}"]
@@ -373,7 +373,7 @@ class testSlideStop(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Note.Slide(type="stop"))
+        self.item.add_notation(Note.Slide(type="stop"))
         Lily.setUp(self)
         self.compile = True
         self.wrappers = ["\\new Staff{", "}"]
@@ -386,7 +386,7 @@ class testNoteMordent(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Ornaments.Mordent())
+        self.item.add_notation(Ornaments.Mordent())
         self.lilystring = "c'\mordent"
         Lily.setUp(self)
         self.compile = True
@@ -399,7 +399,7 @@ class testNoteInvMordent(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Ornaments.InvertedMordent())
+        self.item.add_notation(Ornaments.InvertedMordent())
         self.lilystring = "c'\prall"
         Lily.setUp(self)
         self.compile = True
@@ -412,7 +412,7 @@ class testNoteTrill(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Ornaments.Trill())
+        self.item.add_notation(Ornaments.Trill())
         self.lilystring = "c'\\trill"
         Lily.setUp(self)
         self.compile = True
@@ -425,7 +425,7 @@ class testNoteTurn(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Ornaments.Turn())
+        self.item.add_notation(Ornaments.Turn())
         self.lilystring = "c'\\turn"
         Lily.setUp(self)
         self.compile = True
@@ -438,7 +438,7 @@ class testNoteInvTurn(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Ornaments.InvertedTurn())
+        self.item.add_notation(Ornaments.InvertedTurn())
         self.lilystring = "c'\\reverseturn"
         Lily.setUp(self)
         self.compile = True
@@ -451,7 +451,7 @@ class testNoteTremolo(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.addNotation(Ornaments.Tremolo(type="start"))
+        self.item.add_notation(Ornaments.Tremolo(type="start"))
 
         self.lilystring = "\\repeat tremolo 4 {c'"
         Lily.setUp(self)
@@ -465,7 +465,7 @@ class testNoteSlur(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.AddSlur(Directions.Slur(type="start"))
+        self.item.add_slur(Directions.Slur(type="start"))
 
         self.lilystring = "c'("
 
@@ -475,7 +475,7 @@ class testNoteTwoSlurs(Lily):
     def setUp(self):
         self.item = Note.Note()
         self.item.pitch = Note.Pitch()
-        self.item.AddSlur(Directions.Slur(type="stop"))
-        self.item.AddSlur(Directions.Slur(type="start"))
+        self.item.add_slur(Directions.Slur(type="stop"))
+        self.item.add_slur(Directions.Slur(type="start"))
         self.lilystring = "c')("
         Lily.setUp(self)

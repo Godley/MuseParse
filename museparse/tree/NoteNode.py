@@ -71,11 +71,11 @@ class NoteNode(Node):
                 child = child.GetChild(0)
 
     def SetGrace(self):
-        if self.item.Search(GraceNote) is None:
-            self.item.addNotation(GraceNote())
+        if self.item.search(GraceNote) is None:
+            self.item.add_notation(GraceNote())
 
     def SetLast(self):
-        result = self.item.Search(GraceNote)
+        result = self.item.search(GraceNote)
         if result is not None:
             result.last = True
 
@@ -86,32 +86,32 @@ class NoteNode(Node):
         :param type:
         :return:
         '''
-        result = self.item.Search(Arpeggiate)
+        result = self.item.search(Arpeggiate)
         if result is not None:
             if type == "start":
                 result.type = type
             child = self.GetChild(0)
             if child is not None:
-                if child.item.Search(Arpeggiate) is None:
+                if child.item.search(Arpeggiate) is None:
                     new_obj = copy.deepcopy(result)
                     new_obj.type = "none"
-                    child.GetItem().addNotation(new_obj)
+                    child.GetItem().add_notation(new_obj)
                 if child is not None and hasattr(child, "UpdateArpeggiates"):
                     child.UpdateArpeggiates(type="stop")
             else:
                 result.type = type
         else:
-            result = self.item.Search(NonArpeggiate)
+            result = self.item.search(NonArpeggiate)
             if result is not None:
                 if type == "start":
                     result.type = type
                 child = self.GetChild(0)
                 if child is not None:
-                    search = child.item.Search(NonArpeggiate)
+                    search = child.item.search(NonArpeggiate)
                     if search is None:
                         cpy = copy.deepcopy(result)
                         cpy.type = "none"
-                        child.item.addNotation(cpy)
+                        child.item.add_notation(cpy)
                     if hasattr(child, "UpdateArpeggiates"):
                         child.UpdateArpeggiates(type="bottom")
                 else:
@@ -125,7 +125,7 @@ class NoteNode(Node):
             self.duration = 0
 
     def CheckForGraceNotes(self):
-        result = self.item.Search(GraceNote)
+        result = self.item.search(GraceNote)
         if result is not None:
             first_child = self.GetChild(0)
             if isinstance(self.GetChild(0), NoteNode):
@@ -198,14 +198,14 @@ class NoteNode(Node):
                         int) and not isinstance(
                         new_note.GetItem(),
                         str):
-                    post, pre, wrap = new_note.GetItem().GetAllNotation()
-                    [self.GetItem().addNotation(n)
-                     for n in post if self.GetItem().Search(type(n)) is None]
-                    [self.GetItem().addNotation(p)
-                     for p in pre if self.GetItem().Search(type(p)) is None]
-                    [self.GetItem().addNotation(w)
-                     for w in wrap if self.GetItem().Search(type(w)) is None]
-                    new_note.GetItem().FlushNotation()
+                    post, pre, wrap = new_note.GetItem().get_all_notation()
+                    [self.GetItem().add_notation(n)
+                     for n in post if self.GetItem().search(type(n)) is None]
+                    [self.GetItem().add_notation(p)
+                     for p in pre if self.GetItem().search(type(p)) is None]
+                    [self.GetItem().add_notation(w)
+                     for w in wrap if self.GetItem().search(type(w)) is None]
+                    new_note.GetItem().flush_notation()
                 self.PositionChild(0, new_note)
         else:
             if not isinstance(
@@ -213,14 +213,14 @@ class NoteNode(Node):
                     int) and not isinstance(
                     new_note.GetItem(),
                     str):
-                post, pre, wrap = new_note.GetItem().GetAllNotation()
-                [self.GetItem().addNotation(n)
-                 for n in post if self.GetItem().Search(type(n)) is None]
-                [self.GetItem().addNotation(p)
-                 for p in pre if self.GetItem().Search(type(p)) is None]
-                [self.GetItem().addNotation(w)
-                 for w in wrap if self.GetItem().Search(type(w)) is None]
-                new_note.GetItem().FlushNotation()
+                post, pre, wrap = new_note.GetItem().get_all_notation()
+                [self.GetItem().add_notation(n)
+                 for n in post if self.GetItem().search(type(n)) is None]
+                [self.GetItem().add_notation(p)
+                 for p in pre if self.GetItem().search(type(p)) is None]
+                [self.GetItem().add_notation(w)
+                 for w in wrap if self.GetItem().search(type(w)) is None]
+                new_note.GetItem().flush_notation()
             self.AddChild(new_note)
 
     def toLily(self):
@@ -237,24 +237,24 @@ class NoteNode(Node):
             if isinstance(self.GetChild(0), NoteNode):
                 if not hasattr(self.item, "chord") or not self.item.chord:
                     self.item.chord = "start"
-            lilystring += self.item.toLily()
+            lilystring += self.item.to_lily()
         children = self.GetChildrenIndexes()
         written = False
         for child in children:
             if self.GetChild(child) is not None:
                 if isinstance(self.GetChild(child), NoteNode):
                     lilystring += " "
-                return_val = self.GetChild(child).toLily()
+                return_val = self.GetChild(child).to_lily()
                 if isinstance(return_val, str):
                     lilystring += return_val
                 else:
                     lilystring = return_val[0] + lilystring + return_val[1]
                 if isinstance(child, OtherNodes.ExpressionNode):
                     written = True
-                    lilystring += self.item.GetClosingNotationLilies()
+                    lilystring += self.item.get_closing_notation_as_lilypond()
 
         if len(children) == 0 or not written:
-            lilystring += self.item.GetClosingNotationLilies()
+            lilystring += self.item.get_closing_notation_as_lilypond()
         return lilystring
 
     def PositionChild(self, key, node):

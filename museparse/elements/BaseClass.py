@@ -8,7 +8,7 @@ class Base(object):
     def __init__(self):
         self.indent = 1
 
-    def toLily(self):
+    def to_lily(self):
         '''
         Method which in any sub classes produces a string, which is a line of lilypond scripting representing the class
         and its variables.

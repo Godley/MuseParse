@@ -159,10 +159,10 @@ class testAddToMeasure(unittest.TestCase):
     def testLilyOutputOfPlaceholders(self):
         self.measure.addPlaceholder()
         voice = self.measure.getVoice(1)
-        self.assertEqual(voice.GetChild(0).toLily(), "")
+        self.assertEqual(voice.GetChild(0).to_lily(), "")
 
     def testLilyOutputOfPlaceholdersWithChildren(self):
         self.measure.addPlaceholder()
         self.measure.addDirection(1)
         voice = self.measure.getVoice(1)
-        self.assertEqual(voice.GetChild(0).toLily(), "")
+        self.assertEqual(voice.GetChild(0).to_lily(), "")

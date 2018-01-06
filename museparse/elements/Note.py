@@ -1,9 +1,9 @@
 import math
 
-from museparse.classes.ObjectHierarchy.ItemClasses import BaseClass, Mark, Ornaments
+from museparse.elements import baseclass, mark, ornaments
 
 
-class Tie(BaseClass.Base):
+class Tie(baseclass.Base):
     """
     Class representing a tie.
 
@@ -12,11 +12,11 @@ class Tie(BaseClass.Base):
     """
 
     def __init__(self, type):
-        BaseClass.Base.__init__(self)
+        super().__init__()
         if type is not None:
             self.type = type
 
-    def toLily(self):
+    def to_lily(self):
         lily = ""
         if hasattr(self, "type"):
             if self.type == "start":
@@ -24,7 +24,7 @@ class Tie(BaseClass.Base):
         return lily
 
 
-class Notehead(BaseClass.Base):
+class Notehead(baseclass.Base):
 
     """
     Class representing noteheads.
@@ -34,11 +34,11 @@ class Notehead(BaseClass.Base):
     """
 
     def __init__(self, filled=False, type=""):
-        BaseClass.Base.__init__(self)
+        super().__init__()
         self.filled = filled
         self.type = type
 
-    def toLily(self):
+    def to_lily(self):
         pre_note = "\n\\tweak #'style #'"
         if self.type != "":
             ignore = [
@@ -71,7 +71,7 @@ class Notehead(BaseClass.Base):
         return [pre_note + "\n", ""]
 
 
-class Stem(BaseClass.Base):
+class Stem(baseclass.Base):
 
     """
     Class representing the note's stem.
@@ -82,12 +82,12 @@ class Stem(BaseClass.Base):
     def __init__(self, type):
         if type is not None:
             self.type = type
-        BaseClass.Base.__init__(self)
+        baseclass.Base.__init__(self)
 
     def __str__(self):
         return self.type
 
-    def toLily(self):
+    def to_lily(self):
         val = "\n\stem"
         if not hasattr(self, "type"):
             val += "Neutral"
@@ -96,7 +96,7 @@ class Stem(BaseClass.Base):
         return val
 
 
-class Pitch(BaseClass.Base):
+class Pitch(baseclass.Base):
 
     """
     Class representing the pitch of the note
@@ -120,7 +120,7 @@ class Pitch(BaseClass.Base):
             self.accidental = kwargs["accidental"]
         if "unpitched" in kwargs:
             self.unpitched = True
-        BaseClass.Base.__init__(self)
+        baseclass.Base.__init__(self)
 
     def __str__(self):
         st = ""
@@ -140,7 +140,7 @@ class Pitch(BaseClass.Base):
             st += self.octave
         return st
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         if not hasattr(self, "step"):
             val += "c"
@@ -177,7 +177,7 @@ class Pitch(BaseClass.Base):
         return val
 
 
-class Note(BaseClass.Base):
+class Note(baseclass.Base):
 
     """
     Big class representing a note.
@@ -195,7 +195,7 @@ class Note(BaseClass.Base):
     """
 
     def __init__(self, **kwargs):
-        BaseClass.Base.__init__(self)
+        baseclass.Base.__init__(self)
         self.ties = []
         self.beams = {}
         if "rest" in kwargs:
@@ -211,7 +211,7 @@ class Note(BaseClass.Base):
         if "chord" in kwargs and kwargs["chord"] is not None:
             self.chord = kwargs["chord"]
         if "type" in kwargs and kwargs["type"] is not None:
-            self.SetType(kwargs["type"])
+            self.set_type(kwargs["type"])
         elif "duration" in kwargs:
             self.duration = kwargs["duration"]
         if "divisions" in kwargs and kwargs["divisions"] is not None:
@@ -230,7 +230,7 @@ class Note(BaseClass.Base):
 
         self.has_tremolo = False
 
-    def AddSlur(self, item):
+    def add_slur(self, item):
         '''
         Very simple method which is used for adding slurs.
         :param item:
@@ -240,10 +240,10 @@ class Note(BaseClass.Base):
             self.slurs = []
         self.slurs.append(item)
 
-    def GetAllNotation(self):
+    def get_all_notation(self):
         return self.prenotation, self.wrap_notation, self.postnotation
 
-    def GetNotation(self, id, type):
+    def get_notation(self, id, type):
         '''
         method which searches for notation from <type> list at position <id>
         :param id: the number to look for - i.e if you're looking for the first one in wrap notation, id will be 0
@@ -266,26 +266,26 @@ class Note(BaseClass.Base):
                                                        1 and len(self.postnotation) > id):
                 return self.wrap_notation[id]
 
-    def FlushNotation(self):
+    def flush_notation(self):
         self.prenotation = []
         self.wrap_notation = []
         self.postnotation = []
         self.closing_notation = []
 
-    def GetClosingNotationLilies(self):
+    def get_closing_notation_as_lilypond(self):
         '''
         Converts notation in closing_notation into a lilypond string.
         :return: str
         '''
         lstring = ""
         for notation in self.closing_notation:
-            result = notation.toLily()
+            result = notation.to_lily()
             if type(result) == list:
                 result = "".join(result)
             lstring += result
         return lstring
 
-    def addNotation(self, obj):
+    def add_notation(self, obj):
         '''
         Method to add new notation. Use this rather than adding directly so new classes can be added automatically
         without needing to know which list to add it to in the main code.
@@ -298,18 +298,18 @@ class Note(BaseClass.Base):
             NonArpeggiate,
             Slide,
             Glissando,
-            Mark.Caesura,
-            Mark.BreathMark,
+            mark.Caesura,
+            mark.BreathMark,
             GraceNote]
         # method to handle addition of notation: done here to avoid repetitive
         # code in main parser
-        if isinstance(obj, Ornaments.Tremolo) or isinstance(obj, Tuplet):
-            if isinstance(obj, Ornaments.Tremolo):
+        if isinstance(obj, ornaments.Tremolo) or isinstance(obj, Tuplet):
+            if isinstance(obj, ornaments.Tremolo):
                 options = {1: 2, 2: 4, 3: 8}
                 if hasattr(obj, "value"):
                     self.trem_length = options[obj.value]
             if hasattr(obj, "type"):
-                if isinstance(obj, Ornaments.Tremolo) and obj.type != "single":
+                if isinstance(obj, ornaments.Tremolo) and obj.type != "single":
                     self.trem_length *= 2
                 if obj.type == "stop":
                     self.closing_notation.append(obj)
@@ -336,7 +336,7 @@ class Note(BaseClass.Base):
         if len(self.postnotation) == 0 or add:
             self.postnotation.append(obj)
 
-    def SetType(self, vtype):
+    def set_type(self, vtype):
         '''
         Sets the type, i.e duration of the note. Types are given as keys inside options
         :param vtype: str - see keys in options for full list
@@ -358,7 +358,7 @@ class Note(BaseClass.Base):
         if vtype in options:
             self.duration = options[self.val_type]
 
-    def CheckDivisions(self, measure_div):
+    def check_divisions(self, measure_div):
         '''
         Method which is called from voice/measure to update the divisions for each note which are stored at
         measure level, but needed at lilypond time to figure out lilypond notation
@@ -373,13 +373,13 @@ class Note(BaseClass.Base):
     def __str__(self):
         if hasattr(self, "divisions") and hasattr(self, "duration"):
             self.duration = self.duration / self.divisions
-        st = BaseClass.Base.__str__(self)
+        st = baseclass.Base.__str__(self)
         return st
 
-    def addDot(self):
+    def add_dot(self):
         self.dots += 1
 
-    def handlePreLilies(self):
+    def get_pre_notation_as_lilypond(self):
         '''
         Fetches all notation to come before the note as a lilypond string
         :return: str
@@ -389,20 +389,20 @@ class Note(BaseClass.Base):
             if self.chord == "start":
                 val += "<"
         if hasattr(self, "grace"):
-            val += self.grace.toLily() + " "
-        tuplet = self.Search(Tuplet, 1)
+            val += self.grace.to_lily() + " "
+        tuplet = self.search(Tuplet, 1)
         if tuplet is None and hasattr(self, "timeMod") and self.timeMod.first:
             val += "\once \override TupletBracket.bracket-visibility = ##f\n"
             val += "\omit TupletNumber\n"
-            val += "\\tuplet " + self.timeMod.toLily() + " {"
+            val += "\\tuplet " + self.timeMod.to_lily() + " {"
         for item in self.prenotation:
-            lilystring = item.toLily()
+            lilystring = item.to_lily()
             if isinstance(item, Tuplet):
                 if hasattr(self, "timeMod"):
-                    lilystring += " " + self.timeMod.toLily()
+                    lilystring += " " + self.timeMod.to_lily()
                     lilystring += " {"
 
-            if isinstance(item, Ornaments.Tremolo):
+            if isinstance(item, ornaments.Tremolo):
                 if not hasattr(self, "trem_length"):
                     self.trem_length = lilystring[1]
                     lilystring = lilystring[0]
@@ -410,11 +410,11 @@ class Note(BaseClass.Base):
 
         return val
 
-    def GetBeams(self):
+    def get_beams(self):
         if hasattr(self, "beams"):
             return self.beams
 
-    def getLilyDuration(self):
+    def get_lily_duration(self):
         """
         method to calculate duration of note in lilypond duration style
         :return:
@@ -452,14 +452,14 @@ class Note(BaseClass.Base):
             value = str(value)
         return value
 
-    def addBeam(self, id, beam):
+    def add_beam(self, id, beam):
         if not hasattr(self, "beams"):
             self.beams = {}
         result = [True for b in self.beams if self.beams[b].type == beam.type]
         if len(result) < 1:
             self.beams[id] = beam
 
-    def AddTie(self, type):
+    def add_tie(self, type):
         add = True
         for tie in self.ties:
             if tie.type == type:
@@ -468,14 +468,14 @@ class Note(BaseClass.Base):
         if add:
             self.ties.append(Tie(type))
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         value = ""
         if hasattr(self, "print") and not self.print:
             val += "\n\\hideNotes\n"
-        val += self.handlePreLilies()
+        val += self.get_pre_notation_as_lilypond()
         if hasattr(self, "pitch") and not self.rest:
-            val += self.pitch.toLily()
+            val += self.pitch.to_lily()
 
         if self.rest:
             if not hasattr(self, "MeasureRest") or not self.MeasureRest:
@@ -487,18 +487,18 @@ class Note(BaseClass.Base):
                 self,
                 "MeasureRest") or not self.MeasureRest):
             if not hasattr(self, "chord"):
-                val += self.getLilyDuration()
+                val += self.get_lily_duration()
                 for dot in range(self.dots):
                     val += "."
-        val += self.handlePostLilies()
-        value = self.LilyWrap(val)
+        val += self.handle_post_lilies()
+        value = self.lily_wrap(val)
         if hasattr(self, "print"):
             value += "\n\\unHideNotes"
         if hasattr(self, "close_timemod") and self.close_timemod:
             value += "}"
         return value
 
-    def LilyWrap(self, value):
+    def lily_wrap(self, value):
         '''
         Method to fetch lilypond representation of wrap_notation
         :param value: current lilypond string to wrap
@@ -506,9 +506,9 @@ class Note(BaseClass.Base):
         '''
         prefixes = ""
         wrapped_notation_lilystrings = [
-            wrap.toLily() for wrap in self.wrap_notation]
+            wrap.to_lily() for wrap in self.wrap_notation]
         if hasattr(self, "notehead"):
-            wrapped_notation_lilystrings.append(self.notehead.toLily())
+            wrapped_notation_lilystrings.append(self.notehead.to_lily())
 
         prefixes += "".join([wrapper[0] +
                              " " for wrapper in wrapped_notation_lilystrings if wrapper is not None and len(wrapper) > 1])
@@ -518,11 +518,11 @@ class Note(BaseClass.Base):
         lilystring = prefixes_and_current + postfixes
         return lilystring
 
-    def handlePostLilies(self):
+    def handle_post_lilies(self):
         val = ""
         if hasattr(self, "chord") and self.chord == "stop":
             val += ">"
-            val += self.getLilyDuration()
+            val += self.get_lily_duration()
             for dot in range(self.dots):
                 val += "."
         if not hasattr(self, "chord") or self.chord == "stop":
@@ -532,19 +532,19 @@ class Note(BaseClass.Base):
                 not hasattr(
                     self,
                     "autoBeam") or not self.autoBeam):
-                val += "".join([self.beams[beam].toLily()
+                val += "".join([self.beams[beam].to_lily()
                                 for beam in self.beams])
             if hasattr(self, "slurs"):
-                val += "".join([slur.toLily() for slur in self.slurs])
-            val += "".join([tie.toLily() for tie in self.ties])
-        val += "".join([value.toLily()
-                        for value in self.postnotation if type(value.toLily()) is str])
-        val += "".join([value.toLily()[0] for value in self.postnotation if type(
-            value.toLily()) is list and len(value.toLily()) > 0])
+                val += "".join([slur.to_lily() for slur in self.slurs])
+            val += "".join([tie.to_lily() for tie in self.ties])
+        val += "".join([value.to_lily()
+                        for value in self.postnotation if type(value.to_lily()) is str])
+        val += "".join([value.to_lily()[0] for value in self.postnotation if type(
+            value.to_lily()) is list and len(value.to_lily()) > 0])
 
         return val
 
-    def Search(self, cls_type, list_id=-1):
+    def search(self, cls_type, list_id=-1):
         '''
         Method which looks for a particular class type in a particular list
         :param cls_type: the type of object to find
@@ -573,7 +573,7 @@ class Note(BaseClass.Base):
                     return item
 
 
-class Tuplet(BaseClass.Base):
+class Tuplet(baseclass.Base):
 
     """
     Tuplet class.
@@ -590,7 +590,7 @@ class Tuplet(BaseClass.Base):
         if "bracket" in kwargs:
             if kwargs["bracket"] is not None:
                 self.bracket = kwargs["bracket"]
-        BaseClass.Base.__init__(self)
+        super().__init__()
 
     def toLily(self):
         val = ""
@@ -607,7 +607,7 @@ class Tuplet(BaseClass.Base):
         return val
 
 
-class GraceNote(BaseClass.Base):
+class GraceNote(baseclass.Base):
 
     """
     Gracenotes.
@@ -625,9 +625,9 @@ class GraceNote(BaseClass.Base):
             self.slash = kwargs["slash"]
         if "first" in kwargs and kwargs["first"] is not None:
             self.first = kwargs["first"]
-        BaseClass.Base.__init__(self)
+        super().__init__()
 
-    def toLily(self):
+    def to_lily(self):
         val = "\grace"
         ending = ""
         if hasattr(self, "slash") and self.slash:
@@ -643,7 +643,7 @@ class GraceNote(BaseClass.Base):
         return [val, ending]
 
 
-class TimeModifier(BaseClass.Base):
+class TimeModifier(baseclass.Base):
 
     """
     Class representing a time mod: these sometimes appear in music xml where there are tuplets.
@@ -655,7 +655,7 @@ class TimeModifier(BaseClass.Base):
     """
 
     def __init__(self, **kwargs):
-        BaseClass.Base.__init__(self)
+        super().__init__()
         self.first = False
         if "first" in kwargs and kwargs["first"] is not None:
             self.first = kwargs["first"]
@@ -674,7 +674,7 @@ class TimeModifier(BaseClass.Base):
         return val
 
 
-class Arpeggiate(BaseClass.Base):
+class Arpeggiate(baseclass.Base):
 
     """
     Arpeggiate class
@@ -687,7 +687,7 @@ class Arpeggiate(BaseClass.Base):
 
     def __init__(self, **kwargs):
         self.wrapped = True
-        BaseClass.Base.__init__(self)
+        super().__init__()
         if "direction" in kwargs:
             self.direction = kwargs["direction"]
         if "type" in kwargs:
@@ -695,7 +695,7 @@ class Arpeggiate(BaseClass.Base):
         else:
             self.type = "none"
 
-    def toLily(self):
+    def to_lily(self):
         var = "\\arpeggio"
         if not hasattr(self, "direction") or self.direction is None:
             var += "Normal"
@@ -709,7 +709,7 @@ class Arpeggiate(BaseClass.Base):
             return [""]
 
 
-class Slide(BaseClass.Base):
+class Slide(baseclass.Base):
 
     """
     Optional Inputs:
@@ -720,7 +720,7 @@ class Slide(BaseClass.Base):
 
     def __init__(self, **kwargs):
         self.wrapped = True
-        BaseClass.Base.__init__(self)
+        super().__init__()
         if "type" in kwargs:
             if kwargs["type"] is not None:
                 self.type = kwargs["type"]
@@ -731,7 +731,7 @@ class Slide(BaseClass.Base):
             if kwargs["number"] is not None:
                 self.number = kwargs["number"]
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         gliss = "\glissando"
         values = []
@@ -755,9 +755,9 @@ class Glissando(Slide):
     A glissando - like a slide, but it really only comes in "wavy" type so lineType is completely ignored.
     """
 
-    def toLily(self):
+    def to_lily(self):
         self.lineType = "wavy"
-        vals = Slide.toLily(self)
+        vals = Slide.to_lily(self)
         return vals
 
 
@@ -769,7 +769,7 @@ class NonArpeggiate(Arpeggiate):
         if "type" in kwargs:
             self.type = kwargs["type"]
 
-    def toLily(self):
+    def to_lily(self):
         if self.type == "start":
             return ["\\arpeggioBracket", ""]
         if self.type == "stop":
@@ -788,7 +788,7 @@ class Beam(Stem):
         - type - indicates whether this is a starting, continuing or ending beam.
     """
 
-    def toLily(self):
+    def to_lily(self):
         val = ""
         if hasattr(self, "type"):
             if self.type == "begin":

@@ -55,7 +55,7 @@ class PartNode(IndexedNode):
         staves = self.GetChildrenIndexes()
         for staff in staves:
             child = self.getStaff(staff)
-            child.CheckDivisions()
+            child.check_divisions()
 
     def CheckTotals(self):
         """method to calculate the maximum total lilypond value for a measure without a time signature"""
@@ -233,7 +233,7 @@ class PartNode(IndexedNode):
                         staffstring += "shortInstrumentName = " + \
                             shortname + " \n"
                     staffstring += " }"
-            staffstring += "{" + self.GetChild(staff).toLily() + " }\n\n"
+            staffstring += "{" + self.GetChild(staff).to_lily() + " }\n\n"
             first_part += staffstring
 
         second_part = ""

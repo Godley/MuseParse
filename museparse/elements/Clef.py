@@ -63,7 +63,7 @@ class Clef(object):
             name += "shifted " + str(self.octave_change) + " octave(s)"
         return name
 
-    def toLily(self):
+    def to_lily(self):
         '''
         Method which converts the object instance and its attributes to a string of lilypond code
 

@@ -76,7 +76,7 @@ class Barline(BaseClass.Base):
                 if self.repeat == "backward-barline-double":
                     lilystring = " \\bar \":|.|:\""
             if hasattr(self, "ending"):
-                lilystring += self.ending.toLily()
+                lilystring += self.ending.to_lily()
 
         return lilystring
 

@@ -35,13 +35,13 @@ class VoiceNode(Node):
                 # look for arpeggiates or non-arpeggiates, and update the note's childnodes
                 # used where a note is part of a chord (usually the case in
                 # arpeggiates)
-                arpeg = item.Search(Arpeggiate)
-                narpeg = item.Search(NonArpeggiate)
+                arpeg = item.search(Arpeggiate)
+                narpeg = item.search(NonArpeggiate)
                 if arpeg is not None or narpeg is not None:
                     note.UpdateArpeggiates()
 
                 # now look for gracenotes
-                result = item.Search(GraceNote)
+                result = item.search(GraceNote)
                 if result is not None and previous is None:
                     # if this is the first note in the bar, it must be the
                     # first gracenote
@@ -56,7 +56,7 @@ class VoiceNode(Node):
 
                     # look for timemods
                     if hasattr(item, "timeMod"):
-                        result = item.Search(Tuplet)
+                        result = item.search(Tuplet)
                         if result is None:
                             item.close_timemod = True
                         if previous is not None:
@@ -76,8 +76,8 @@ class VoiceNode(Node):
                     if next_item is not None and isinstance(
                             next,
                             NoteNode.NoteNode):
-                        result = item.Search(GraceNote)
-                        next_result = next_item.Search(GraceNote)
+                        result = item.search(GraceNote)
+                        next_result = next_item.search(GraceNote)
                         if result is not None:
                             if next_result is None:
                                 note.CheckForGraceNotes()
@@ -85,7 +85,7 @@ class VoiceNode(Node):
                                 result.last = False
                                 next_result.first = False
                         if hasattr(item, "timeMod"):
-                            res = item.Search(Tuplet)
+                            res = item.search(Tuplet)
 
                             if not hasattr(
                                     next_item,
@@ -133,10 +133,10 @@ class VoiceNode(Node):
                         counter += 0.5
             if counter > total / 2:
                 if hasattr(self, "mid_barline"):
-                    lilystring += self.mid_barline.toLily()
+                    lilystring += self.mid_barline.to_lily()
                     self.__delattr__("mid_barline")
             if hasattr(self, "rest") and hasattr(self, "total"):
                 lilystring += "R" + self.total
             else:
-                lilystring += note.toLily() + " "
+                lilystring += note.to_lily() + " "
         return lilystring
