@@ -1,9 +1,9 @@
 import unittest
 
-from museparse.classes.ObjectHierarchy.ItemClasses import Key, BarlinesAndMarkers, Clef, Harmony, Part
-from museparse.classes.Input import MxmlParser
-from museparse.classes.ObjectHierarchy.TreeClasses.PieceTree import PieceTree
-from museparse.classes.ObjectHierarchy.TreeClasses.MeasureNode import MeasureNode
+from museparse.elements import key, barlinesandmarkers, clef, harmony, part
+from museparse.input import mxmlparser
+from museparse.tree.piecetree import PieceTree
+from museparse.tree.measurenode import MeasureNode
 
 
 class MeasureTesting(unittest.TestCase):
@@ -13,13 +13,13 @@ class MeasureTesting(unittest.TestCase):
         self.tags.append("measure")
         self.attrs = {"measure": {"number": "1"}, "part": {"id": "P1"}}
         self.chars = {}
-        self.handler = MxmlParser.HandleMeasures
+        self.handler = mxmlparser.HandleMeasures
         self.piece = PieceTree()
-        self.piece.addPart(index="P1", item=Part.Part())
+        self.piece.addPart(index="P1", item=part.Part())
         self.part = self.piece.getPart("P1")
-        MxmlParser.direction = None
-        MxmlParser.note = None
-        MxmlParser.expression = None
+        mxmlparser.direction = None
+        mxmlparser.note = None
+        mxmlparser.expression = None
         self.data = {
             "note": None,
             "direction": None,
@@ -34,7 +34,7 @@ class MeasureTesting(unittest.TestCase):
 class testHandleMeasures(MeasureTesting):
 
     def testNoData(self):
-        MxmlParser.part_id = None
+        mxmlparser.part_id = None
         self.tags.remove("measure")
         self.attrs.pop("measure")
         self.assertEqual(
@@ -47,7 +47,7 @@ class testHandleMeasures(MeasureTesting):
                 self.data))
 
     def testUnrelatedTag(self):
-        MxmlParser.part_id = None
+        mxmlparser.part_id = None
         self.tags.remove("measure")
         self.attrs.pop("measure")
         self.tags.append("wibble")
@@ -97,7 +97,7 @@ class testKeySig(MeasureTesting):
         self.chars["mode"] = "minor"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         exp_measure = self.piece.getPart("P1").getMeasure(1, 1)
-        self.assertIsInstance(exp_measure.GetLastKey(), Key.Key)
+        self.assertIsInstance(exp_measure.GetLastKey(), key.Key)
         self.assertEqual("minor", exp_measure.GetLastKey().mode)
 
     def testFifthsTag(self):
@@ -107,7 +107,7 @@ class testKeySig(MeasureTesting):
         self.chars["fifths"] = "3"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         exp_measure = self.piece.getPart("P1").getMeasure(1, 1)
-        self.assertIsInstance(exp_measure.GetLastKey(), Key.Key)
+        self.assertIsInstance(exp_measure.GetLastKey(), key.Key)
         self.assertEqual(3, exp_measure.GetLastKey().fifths)
 
     def testKeySigWithStaffAssignment(self):
@@ -119,7 +119,7 @@ class testKeySig(MeasureTesting):
         self.chars["fifths"] = "3"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         exp_measure = self.piece.getPart("P1").getMeasure(1, 2)
-        self.assertIsInstance(exp_measure.GetLastKey(), Key.Key)
+        self.assertIsInstance(exp_measure.GetLastKey(), key.Key)
 
     def testKeyWithoutStaffAssignment(self):
         self.piece.getPart("P1").addEmptyMeasure(1, 1)
@@ -132,8 +132,8 @@ class testKeySig(MeasureTesting):
         self.chars["fifths"] = "3"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(exp_measure.GetLastKey(), Key.Key)
-        self.assertIsInstance(measure_2.GetLastKey(), Key.Key)
+        self.assertIsInstance(exp_measure.GetLastKey(), key.Key)
+        self.assertIsInstance(measure_2.GetLastKey(), key.Key)
 
 
 class testMeter(MeasureTesting):
@@ -176,7 +176,7 @@ class testClef(MeasureTesting):
         self.chars["line"] = 2
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         exp_measure = self.piece.getPart("P1").getMeasure(1, 1)
-        self.assertIsInstance(exp_measure.GetLastClef(), Clef.Clef)
+        self.assertIsInstance(exp_measure.GetLastClef(), clef.Clef)
         self.assertEqual(2, exp_measure.GetLastClef().line)
 
     def testSignTag(self):
@@ -186,7 +186,7 @@ class testClef(MeasureTesting):
         self.chars["sign"] = "G"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         exp_measure = self.piece.getPart("P1").getMeasure(1, 1)
-        self.assertIsInstance(exp_measure.GetLastClef(), Clef.Clef)
+        self.assertIsInstance(exp_measure.GetLastClef(), clef.Clef)
         self.assertEqual("G", exp_measure.GetLastClef().sign)
 
     def testClefWithNumber(self):
@@ -198,7 +198,7 @@ class testClef(MeasureTesting):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         exp_measure = self.piece.getPart("P1").getMeasure(1, 2)
         other_measure = self.piece.getPart("P1").getMeasure(1, 1)
-        self.assertIsInstance(exp_measure.GetLastClef(), Clef.Clef)
+        self.assertIsInstance(exp_measure.GetLastClef(), clef.Clef)
         self.assertIsNone(other_measure.GetLastClef())
 
 
@@ -281,7 +281,7 @@ class testHarmony(MeasureTesting):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
         self.measure = self.part.getMeasure(1, 1)
-        self.assertIsInstance(self.data["direction"], Harmony.Harmony)
+        self.assertIsInstance(self.data["direction"], harmony.Harmony)
 
     def testRootStep(self):
         self.tags.append("root")
@@ -420,7 +420,7 @@ class testHarmony(MeasureTesting):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
         self.measure = self.part.getMeasure(1, 1)
-        self.assertIsInstance(self.data["direction"].frame, Harmony.Frame)
+        self.assertIsInstance(self.data["direction"].frame, harmony.Frame)
 
     def testFirstFret(self):
         self.tags.append("frame")
@@ -524,11 +524,11 @@ class testBarline(MeasureTesting):
         MeasureTesting.setUp(self)
         self.part.addEmptyMeasure(1, 1)
         self.measure = self.part.getMeasure(1, 1)
-        self.handler = MxmlParser.handleBarline
+        self.handler = mxmlparser.handleBarline
         self.tags.append("barline")
         self.data = {"note": None, "direction": None, "expression": None}
         self.data["staff_id"] = 1
-        MxmlParser.last_barline = None
+        mxmlparser.last_barline = None
 
     def testBarline(self):
         self.attrs["barline"] = {"location": "left"}
@@ -542,7 +542,7 @@ class testBarline(MeasureTesting):
         self.assertTrue("left" in self.measure.barlines.keys())
         self.assertIsInstance(
             self.measure.GetBarline("left"),
-            BarlinesAndMarkers.Barline)
+            barlinesandmarkers.Barline)
 
     def testBarStyle(self):
         self.attrs["barline"] = {"location": "left"}
@@ -564,7 +564,7 @@ class testBarline(MeasureTesting):
         self.attrs["barline"] = {"location": "left"}
         self.attrs["repeat"] = {"direction": "backward"}
 
-        MxmlParser.last_barline = BarlinesAndMarkers.Barline(repeat="forward")
+        mxmlparser.last_barline = barlinesandmarkers.Barline(repeat="forward")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
         self.assertEqual("backward", self.measure.GetBarline("left").repeat)
@@ -584,10 +584,10 @@ class testRepeatBarline(MeasureTesting):
         MeasureTesting.setUp(self)
         self.part.addEmptyMeasure(1, 1)
         self.measure = self.part.getMeasure(1, 1)
-        self.handler = MxmlParser.handleBarline
+        self.handler = mxmlparser.handleBarline
         self.tags.append("barline")
         self.data["staff_id"] = 1
-        MxmlParser.last_barline = None
+        mxmlparser.last_barline = None
         self.part.addEmptyMeasure(2, 1)
         self.attrs["measure"] = {"number": "2"}
         self.attrs["barline"] = {"location": "right"}

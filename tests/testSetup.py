@@ -2,7 +2,7 @@ import unittest
 import os
 import sys
 import subprocess
-from museparse.classes.Output.helpers import setupLilypondClean as setupLilypond
+from museparse.output.helpers import setupLilypondClean as setupLilypond
 
 
 class testLilySetup(unittest.TestCase):

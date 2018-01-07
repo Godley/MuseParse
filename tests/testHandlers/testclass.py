@@ -1,6 +1,6 @@
 import unittest
 
-from museparse.classes.ObjectHierarchy.TreeClasses.PieceTree import PieceTree
+from museparse.tree.piecetree import PieceTree
 
 
 class TestClass(unittest.TestCase):

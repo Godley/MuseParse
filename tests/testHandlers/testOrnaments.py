@@ -1,21 +1,21 @@
-from museparse.tests.testHandlers.testHandleNotesAndPitches import notes
-from museparse.classes.ObjectHierarchy.ItemClasses import Note, Ornaments
-from museparse.classes.Input import MxmlParser
+from tests.testHandlers.testHandleNotesAndPitches import notes
+from museparse.elements import note, ornaments
+from museparse.input import mxmlparser
 
 
 class testArpeggiates(notes):
 
     def setUp(self):
         notes.setUp(self)
-        self.handler = MxmlParser.HandleArpeggiates
+        self.handler = mxmlparser.HandleArpeggiates
         self.data = {}
-        self.data["note"] = Note.Note()
+        self.data["note"] = note.Note()
 
     def testArpeggiate(self):
         self.tags.append("arpeggiate")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "wrap"), Note.Arpeggiate)
+            self.data["note"].get_notation(-1, "wrap"), note.Arpeggiate)
 
     def testArpeggiateDirection(self):
         self.tags.append("arpeggiate")
@@ -30,7 +30,7 @@ class testArpeggiates(notes):
         self.tags.append("non-arpeggiate")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "wrap"), Note.NonArpeggiate)
+            self.data["note"].get_notation(-1, "wrap"), note.NonArpeggiate)
 
     def testNonArpeggiateType(self):
         self.tags.append("non-arpeggiate")
@@ -46,13 +46,13 @@ class testSlides(notes):
 
     def setUp(self):
         notes.setUp(self)
-        self.instance = Note.Slide
-        self.handler = MxmlParser.HandleSlidesAndGliss
+        self.instance = note.Slide
+        self.handler = mxmlparser.HandleSlidesAndGliss
         self.tags.append("slide")
 
         self.notation_type = "post"
         self.data = {}
-        self.data["note"] = Note.Note()
+        self.data["note"] = note.Note()
 
     def testSlide(self):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
@@ -95,8 +95,8 @@ class testGliss(testSlides):
         testSlides.setUp(self)
         self.tags.remove("slide")
         self.tags.append("glissando")
-        self.data["note"] = Note.Note()
-        self.instance = Note.Glissando
+        self.data["note"] = note.Note()
+        self.instance = note.Glissando
         self.notation_type = "wrap"
 
 
@@ -104,27 +104,27 @@ class testOrnaments(notes):
 
     def setUp(self):
         notes.setUp(self)
-        self.handler = MxmlParser.handleOrnaments
-        self.data["note"] = Note.Note()
+        self.handler = mxmlparser.handleOrnaments
+        self.data["note"] = note.Note()
         self.tags.append("ornaments")
 
     def testIMordent(self):
         self.tags.append("inverted-mordent")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "post"), Ornaments.InvertedMordent)
+            self.data["note"].get_notation(-1, "post"), ornaments.InvertedMordent)
 
     def testMordent(self):
         self.tags.append("mordent")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "post"), Ornaments.Mordent)
+            self.data["note"].get_notation(-1, "post"), ornaments.Mordent)
 
     def testTrill(self):
         self.tags.append("trill-mark")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "post"), Ornaments.Trill)
+            self.data["note"].get_notation(-1, "post"), ornaments.Trill)
 
     def testTrillWithLine(self):
         self.tags.append("wavy-line")
@@ -137,19 +137,19 @@ class testOrnaments(notes):
         self.tags.append("turn")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "post"), Ornaments.Turn)
+            self.data["note"].get_notation(-1, "post"), ornaments.Turn)
 
     def testInvertedTurn(self):
         self.tags.append("inverted-turn")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "post"), Ornaments.InvertedTurn)
+            self.data["note"].get_notation(-1, "post"), ornaments.InvertedTurn)
 
     def testTremolo(self):
         self.tags.append("tremolo")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "pre"), Ornaments.Tremolo)
+            self.data["note"].get_notation(-1, "pre"), ornaments.Tremolo)
 
     def testTremoloType(self):
         self.tags.append("tremolo")

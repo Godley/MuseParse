@@ -1,12 +1,12 @@
 import unittest
 
-from museparse.classes.Input import MxmlParser
+from museparse.input import mxmlparser
 
 
 class testCheckDynamics(unittest.TestCase):
 
     def setUp(self):
-        self.handler = MxmlParser.CheckDynamics
+        self.handler = mxmlparser.CheckDynamics
 
     def testEmpty(self):
         self.assertFalse(self.handler(''))

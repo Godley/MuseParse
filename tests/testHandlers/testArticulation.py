@@ -1,21 +1,21 @@
-from museparse.tests.testHandlers import testclass
-from museparse.classes.ObjectHierarchy.ItemClasses import Directions, Note, Mark, Part
-from museparse.classes.Input import MxmlParser
+from tests.testHandlers import testclass
+from museparse.elements import directions, note, mark, part
+from museparse.input import mxmlparser
 
 
 class testHandleArticulation(testclass.TestClass):
 
     def setUp(self):
         testclass.TestClass.setUp(self)
-        self.piece.addPart(index="P1", item=Part.Part())
+        self.piece.addPart(index="P1", item=part.Part())
         self.part = self.piece.getPart("P1")
         self.part.addEmptyMeasure(1, 1)
         measure = self.part.getMeasure(1, 1)
         self.data = {}
-        self.data["note"] = Note.Note()
+        self.data["note"] = note.Note()
         self.note = self.data["note"]
         measure.addNote(self.data["note"])
-        self.handler = MxmlParser.handleArticulation
+        self.handler = mxmlparser.handleArticulation
         self.tags.append("articulations")
 
     def testNoData(self):
@@ -54,7 +54,7 @@ class testHandleArticulation(testclass.TestClass):
     def testArticulationAccentTag(self):
         self.tags.append("accent")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.note.get_notation(-1, "post"), Mark.Accent)
+        self.assertIsInstance(self.note.get_notation(-1, "post"), mark.Accent)
 
     def testArticulationAccentType(self):
         self.tags.append("accent")
@@ -65,7 +65,7 @@ class testHandleArticulation(testclass.TestClass):
         self.tags.append("strong-accent")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.note.get_notation(-1, "post"), Mark.StrongAccent)
+            self.note.get_notation(-1, "post"), mark.StrongAccent)
 
     def testArticulationStrongAccentTag(self):
         self.tags.append("strong-accent")
@@ -76,7 +76,7 @@ class testHandleArticulation(testclass.TestClass):
     def testStaccato(self):
         self.tags.append("staccato")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.note.get_notation(-1, "post"), Mark.Staccato)
+        self.assertIsInstance(self.note.get_notation(-1, "post"), mark.Staccato)
 
     def testStaccatoSymbol(self):
         self.tags.append("staccato")
@@ -87,7 +87,7 @@ class testHandleArticulation(testclass.TestClass):
         self.tags.append("staccatissimo")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.note.get_notation(-1, "post"), Mark.Staccatissimo)
+            self.note.get_notation(-1, "post"), mark.Staccatissimo)
 
     def testStaccatissimoSymbol(self):
         self.tags.append("staccatissimo")
@@ -98,7 +98,7 @@ class testHandleArticulation(testclass.TestClass):
         self.tags.append("detached-legato")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.note.get_notation(-1, "post"), Mark.DetachedLegato)
+            self.note.get_notation(-1, "post"), mark.DetachedLegato)
 
     def testDetachedLegSymbol(self):
         self.tags.append("detached-legato")
@@ -108,7 +108,7 @@ class testHandleArticulation(testclass.TestClass):
     def testTenuto(self):
         self.tags.append("tenuto")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.note.get_notation(-1, "post"), Mark.Tenuto)
+        self.assertIsInstance(self.note.get_notation(-1, "post"), mark.Tenuto)
 
     def testTenutoSymbol(self):
         self.tags.append("tenuto")
@@ -122,9 +122,9 @@ class testLyrics(testclass.TestClass):
         testclass.TestClass.setUp(self)
         self.tags.append("note")
         self.tags.append("lyric")
-        self.handler = MxmlParser.handleLyrics
+        self.handler = mxmlparser.handleLyrics
         self.data = {}
-        self.data["note"] = Note.Note()
+        self.data["note"] = note.Note()
 
     def testLyricCreation(self):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
@@ -156,13 +156,13 @@ class testFermata(testclass.TestClass):
         testclass.TestClass.setUp(self)
         self.tags.append("fermata")
         self.data = {}
-        self.data["note"] = Note.Note()
-        self.handler = MxmlParser.HandleFermata
+        self.data["note"] = note.Note()
+        self.handler = mxmlparser.HandleFermata
 
     def testFermata(self):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].get_notation(-1, "post"), Mark.Fermata)
+            self.data["note"].get_notation(-1, "post"), mark.Fermata)
 
     def testFermataType(self):
         self.attrs["fermata"] = {"type": "inverted"}
@@ -183,9 +183,9 @@ class testSlurs(testclass.TestClass):
         testclass.TestClass.setUp(self)
         self.tags.append("note")
         self.tags.append("notations")
-        self.handler = MxmlParser.handleOtherNotations
+        self.handler = mxmlparser.handleOtherNotations
         self.data = {}
-        self.data["note"] = Note.Note()
+        self.data["note"] = note.Note()
 
     def testNoData(self):
         self.tags.remove("note")
@@ -226,7 +226,7 @@ class testSlurs(testclass.TestClass):
         self.tags.append("slur")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertTrue(hasattr(self.data["note"], "slurs"))
-        self.assertEqual(Directions.Slur, type(self.data["note"].slurs[0]))
+        self.assertEqual(directions.Slur, type(self.data["note"].slurs[0]))
 
     def testSlurWithId(self):
         self.tags.append("slur")
@@ -258,9 +258,9 @@ class t(testclass.TestClass):
         testclass.TestClass.setUp(self)
         self.tags.append("note")
         self.tags.append("notations")
-        self.handler = MxmlParser.handleOtherNotations
+        self.handler = mxmlparser.handleOtherNotations
         self.data = {"direction": None}
-        self.data["note"] = Note.Note()
+        self.data["note"] = note.Note()
         self.tags.append("technical")
 
 
@@ -302,7 +302,7 @@ class testClosedTechnique(t):
         self.tags.append(self.tag)
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
-            self.data["note"].GetNotation(-1, "post"), Mark.Technique)
+            self.data["note"].GetNotation(-1, "post"), mark.Technique)
 
     def testTechniqueType(self):
         self.tags.append(self.tag)

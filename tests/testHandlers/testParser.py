@@ -1,14 +1,14 @@
 import unittest
 from unittest import mock
-from museparse.classes import Exceptions
-from museparse.classes.ObjectHierarchy.ItemClasses import Part
-from museparse.classes.Input import MxmlParser
+from museparse import exceptions
+from museparse.elements import part
+from museparse.input import mxmlparser
 
 
 class testSaxParser(unittest.TestCase):
 
     def setUp(self):
-        self.parser = MxmlParser.MxmlParser()
+        self.parser = mxmlparser.MxmlParser()
         self.tag_list = []
         self.attrs = []
 
@@ -46,7 +46,7 @@ class testSaxParser(unittest.TestCase):
 
     def testHandlerValue(self):
         tag = "movement-title"
-        handler = MxmlParser.SetupPiece
+        handler = mxmlparser.SetupPiece
         self.parser.StartTag(tag, None)
         self.assertEqual(
             handler,
@@ -117,7 +117,7 @@ class testSaxParser(unittest.TestCase):
     def testHandlerVal(self):
         tag = "movement-title"
         self.parser.StartTag(tag, {})
-        handler = MxmlParser.SetupPiece
+        handler = mxmlparser.SetupPiece
         self.assertEqual(
             handler,
             self.parser.handler,
@@ -129,7 +129,7 @@ class testSaxParser(unittest.TestCase):
             "ERROR: handler not unset correctly in testHandlerVal")
 
     def testNoteGlobalVal(self):
-        MxmlParser.note = "whaddup"
+        mxmlparser.note = "whaddup"
         self.parser.tags.append("note")
         self.parser.EndTag("note")
         self.assertEqual(
@@ -141,16 +141,16 @@ class testSaxParser(unittest.TestCase):
         self.parser.tags.append("measure")
         self.parser.tags.append("note")
         self.parser.EndTag("note")
-        self.assertEqual(MxmlParser.HandleMeasures, self.parser.handler)
+        self.assertEqual(mxmlparser.HandleMeasures, self.parser.handler)
 
 
 class testBackupAndForward(unittest.TestCase):
 
     def setUp(self):
-        self.parser = MxmlParser.MxmlParser()
+        self.parser = mxmlparser.mxmlparser()
         self.tag_list = []
         self.attrs = []
-        self.parser.piece.addPart(Part.Part(), index="P1")
+        self.parser.piece.addPart(part.Part(), index="P1")
         self.parser.tags.append("part")
         self.parser.attribs["part"] = {"id": "P1"}
         self.parser.StartTag("measure", {"number": "1"})
@@ -227,7 +227,7 @@ class testBackupAndForward(unittest.TestCase):
 class testDrumAndGuitarTabHandling(unittest.TestCase):
 
     def setUp(self):
-        self.parser = MxmlParser.MxmlParser()
+        self.parser = mxmlparser.mxmlparser()
         self.tag_list = []
         self.attrs = []
 
@@ -241,7 +241,7 @@ class testDrumAndGuitarTabHandling(unittest.TestCase):
         self.parser.EndTag("sign")
         self.parser.EndTag("clef")
         self.parser.EndTag("measure")
-        with self.assertRaises(Exceptions.TabNotImplementedException):
+        with self.assertRaises(exceptions.TabNotImplementedException):
             self.parser.EndTag("part")
         self.assertIsNone(self.parser.piece.getPart("P1"))
 
@@ -255,6 +255,6 @@ class testDrumAndGuitarTabHandling(unittest.TestCase):
         self.parser.EndTag("sign")
         self.parser.EndTag("clef")
         self.parser.EndTag("measure")
-        with self.assertRaises(Exceptions.DrumNotImplementedException):
+        with self.assertRaises(exceptions.DrumNotImplementedException):
             self.parser.EndTag("part")
         self.assertIsNone(self.parser.piece.getPart("P1"))

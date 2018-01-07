@@ -1,6 +1,6 @@
-from museparse.classes.ObjectHierarchy.ItemClasses import Directions, Part
-from museparse.classes.Input import MxmlParser
-from museparse.tests.testHandlers import testclass
+from museparse.elements import directions, part
+from museparse.input import mxmlparser
+from tests.testHandlers import testclass
 
 
 class testHandleDirections(testclass.TestClass):
@@ -8,8 +8,8 @@ class testHandleDirections(testclass.TestClass):
     def setUp(self):
         testclass.TestClass.setUp(self)
         self.tags.append("direction")
-        self.handler = MxmlParser.HandleDirections
-        self.piece.addPart(Part.Part(), "P1")
+        self.handler = mxmlparser.HandleDirections
+        self.piece.addPart(part.Part(), "P1")
         self.piece.getPart("P1").addEmptyMeasure(1, 1)
         self.measure = self.piece.getPart("P1").getMeasure(1, 1)
         self.attrs["measure"] = {"number": "1"}
@@ -53,7 +53,7 @@ class testHandleDirections(testclass.TestClass):
         self.chars["words"] = "hello, world"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(self.data["direction"], Directions.Direction)
+        self.assertIsInstance(self.data["direction"], directions.Direction)
         self.assertEqual("hello, world", self.data["direction"].text)
 
     def testWordsWithFontSizeAttrib(self):
@@ -87,7 +87,7 @@ class testHandleDirections(testclass.TestClass):
         self.tags.append("octave-shift")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(self.data["direction"], Directions.OctaveShift)
+        self.assertIsInstance(self.data["direction"], directions.OctaveShift)
 
     def testOctaveShiftType(self):
         self.tags.append("octave-shift")
@@ -108,7 +108,7 @@ class testHandleDirections(testclass.TestClass):
         self.tags.append("wavy-line")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(self.data["direction"], Directions.WavyLine)
+        self.assertIsInstance(self.data["direction"], directions.WavyLine)
 
     def testWavyLineType(self):
         self.tags.append("wavy-line")
@@ -121,7 +121,7 @@ class testHandleDirections(testclass.TestClass):
         self.tags.append("pedal")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(self.data["direction"], Directions.Pedal)
+        self.assertIsInstance(self.data["direction"], directions.Pedal)
 
     def testPedalLine(self):
         self.tags.append("pedal")
@@ -140,7 +140,7 @@ class testHandleDirections(testclass.TestClass):
     def testBracket(self):
         self.tags.append("bracket")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.data["direction"], Directions.Bracket)
+        self.assertIsInstance(self.data["direction"], directions.Bracket)
 
     def testBracketType(self):
         self.tags.append("bracket")
@@ -192,7 +192,7 @@ class testMetronome(testHandleDirections):
         self.tags.append("metronome")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertEqual(self.data["direction"].text, "hello")
-        self.assertIsInstance(self.data["direction"], Directions.Metronome)
+        self.assertIsInstance(self.data["direction"], directions.Metronome)
 
     def testMetronomeBeatUnitTag(self):
         self.tags.append("beat-unit")
@@ -277,7 +277,7 @@ class testMetronome(testHandleDirections):
         self.tags.append("per-minute")
         self.chars["per-minute"] = "85"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.data["direction"], Directions.Metronome)
+        self.assertIsInstance(self.data["direction"], directions.Metronome)
         self.assertTrue(hasattr(self.data["direction"], "min"))
         self.assertEqual("85", self.data["direction"].min)
 
@@ -333,7 +333,7 @@ class testDynamicsAndSound(testHandleDirections):
         self.tags.append("dynamics")
         self.tags.append("p")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.data["expression"], Directions.Dynamic)
+        self.assertIsInstance(self.data["expression"], directions.Dynamic)
         self.assertEqual("p", self.data["expression"].mark)
 
     def testDynamicTagOther(self):
@@ -341,7 +341,7 @@ class testDynamicsAndSound(testHandleDirections):
         self.tags.append("other-dynamics")
         self.chars["other-dynamics"] = "other"
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.data["expression"], Directions.Dynamic)
+        self.assertIsInstance(self.data["expression"], directions.Dynamic)
         self.assertEqual("other", self.data["expression"].text)
 
     def testSoundTag(self):
@@ -385,7 +385,7 @@ class testDynamicsAndSound(testHandleDirections):
         self.tags.append("wedge")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(self.data["expression"], Directions.Wedge)
+        self.assertIsInstance(self.data["expression"], directions.Wedge)
 
     def testWedgeVal(self):
         self.tags.append("wedge")

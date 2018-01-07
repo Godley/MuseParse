@@ -1,14 +1,14 @@
-from museparse.tests.testHandlers import testclass
-from museparse.classes.ObjectHierarchy.ItemClasses import Directions, Part
-from museparse.classes.Input import MxmlParser
+from tests.testHandlers import testclass
+from museparse.elements import directions, part
+from museparse.input import mxmlparser
 
 
 class testRepeatSymbols(testclass.TestClass):
 
     def setUp(self):
         testclass.TestClass.setUp(self)
-        self.handler = MxmlParser.HandleRepeatMarking
-        self.piece.addPart(Part.Part(), "P1")
+        self.handler = mxmlparser.HandleRepeatMarking
+        self.piece.addPart(part.Part(), "P1")
         self.piece.getPart("P1").addEmptyMeasure(1, 1)
         self.attrs["measure"] = {"number": "1"}
         self.attrs["part"] = {"id": "P1"}
@@ -22,7 +22,7 @@ class testRepeatSymbols(testclass.TestClass):
         self.tags.append("segno")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(self.data["direction"], Directions.RepeatSign)
+        self.assertIsInstance(self.data["direction"], directions.RepeatSign)
 
     def testRType(self):
         self.tags.append("direction-type")
@@ -36,7 +36,7 @@ class testRepeatSymbols(testclass.TestClass):
         self.tags.append("coda")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
 
-        self.assertIsInstance(self.data["direction"], Directions.RepeatSign)
+        self.assertIsInstance(self.data["direction"], directions.RepeatSign)
 
     def testCType(self):
         self.tags.append("direction-type")

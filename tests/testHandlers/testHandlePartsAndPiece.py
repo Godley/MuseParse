@@ -1,13 +1,13 @@
 import unittest
 
-from museparse.classes.Input import MxmlParser
-from museparse.classes.ObjectHierarchy.TreeClasses.PieceTree import PieceTree
+from museparse.input import mxmlparser
+from museparse.tree.piecetree import PieceTree
 
 
 class testSetupPiece(unittest.TestCase):
 
     def setUp(self):
-        self.handler = MxmlParser.SetupPiece
+        self.handler = mxmlparser.SetupPiece
         self.tags = []
         self.attrs = {}
         self.chars = {}
@@ -109,7 +109,7 @@ class testSetupPiece(unittest.TestCase):
 class testHandlePart(unittest.TestCase):
 
     def setUp(self):
-        self.handler = MxmlParser.UpdatePart
+        self.handler = mxmlparser.UpdatePart
         self.tags = []
         self.chars = {}
         self.attrs = {}
@@ -129,7 +129,7 @@ class testHandlePart(unittest.TestCase):
 
     def testIrrelevantTag(self):
         self.tags.append("wut")
-        MxmlParser.part_id = None
+        mxmlparser.part_id = None
         self.assertEqual(
             None,
             self.handler(
@@ -141,10 +141,10 @@ class testHandlePart(unittest.TestCase):
             "ERROR: irrelevant tags should return none in TestIrrelevantTag")
 
     def testScorePartTag(self):
-        MxmlParser.part_id = None
+        mxmlparser.part_id = None
         self.assertEqual(
             None,
-            MxmlParser.part_id,
+            mxmlparser.part_id,
             "ERROR: part_id not none in testScorePartTag")
         self.tags.append("score-part")
         self.attrs["score-part"] = {"id": "P1"}

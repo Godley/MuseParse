@@ -1,8 +1,8 @@
 import unittest
 
-from museparse.classes.ObjectHierarchy.TreeClasses.PieceTree import PieceTree
-from museparse.classes.ObjectHierarchy.ItemClasses import Piece, Note, Part
-from museparse.classes.Input import MxmlParser
+from museparse.tree.piecetree import PieceTree
+from museparse.elements import piece, note, part
+from museparse.input import mxmlparser
 
 
 class notes(unittest.TestCase):
@@ -11,11 +11,11 @@ class notes(unittest.TestCase):
         self.tags = ["note"]
         self.chars = {}
         self.attrs = {"part": {"id": "P1"}, "measure": {"number": "1"}}
-        self.handler = MxmlParser.CreateNote
-        MxmlParser.part_id = "P1"
-        MxmlParser.measure_id = 1
+        self.handler = mxmlparser.CreateNote
+        mxmlparser.part_id = "P1"
+        mxmlparser.measure_id = 1
         self.piece = PieceTree()
-        self.piece.addPart(Part.Part(), index="P1")
+        self.piece.addPart(part.Part(), index="P1")
         self.piece.getPart("P1").addEmptyMeasure(1, 1)
         self.data = {
             "note": None,
@@ -64,7 +64,7 @@ class testCreateNoteHandler(notes):
     def testNoteTag(self):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.copy()
-        self.assertIsInstance(self.data["note"], Note.Note)
+        self.assertIsInstance(self.data["note"], note.Note)
 
     def testNoteChordTag(self):
         self.tags.append("chord")
@@ -74,10 +74,10 @@ class testCreateNoteHandler(notes):
 # deprecated method of handling: not sure how to test this now? it's done at parser level rather than handler level
     # def testNoteChordTagAffectsPreviousNote(self):
     #     self.tags.append("chord")
-    #     MxmlParser.notes[1] = []
-    #     MxmlParser.notes[1].append(Note.Note())
+    #     mxmlparser.notes[1] = []
+    #     mxmlparser.notes[1].append(note.Note())
     #     self.handler(self.tags,self.attrs,self.chars,self.piece, self.data)
-    #     self.assertTrue(hasattr(MxmlParser.notes[1][len(MxmlParser.notes[1])-2], "chord"))
+    #     self.assertTrue(hasattr(mxmlparser.notes[1][len(mxmlparser.notes[1])-2], "chord"))
 
     def testRestTag(self):
         self.tags.append("rest")
@@ -102,13 +102,13 @@ class testCreateNoteHandler(notes):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertIsInstance(
             self.data["note"].search(
-                Note.GraceNote),
-            Note.GraceNote)
+                note.GraceNote),
+            note.GraceNote)
 
     def testGraceIsFirst(self):
         self.tags.append("grace")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertTrue(self.data["note"].search(Note.GraceNote).first)
+        self.assertTrue(self.data["note"].search(note.GraceNote).first)
 
     def testDurationTag(self):
         self.tags.append("duration")
@@ -161,7 +161,7 @@ class testCreateNoteHandler(notes):
                 note,
                 "stem"),
             "ERROR: stem attrib not added to note")
-        self.assertEqual(Note.Stem, type(note.stem),
+        self.assertEqual(note.Stem, type(note.stem),
                          "ERROR: stem not of type Stem")
         self.assertEqual(
             "up",
@@ -172,7 +172,7 @@ class testCreateNoteHandler(notes):
         self.tags.append("beam")
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertTrue(hasattr(self.data["note"], "beams"))
-        self.assertIsInstance(self.data["note"].beams[0], Note.Beam)
+        self.assertIsInstance(self.data["note"].beams[0], note.Beam)
 
     def testBeamType(self):
         self.tags.append("beam")
@@ -203,12 +203,12 @@ class pitchin(unittest.TestCase):
         self.attrs = {}
         self.chars = {}
 
-        MxmlParser.part_id = "P1"
-        MxmlParser.measure_id = 1
-        self.handler = MxmlParser.HandlePitch
-        self.piece = Piece.Piece()
+        mxmlparser.part_id = "P1"
+        mxmlparser.measure_id = 1
+        self.handler = mxmlparser.HandlePitch
+        self.piece = piece.Piece()
         self.data = {"note": None, "direction": None, "expression": None}
-        self.data["note"] = Note.Note()
+        self.data["note"] = note.Note()
 
 
 class testHandlePitch(pitchin):
@@ -308,7 +308,7 @@ class testNotehead(testCreateNoteHandler):
         self.tags = ["note", "notehead"]
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         self.assertTrue(hasattr(self.data["note"], "notehead"))
-        self.assertIsInstance(self.data["note"].notehead, Note.Notehead)
+        self.assertIsInstance(self.data["note"].notehead, note.Notehead)
 
     def testNoteheadFilled(self):
         self.tags = ["note"]
@@ -334,8 +334,8 @@ class testTuplets(notes):
     def setUp(self):
         notes.setUp(self)
         self.tags.append("time-modification")
-        self.data["note"] = Note.Note()
-        self.handler = MxmlParser.handleTimeMod
+        self.data["note"] = note.Note()
+        self.handler = mxmlparser.handleTimeMod
 
     def testMod(self):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
@@ -343,7 +343,7 @@ class testTuplets(notes):
 
     def testModVal(self):
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
-        self.assertIsInstance(self.data["note"].timeMod, Note.TimeModifier)
+        self.assertIsInstance(self.data["note"].timeMod, note.TimeModifier)
 
     def testModNormal(self):
         self.tags.append("normal-notes")
@@ -365,4 +365,4 @@ class testTuplets(notes):
         self.attrs["tuplet"] = {"type": "stop"}
         self.handler(self.tags, self.attrs, self.chars, self.piece, self.data)
         direction = self.data["note"].closing_notation[0]
-        self.assertIsInstance(direction, Note.Tuplet)
+        self.assertIsInstance(direction, note.Tuplet)
